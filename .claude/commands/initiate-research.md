@@ -2,6 +2,48 @@
 
 You are initiating a new deep research project. Follow these steps systematically:
 
+## Step 0: Bestehende Recherchen prüfen
+
+Bevor du irgendetwas anderes tust — prüfe ob bereits Recherche-Inhalte vorhanden sind.
+
+**Scan folgende Verzeichnisse auf Nicht-.gitkeep-Dateien:**
+- `outputs/individual/` — einzelne Recherche-Outputs
+- `outputs/aggregated/mk-combined/` — kombinierte Reports
+- `context/from-human/` — projektspezifische Kontext-Dateien
+
+**Vorgehen:**
+
+1. Lies das Verzeichnis `context/from-human/` und suche nach Dateien wie `project-context.md` oder `research-approach.md`
+2. Lies `outputs/aggregated/mk-combined/` auf vorhandene `.md`-Dateien (außer `.gitkeep`)
+3. Falls Inhalte gefunden:
+   - Lies `context/from-human/project-context.md` (falls vorhanden) um Projektname und Thema zu ermitteln
+   - Zeige dem User eine klare Zusammenfassung:
+
+```
+Es gibt eine bestehende Recherche in diesem Repository:
+
+  Projekt: [Projektname aus project-context.md, z.B. "TTS Audio Pipeline"]
+  Datum:   [Datum aus project-context.md oder Datei-Zeitstempel]
+  Thema:   [Research Topic aus project-context.md]
+  Dateien: [kurze Liste, z.B. "3 Outputs in outputs/individual/, 1 Report in outputs/aggregated/mk-combined/"]
+
+Was soll ich damit machen bevor wir starten?
+  A) Archivieren — Dateien nach context/from-history/[projektname]/ verschieben
+  B) Löschen — Dateien entfernen (unwiderruflich)
+  C) Behalten — nichts ändern, neue Recherche startet trotzdem
+
+Hinweis: Die neue Recherche bekommt einen eigenen Unterordner, es gibt also keine direkte Überschneidung.
+```
+
+4. **Warte auf Antwort des Users** bevor du weitermachst
+   - **A (Archivieren)**: Verschiebe alle relevanten Dateien nach `context/from-history/[slug-des-alten-projekts]/`, dann weiter mit Schritt 1
+   - **B (Löschen)**: Lösche die Dateien nach expliziter Bestätigung, dann weiter mit Schritt 1
+   - **C (Behalten)**: Direkt weiter mit Schritt 1
+
+5. **Falls keine Inhalte gefunden**: Direkt weiter mit Schritt 1 — kein Hinweis nötig
+
+---
+
 ## Step 1: Gather Research Context
 
 First, interview the user to understand their research needs:
@@ -80,9 +122,22 @@ Lese die gewählte Approach-Datei aus `approaches/`:
 
 Diese Datei definiert die Orchestrierung für alle weiteren Schritte.
 
-### 5. Session-Kontext schreiben
+### 5. Projekt-Slug ableiten
 
-Erstelle `context/from-human/research-approach.md`:
+Leite aus dem Research Topic (Frage 1) einen kurzen, dateisystem-tauglichen Slug ab:
+
+**Format**: `YYYY-MM-DD-[kurzes-thema]`
+- Datum: heute (ISO-Format)
+- Thema: 2–4 englische oder deutsche Wörter, Leerzeichen → Bindestrich, Kleinbuchstaben, keine Sonderzeichen
+- Beispiele: `2026-03-27-tts-audio-pipeline`, `2026-04-15-gamma-exposure-analyse`, `2026-05-01-erneuerbare-energien`
+
+**Speichere den Slug** — er wird in allen folgenden Schritten als `[SLUG]` für Unterordner verwendet.
+
+Informiere den User kurz: `Projektordner: [SLUG]`
+
+### 6. Session-Kontext schreiben
+
+Erstelle `context/from-human/[SLUG]/research-approach.md`:
 
 ```markdown
 # Research Approach Selection
@@ -92,6 +147,9 @@ Erstelle `context/from-human/research-approach.md`:
 
 ## Datum
 [ISO-Datum]
+
+## Projekt-Slug
+[SLUG]
 
 ## Kriterien die getriggert haben
 - Domänen: [N] → [welche Regel]
@@ -118,7 +176,7 @@ Erstelle `context/from-human/research-approach.md`:
 
 Based on the user's answers, create a comprehensive context file:
 
-**File**: `context/from-human/project-context.md`
+**File**: `context/from-human/[SLUG]/project-context.md`
 
 **Contents should include:**
 - Research topic and main questions
@@ -129,12 +187,13 @@ Based on the user's answers, create a comprehensive context file:
 - Source preferences
 - Expected deliverables
 - Any domain-specific context provided
+- Projekt-Slug: `[SLUG]`
 
 ## Step 3: Generate Initial Research Plan
 
 Create an initial research plan file:
 
-**File**: `prompts/queue/research-plan.md`
+**File**: `prompts/queue/[SLUG]/research-plan.md`
 
 **Include:**
 - Breakdown of main research questions
@@ -147,7 +206,7 @@ Create an initial research plan file:
 
 Based on the research plan, create 3-5 initial research prompts:
 
-**Location**: `prompts/run/initial/`
+**Location**: `prompts/run/initial/[SLUG]/`
 
 **Files**:
 - `01-exploratory-research.md` - Broad overview of the topic
@@ -164,11 +223,14 @@ Each prompt should be:
 
 Initialize the research notes file:
 
-**File**: `notes/research-log.md`
+**File**: `notes/[SLUG]-research-log.md`
 
 **Template:**
 ```markdown
 # Research Log - [Topic Name]
+
+## Projekt-Slug
+[SLUG]
 
 ## Project Start Date
 [Date]
@@ -191,7 +253,7 @@ Initialize the research notes file:
 
 Create a scratchpad file for working notes:
 
-**File**: `scratchpad/working-notes.md`
+**File**: `scratchpad/[SLUG]-working-notes.md`
 
 ## Step 7: Begin Research Execution
 
@@ -199,9 +261,9 @@ Ask the user: "I've set up your deep research project. Would you like me to begi
 
 **If user says begin:**
 1. Start with the first initial prompt
-2. Document findings in `outputs/individual/`
+2. Document findings in `outputs/individual/[SLUG]/`
 3. Update research log in `notes/`
-4. Generate follow-up prompts in `prompts/run/subsequent/`
+4. Generate follow-up prompts in `prompts/run/subsequent/[SLUG]/`
 5. Continue systematically through the research plan
 
 **If user wants to review:**
