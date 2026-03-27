@@ -1,0 +1,14 @@
+name: research-audio
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - onnxruntime
+  - pip
+  - pip:
+    - piper-tts
+    - pydub
+    - psutil
+    - requests
+    - anthropic
