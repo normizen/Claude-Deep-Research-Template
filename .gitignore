@@ -1,10 +1,46 @@
-# Research artifacts (comment out lines if you want to track these)
+# ── Research-Inhalte (projektspezifisch, nicht versionieren) ────────────────
+
+# Scratchpad
 scratchpad/*
 !scratchpad/.gitkeep
+!scratchpad/podcast-scripts/.gitkeep
 
-# Optionally ignore individual outputs during research
-# outputs/individual/*
-# !outputs/individual/.gitkeep
+# Prompts (drafted, queued, executed)
+prompts/drafting/*
+!prompts/drafting/.gitkeep
+prompts/queue/*
+!prompts/queue/.gitkeep
+prompts/run/initial/*
+!prompts/run/initial/.gitkeep
+prompts/run/subsequent/*
+!prompts/run/subsequent/.gitkeep
+
+# Outputs (alle Research-Ergebnisse)
+outputs/individual/*/*
+!outputs/individual/*/.gitkeep
+outputs/individual/*.md
+outputs/aggregated/mk-combined/*
+!outputs/aggregated/mk-combined/.gitkeep
+outputs/aggregated/pdf/*
+!outputs/aggregated/pdf/.gitkeep
+outputs/aggregated/diagram-enrichments/*
+!outputs/aggregated/diagram-enrichments/.gitkeep
+outputs/reformatted/tts-safe-txt/*
+!outputs/reformatted/tts-safe-txt/.gitkeep
+outputs/reformatted/ssml/*
+!outputs/reformatted/ssml/.gitkeep
+
+# Context (Internet-Recherche, Human-Input, History)
+context/from-internet/*
+!context/from-internet/.gitkeep
+context/from-human/*
+!context/from-human/.gitkeep
+context/from-history/*
+!context/from-history/.gitkeep
+
+# Notes
+notes/*
+!notes/.gitkeep
 
 # System files
 .DS_Store
@@ -21,3 +57,9 @@ Thumbs.db
 *.tmp
 *.bak
 .temp/
+
+# Audio output files (groß, nicht versionieren)
+outputs/audio/**/*.mp3
+outputs/audio/**/*.wav
+scratchpad/podcast-scripts/*
+!scratchpad/podcast-scripts/.gitkeep
