@@ -73,6 +73,28 @@ Timeline: Not urgent, thorough research is priority
 Sources: Technical blogs, academic papers, industry reports
 ```
 
+### Step 1b: Review the Approach Recommendation
+
+After the interview, Claude will automatically assess your request and recommend a research approach:
+
+```
+Empfohlener Ansatz: Cross-Domain Synthesis
+Begründung: 3+ Domänen identifiziert, Cross-Domain-Verbindungen sind das Hauptziel
+
+Kriterien-Check:
+  Domänen: 3 → getriggert
+  Stakes: mittel → nicht getriggert
+  Cross-Domain Synthese: ja → getriggert
+  Zeitdruck: offen → nicht getriggert
+```
+
+You can accept the recommendation, choose a different approach, or ask Claude to generate a custom approach for your specific scenario.
+
+**Available approaches** (in `approaches/` directory):
+- `single-agent-deep-dive.md` — Focused, efficient, 1–2 domains
+- `multi-agent-adversarial.md` — Independent adversarial checking via real sub-agents
+- `cross-domain-synthesis.md` — Finds connections across 3+ domains
+
 ### Step 2: Review the Research Plan
 
 Claude will generate:

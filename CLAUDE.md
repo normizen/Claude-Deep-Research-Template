@@ -60,9 +60,90 @@ When operating in this repository, you (Claude) should follow this workflow:
 │       └── ssml/
 ├── pipeline/            # Workflow automation
 │   └── audio-dropoff/  # Audio processing queue
+├── approaches/          # Reusable research approach templates
+│   ├── README.md
+│   ├── single-agent-deep-dive.md
+│   ├── multi-agent-adversarial.md
+│   ├── cross-domain-synthesis.md
+│   └── custom-approach-template.md
 ├── notes/              # Research notes and documentation
 └── scratchpad/         # Working area for experiments
 ```
+
+## Research Approach Assessment
+
+Nach dem `/initiate-research`-Interview analysierst du automatisch die Anfrage und empfiehlst den passenden Recherche-Ansatz. Die vollständigen Ansatz-Spezifikationen liegen in `approaches/`.
+
+### Verfügbare Ansätze
+
+| Ansatz | Datei | Am besten für |
+|---|---|---|
+| Single-Agent Deep Dive | `approaches/single-agent-deep-dive.md` | 1–2 Domänen, kein Adversarial nötig — **Default** |
+| Multi-Agent Adversarial | `approaches/multi-agent-adversarial.md` | High-Stakes, Gegenprüfung gewünscht |
+| Cross-Domain Synthesis | `approaches/cross-domain-synthesis.md` | 3+ Domänen, Verbindungen zwischen Feldern gesucht |
+
+### Assessment-Kriterien
+
+Bewerte nach dem Interview 4 Dimensionen und wende folgende Logik an:
+
+```
+WENN Domänen >= 3 UND Cross-Domain-Synthese systematisch gewünscht:
+    → cross-domain-synthesis
+
+SONST WENN Stakes hoch ODER Adversarial-Prüfung gewünscht:
+    → multi-agent-adversarial
+
+SONST WENN Zeitdruck dringend (Tage):
+    → single-agent-deep-dive
+
+SONST:
+    → single-agent-deep-dive  (sicherer Default)
+```
+
+**Dimensionen:**
+
+| Dimension | Signal im Interview | Schwellwert |
+|---|---|---|
+| Domänen-Anzahl | Thema, Scope | ≥ 3 klar abgegrenzte Wissensfelder |
+| Stakes | Ziele, Verwendungszweck | Output ist Entscheidungsgrundlage mit hohen Konsequenzen |
+| Cross-Domain | Ziele, Output-Format | Verbindungen *zwischen* Feldern sind das Hauptziel |
+| Zeitdruck | Timeline | Tage statt Wochen oder offen |
+
+### Empfehlungs-Format (verpflichtend)
+
+Die Empfehlung muss immer folgendes Format haben:
+
+```
+Empfohlener Ansatz: [Name]
+Begründung: [1 Satz]
+
+Kriterien-Check:
+  Domänen: [N] → [getriggert / nicht getriggert]
+  Stakes: [hoch/mittel/niedrig] → [getriggert / nicht getriggert]
+  Cross-Domain: [ja/nein] → [getriggert / nicht getriggert]
+  Zeitdruck: [dringend/mittel/offen] → [getriggert / nicht getriggert]
+
+Alternative: [anderer Ansatz] wäre geeignet wenn [Bedingung].
+```
+
+### Regeln
+
+- **Immer erklären** welche Kriterien getriggert haben — kein stilles Anwenden
+- **User kann immer übersteuern** — Empfehlung ist Vorschlag, nicht Entscheidung
+- **Custom Approach** — falls User einen eigenen Ansatz möchte, lies `approaches/custom-approach-template.md` und generiere eine neue Datei in `approaches/`
+- **Nach Auswahl** — schreibe `context/from-human/research-approach.md` mit Ansatz, Kriterien, Modell-Zuweisungen, bevor du mit Schritt 2 weitergehst
+- **Folge-Sessions** — lies `context/from-human/research-approach.md` zu Beginn; Ansatz bleibt konsistent außer User ändert ihn explizit
+
+### Modell-Zuweisungen (für alle Multi-Agent-Ansätze)
+
+| Rolle | Modell |
+|---|---|
+| Research Coordinator, Domain Researcher, Adversarial Critic, Cross-Domain Synthesizer | `claude-sonnet-4-6` |
+| Source Gatherer, Web Researcher, Formatter, File Manager | `claude-haiku-4-5-20251001` |
+
+Falls ein Modell nicht verfügbar ist: Fehler melden, nicht still degradieren.
+
+---
 
 ## Behavioral Guidelines
 
@@ -103,10 +184,18 @@ Available slash commands for this repository:
 
 ## Working with Agents
 
-Specialized agents for research tasks can be found in `.claude/agents/`:
-- Research coordinators
-- Output synthesizers
-- Citation managers
+Spezialisierte Agenten-Rollen in `.claude/agents/` (Rollenbeschreibungen):
+- Research Coordinator
+- Output Synthesizer / Research Synthesizer
+- Prompt Generator
+
+**Echte Sub-Agenten** werden in Multi-Agent-Ansätzen via Claude Code Agent-Tool gespawnt. Die genauen Invocation-Blöcke (Modell, Zeitpunkt, vollständiger Prompt) stehen in den jeweiligen Approach-Dateien unter `approaches/`. Sub-Agenten sind keine Rollensimulation — jeder hat ein eigenes Kontext-Fenster und arbeitet isoliert.
+
+Verzeichnis `approaches/` enthält reusable Ansatz-Templates:
+- `approaches/single-agent-deep-dive.md`
+- `approaches/multi-agent-adversarial.md`
+- `approaches/cross-domain-synthesis.md`
+- `approaches/custom-approach-template.md`
 
 ## Best Practices
 
