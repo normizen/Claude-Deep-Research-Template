@@ -17,6 +17,103 @@ First, interview the user to understand their research needs:
 7. **Timeline**: Is this research time-sensitive?
 8. **Sources**: Are there specific sources or types of sources to prioritize or avoid?
 
+## Step 1.5: Research Approach Assessment and Selection
+
+Direkt nach Abschluss des Interviews — bevor du Dateien erstellst:
+
+### 1. Dimensionen aus den Interview-Antworten ableiten
+
+Analysiere die Antworten auf Fragen 1–8 und ermittle:
+
+- **Domänen-Anzahl**: Wie viele klar abgegrenzte Wissensfelder betrifft das Thema?
+- **Stakes**: Wird der Output für Entscheidungen mit hohen Konsequenzen genutzt? (finanziell, gesundheitlich, rechtlich, strategisch)
+- **Cross-Domain**: Ist das Hauptziel, Verbindungen *zwischen* verschiedenen Feldern zu finden?
+- **Zeitdruck**: Wurde eine dringende Timeline genannt (Tage)?
+
+### 2. Empfehlung generieren
+
+Wende folgende Logik an:
+
+```
+WENN Domänen >= 3 UND Cross-Domain-Synthese systematisch gewünscht:
+    → cross-domain-synthesis
+
+SONST WENN Stakes hoch ODER Adversarial-Prüfung gewünscht:
+    → multi-agent-adversarial
+
+SONST:
+    → single-agent-deep-dive
+```
+
+### 3. Empfehlung ausgeben (verpflichtend in diesem Format)
+
+```
+Empfohlener Ansatz: [Name]
+Begründung: [1 Satz warum dieser Ansatz passt]
+
+Kriterien-Check:
+  Domänen: [N Domänen] → [getriggert / nicht getriggert]
+  Stakes: [hoch/mittel/niedrig] → [getriggert / nicht getriggert]
+  Cross-Domain Synthese: [ja/nein] → [getriggert / nicht getriggert]
+  Zeitdruck: [dringend/offen] → [getriggert / nicht getriggert]
+
+Alternativen:
+  - [andere Option] wäre besser wenn [Bedingung]
+  - Eigener Ansatz: Ich kann einen Custom-Approach für dein spezifisches Szenario generieren
+
+Akzeptierst du diesen Ansatz, möchtest du einen anderen wählen, oder soll ich einen Custom-Approach erstellen?
+```
+
+### 4. Auf Benutzer-Bestätigung warten
+
+- **Bestätigung**: Weiter mit Schritt 4 (Approach-Datei lesen)
+- **Andere Wahl**: User nennt Ansatz → Schritt 4 mit diesem Ansatz
+- **Custom-Approach**: Lese `approaches/custom-approach-template.md`, generiere interaktiv eine neue Approach-Datei, speichere in `approaches/[beschreibender-name].md`, dann Schritt 4 mit dieser Datei
+
+### 4. Approach-Datei vollständig lesen
+
+Lese die gewählte Approach-Datei aus `approaches/`:
+- Single-Agent: `approaches/single-agent-deep-dive.md`
+- Adversarial: `approaches/multi-agent-adversarial.md`
+- Cross-Domain: `approaches/cross-domain-synthesis.md`
+- Custom: `approaches/[custom-datei].md`
+
+Diese Datei definiert die Orchestrierung für alle weiteren Schritte.
+
+### 5. Session-Kontext schreiben
+
+Erstelle `context/from-human/research-approach.md`:
+
+```markdown
+# Research Approach Selection
+
+## Gewählter Ansatz
+[Ansatz-Name]
+
+## Datum
+[ISO-Datum]
+
+## Kriterien die getriggert haben
+- Domänen: [N] → [welche Regel]
+- Stakes: [Einschätzung] → [getriggert/nicht]
+- Cross-Domain: [ja/nein] → [getriggert/nicht]
+- Zeitdruck: [Einschätzung] → [getriggert/nicht]
+
+## Begründung
+[Ein Absatz Erklärung]
+
+## Modell-Zuweisungen
+[Aus der Approach-Datei übernehmen]
+
+## Approach-Datei
+`approaches/[dateiname].md`
+
+## User Override
+[Nein / Ja — original war [X], User hat [Y] gewählt wegen [Grund]]
+```
+
+---
+
 ## Step 2: Create Project Context File
 
 Based on the user's answers, create a comprehensive context file:

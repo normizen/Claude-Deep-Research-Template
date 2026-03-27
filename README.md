@@ -60,6 +60,11 @@ Follow Claude's guidance through the research workflow:
 ├── .claude/
 │   ├── commands/          # Slash commands (e.g., /initiate-research)
 │   └── agents/            # Specialized research agents
+├── approaches/            # Reusable research approach templates
+│   ├── single-agent-deep-dive.md
+│   ├── multi-agent-adversarial.md
+│   ├── cross-domain-synthesis.md
+│   └── custom-approach-template.md
 ├── context/               # Research context and source materials
 │   ├── from-internet/    # Web research, papers, articles
 │   ├── from-human/       # Your context and requirements
@@ -89,6 +94,16 @@ Follow Claude's guidance through the research workflow:
 4. **Output Synthesis** - Aggregate findings into comprehensive reports
 5. **Iteration** - Build on previous research in subsequent sessions
 
+### Research Approach Assessment
+
+After the interview, Claude automatically analyzes your request and recommends the best research approach:
+
+- **Single-Agent Deep Dive** - Focused research in 1–2 domains (default)
+- **Multi-Agent Adversarial** - High-stakes research with independent adversarial checking via real sub-agents
+- **Cross-Domain Synthesis** - 3+ domains where finding connections *between* fields is the goal
+
+Claude explains which criteria triggered the recommendation. You can always override or request a custom approach.
+
 ### Specialized Agents
 
 The template includes three specialized agents:
@@ -96,6 +111,8 @@ The template includes three specialized agents:
 - **Research Coordinator** - Orchestrates the overall workflow
 - **Prompt Generator** - Creates effective research questions
 - **Research Synthesizer** - Aggregates findings into reports
+
+Multi-agent approaches use Claude Code's real Agent tool to spawn isolated sub-agents with their own context windows — not role-play in a single context. Model assignments (Sonnet for reasoning, Haiku for mechanical tasks) are specified per role in each approach file.
 
 ## Key Features
 
