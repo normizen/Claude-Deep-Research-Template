@@ -131,9 +131,12 @@ class PiperBackend(TTSBackend):
         if self._voice_obj is None:
             self._load_model()
 
+        from piper.config import SynthesisConfig
+        syn_config = SynthesisConfig(speaker_id=speaker_id) if speaker_id is not None else None
+
         buf = io.BytesIO()
         with wave.open(buf, "wb") as wav_file:
-            self._voice_obj.synthesize(text, wav_file, speaker_id=speaker_id)
+            self._voice_obj.synthesize_wav(text, wav_file, syn_config=syn_config)
         return buf.getvalue()
 
     def is_available(self) -> bool:

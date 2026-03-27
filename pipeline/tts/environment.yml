@@ -8,6 +8,7 @@ dependencies:
   - pip
   - pip:
     - piper-tts
+    - pathvalidate
     - pydub
     - psutil
     - requests

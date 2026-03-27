@@ -55,23 +55,27 @@ echo "      OK"
 echo "[5/5] Piper-Stimmen herunterladen nach $VOICES_DIR..."
 mkdir -p "$VOICES_DIR"
 
-BASE_URL="https://github.com/rhasspy/piper-voices/releases/download/v1.0.0"
+HF_BASE="https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0"
 
 download_if_missing() {
-    local filename="$1"
-    local dest="$VOICES_DIR/$filename"
-    if [ -f "$dest" ]; then
-        echo "      $filename — bereits vorhanden, überspringe"
+    local dest="$1"
+    local url="$2"
+    if [ -f "$dest" ] && [ "$(wc -c < "$dest")" -gt 1000 ]; then
+        echo "      $(basename "$dest") — bereits vorhanden, überspringe"
     else
-        echo "      Lade $filename herunter..."
-        curl -L --progress-bar -o "$dest" "$BASE_URL/$filename"
+        echo "      Lade $(basename "$dest") herunter..."
+        curl -L --progress-bar -o "$dest" "$url"
     fi
 }
 
-download_if_missing "de_DE-thorsten-high.onnx"
-download_if_missing "de_DE-thorsten-high.onnx.json"
-download_if_missing "de_DE-thorsten_emotional-medium.onnx"
-download_if_missing "de_DE-thorsten_emotional-medium.onnx.json"
+download_if_missing "$VOICES_DIR/de_DE-thorsten-high.onnx" \
+    "$HF_BASE/de/de_DE/thorsten/high/de_DE-thorsten-high.onnx"
+download_if_missing "$VOICES_DIR/de_DE-thorsten-high.onnx.json" \
+    "$HF_BASE/de/de_DE/thorsten/high/de_DE-thorsten-high.onnx.json"
+download_if_missing "$VOICES_DIR/de_DE-thorsten_emotional-medium.onnx" \
+    "$HF_BASE/de/de_DE/thorsten_emotional/medium/de_DE-thorsten_emotional-medium.onnx"
+download_if_missing "$VOICES_DIR/de_DE-thorsten_emotional-medium.onnx.json" \
+    "$HF_BASE/de/de_DE/thorsten_emotional/medium/de_DE-thorsten_emotional-medium.onnx.json"
 
 echo ""
 echo "=== Setup abgeschlossen ==="
