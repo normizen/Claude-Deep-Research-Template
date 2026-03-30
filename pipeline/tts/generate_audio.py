@@ -175,55 +175,65 @@ def generate_podcast_script_via_api(raw_md: str, input_path: Path) -> Path:
     print("[INFO] Generiere Podcast-Skript via Claude API (Two-Pass)...")
     client = anthropic.Anthropic()
 
-    pass1_prompt = f"""Du bist Podcast-Autor. Schreibe ein deutsches Podcast-Skript aus diesem Research-Report.
-
-Sprecher:
-HOST_A (Moderatorin): Neugierig, stellt Fragen, verbindet mit dem Hörer
-HOST_B (Experte): Erklärt Findings, nutzt Beispiele, ist direkt und präzise
-
-Plane zuerst in einem <scratchpad>-Block:
-1. Die 3 wichtigsten Findings des Reports
-2. Die beste Analogie für das Kernthema
-3. Was ein neugieriger Laie zuerst fragen würde
-4. Der "Wow-Moment" — die überraschendste Erkenntnis
-5. Eine praktische Handlungsempfehlung für den Hörer
-
-Dann schreibe das Rohskript. Regeln:
-- Jede Zeile beginnt mit HOST_A: oder HOST_B:
-- Kein Markdown, keine Bühnenanweisungen, keine Abschnittstitel
-- Natürliche Umgangssprache, kein Akademiker-Deutsch
-- Ziel: 1500-2000 Wörter für den kompletten Report
-
-Report:
-{raw_md}"""
+    # Statische Anweisungen im system-Parameter mit cache_control:
+    # Wird einmal gecacht und bei allen Podcast-Generierungen wiederverwendet (90% Ersparnis).
+    pass1_system = [
+        {
+            "type": "text",
+            "text": (
+                "Du bist Podcast-Autor. Schreibe ein deutsches Podcast-Skript aus dem Research-Report "
+                "den der User einreicht.\n\n"
+                "Sprecher:\n"
+                "HOST_A (Moderatorin): Neugierig, stellt Fragen, verbindet mit dem Hörer\n"
+                "HOST_B (Experte): Erklärt Findings, nutzt Beispiele, ist direkt und präzise\n\n"
+                "Plane zuerst in einem <scratchpad>-Block:\n"
+                "1. Die 3 wichtigsten Findings des Reports\n"
+                "2. Die beste Analogie für das Kernthema\n"
+                "3. Was ein neugieriger Laie zuerst fragen würde\n"
+                "4. Der \"Wow-Moment\" — die überraschendste Erkenntnis\n"
+                "5. Eine praktische Handlungsempfehlung für den Hörer\n\n"
+                "Dann schreibe das Rohskript. Regeln:\n"
+                "- Jede Zeile beginnt mit HOST_A: oder HOST_B:\n"
+                "- Kein Markdown, keine Bühnenanweisungen, keine Abschnittstitel\n"
+                "- Natürliche Umgangssprache, kein Akademiker-Deutsch\n"
+                "- Ziel: 1500-2000 Wörter für den kompletten Report"
+            ),
+            "cache_control": {"type": "ephemeral"},
+        }
+    ]
 
     print("  Pass 1: Rohskript...")
     msg1 = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=4096,
-        messages=[{"role": "user", "content": pass1_prompt}],
+        system=pass1_system,
+        messages=[{"role": "user", "content": raw_md}],
     )
     raw_script = msg1.content[0].text
 
-    pass2_prompt = f"""Überarbeite dieses Podcast-Skript für bessere Hörbarkeit:
-
-- Ersetze formelle Formulierungen durch natürliche Umgangssprache
-- Breche Sätze mit mehr als 20 Wörtern in zwei auf
-- Füge 2-3 echte Überraschungsmomente ein (z.B. "Warte mal — das ist eigentlich enorm")
-- Maximal 4-5 Sätze pro Sprecher-Turn
-- Entferne Fachbegriffe die nicht sofort erklärt werden
-- Keine Wiederholungen von Informationen
-
-Output: NUR HOST_A:/HOST_B:-Zeilen. Kein Markdown, kein <scratchpad>, kein anderes Format.
-
-Skript:
-{raw_script}"""
+    pass2_system = [
+        {
+            "type": "text",
+            "text": (
+                "Überarbeite das Podcast-Skript das der User einreicht für bessere Hörbarkeit:\n\n"
+                "- Ersetze formelle Formulierungen durch natürliche Umgangssprache\n"
+                "- Breche Sätze mit mehr als 20 Wörtern in zwei auf\n"
+                "- Füge 2-3 echte Überraschungsmomente ein (z.B. \"Warte mal — das ist eigentlich enorm\")\n"
+                "- Maximal 4-5 Sätze pro Sprecher-Turn\n"
+                "- Entferne Fachbegriffe die nicht sofort erklärt werden\n"
+                "- Keine Wiederholungen von Informationen\n\n"
+                "Output: NUR HOST_A:/HOST_B:-Zeilen. Kein Markdown, kein <scratchpad>, kein anderes Format."
+            ),
+            "cache_control": {"type": "ephemeral"},
+        }
+    ]
 
     print("  Pass 2: Verfeinerung...")
     msg2 = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=4096,
-        messages=[{"role": "user", "content": pass2_prompt}],
+        system=pass2_system,
+        messages=[{"role": "user", "content": raw_script}],
     )
     refined_script = msg2.content[0].text
 
