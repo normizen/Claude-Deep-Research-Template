@@ -65,6 +65,7 @@ When operating in this repository, you (Claude) should follow this workflow:
 │   ├── single-agent-deep-dive.md
 │   ├── multi-agent-adversarial.md
 │   ├── cross-domain-synthesis.md
+│   ├── generative-explorer.md
 │   └── custom-approach-template.md
 ├── notes/              # Research notes and documentation
 └── scratchpad/         # Working area for experiments
@@ -81,13 +82,17 @@ Nach dem `/initiate-research`-Interview analysierst du automatisch die Anfrage u
 | Single-Agent Deep Dive | `approaches/single-agent-deep-dive.md` | 1–2 Domänen, kein Adversarial nötig — **Default** |
 | Multi-Agent Adversarial | `approaches/multi-agent-adversarial.md` | High-Stakes, Gegenprüfung gewünscht |
 | Cross-Domain Synthesis | `approaches/cross-domain-synthesis.md` | 3+ Domänen, Verbindungen zwischen Feldern gesucht |
+| Generative Explorer | `approaches/generative-explorer.md` | Neue Möglichkeiten entdecken, Hypothesen entwickeln, Experimente designen — schnell bewegende Felder, Explorer-Modus |
 
 ### Assessment-Kriterien
 
 Bewerte nach dem Interview 4 Dimensionen und wende folgende Logik an:
 
 ```
-WENN Domänen >= 3 UND Cross-Domain-Synthese systematisch gewünscht:
+WENN Ziel ist neue Möglichkeiten entdecken / Hypothesen entwickeln / Explorer-Modus:
+    → generative-explorer
+
+SONST WENN Domänen >= 3 UND Cross-Domain-Synthese systematisch gewünscht:
     → cross-domain-synthesis
 
 SONST WENN Stakes hoch ODER Adversarial-Prüfung gewünscht:
@@ -104,6 +109,7 @@ SONST:
 
 | Dimension | Signal im Interview | Schwellwert |
 |---|---|---|
+| Explorer-Modus | Ziele, Formulierung | "neue Möglichkeiten", "was können wir bauen", "kreativ", "über den Tellerrand" |
 | Domänen-Anzahl | Thema, Scope | ≥ 3 klar abgegrenzte Wissensfelder |
 | Stakes | Ziele, Verwendungszweck | Output ist Entscheidungsgrundlage mit hohen Konsequenzen |
 | Cross-Domain | Ziele, Output-Format | Verbindungen *zwischen* Feldern sind das Hauptziel |
