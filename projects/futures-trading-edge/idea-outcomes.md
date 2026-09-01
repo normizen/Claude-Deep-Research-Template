@@ -1,0 +1,113 @@
+# Idea-Outcomes — futures-trading-edge
+
+## Format
+Jede Idee: Titel | Session | Advocatus-Urteil | Novelty-Check | Status | Nächste Schritte
+
+---
+
+## Ideen — Session 2026-04-15-futures-day-edge-strategic
+
+### ID1: GEX-Feld-Topologie-Karte
+**Session:** 2026-04-15-futures-day-edge-strategic
+**Advocatus-Urteil:** ÜBERLEBT
+**Novelty-Check:** NOVEL
+**Kern:** Monopol/Dipol/Vortex-Klassifikation der GEX-Strike-Landschaft als struktureller Kontext-Layer
+**Status:** Experiment E2 — nach GTZI-Validierung implementieren
+**Daten:** Intraday Options-Chain (ThetaData $25/Mo oder IBKR TWS API)
+**Alpha-Vorteil:** Strukturelle Feldkonfiguration sagt voraus wo Dealer-Zwang am stärksten wirkt — kein reines Level-Trading
+
+### ID3: Strike-Gradient-Momentum (SGM)
+**Session:** 2026-04-15-futures-day-edge-strategic
+**Advocatus-Urteil:** ÜBERLEBT
+**Novelty-Check:** NOVEL
+**Kern:** GEX-Gradient zwischen benachbarten Strikes als Entry-Signal VOR Wall-Berührung
+**Status:** Experiment E3 — nach Topologie-Karte implementieren
+**Daten:** ThetaData Standard ($25/Mo) für Intraday-Updates nötig
+**Alpha-Vorteil:** Früherer Entry durch mechanischen Dealer-Hedge-Druck — nicht reaktiv sondern antizipatorisch
+
+### ID10: GEX-Topo-Zeitinvarianz-Signal (GTZI)
+**Session:** 2026-04-15-futures-day-edge-strategic
+**Advocatus-Urteil:** ÜBERLEBT
+**Novelty-Check:** NOVEL
+**Kern:** Persistente GEX-Konfigurationen über mehrere Tage als Regime-Filter für höhere Edge-Wahrscheinlichkeit
+**Status:** Experiment E1 — ERSTER SCHRITT, kein neuer Daten-Feed nötig
+**Daten:** EOD CBOE-Daten (bereits vorhanden)
+**Alpha-Vorteil:** Regime-Filter der keine Daten-Subscription erfordert — 4-6 Tage Implementierung, sofort testbar
+
+---
+
+## Eliminierte Ideen (Advocatus Phase 4)
+
+| Titel | Eliminierungsgrund |
+|---|---|
+| ID2: Anfänger-Protokoll | K2+K3+K4 — operationell nicht definierbar |
+| ID4: Regime-Morphogenese | K2 — Metapher für bestehenden VPIN_Regime_Detector |
+| ID5: Experten-Blindfleck-Index | K4 — Referenzmodell aller Experten-Strategien nicht baubar mit 10k |
+| ID6: Preis-als-Morphogen | K2 — identisch mit bekannten GEX-Regime-Beschreibungen |
+| ID7: Kognitive Kapazitäts-Arbitrage | K3+K5 — Event-Driven massiv arbitriert |
+| ID8: Laterale Inhibitions-Stop | K2 — Metapher oder identisch mit Standard-Orderflow-Stop |
+| ID9: Beginner's Random Walk | K1 — verstößt gegen Zero-Sum-Axiom (strukturell negativer EW) |
+
+
+---
+
+## Prüfphase 2026-08-30 bis 2026-09-02 — Ergebnisse zu den drei Überlebenden
+
+Alle drei Ideen aus Session 2026-04-15 wurden geprüft oder als nicht prüfbar erkannt.
+Datenbasis: QuantConnect NDXP, 2021–2026, 1.410 Handelstage, Gamma und Open Interest.
+Vollständige Auswertung siehe `project.md`, Abschnitt STAND.
+
+### ID10: GTZI — nicht eigenständig prüfbar
+
+**Als Messgröße funktioniert es:** Persistenz des GEX-Profils auf absolutem Strike-Raster,
+Streuung 0,26 bis 0,50 je nach Ära, 12 bis 33 % der Tagesübergänge unter Korrelation 0,5.
+Es diskriminiert also.
+
+**Aber es ist ein Filter ohne eigenen Gegenstand.** Der April-Entwurf sagt das selbst:
+*„Liefert kein Entry-Signal, sondern eine binäre Aussage."* Ein Filter braucht ein
+Wirtssignal, das er filtert. Da keines der geprüften Signale einen Effekt zeigte, gab es
+nichts zu filtern.
+
+**Zusätzlich:** Die Ereignisrate von GTZI-Brüchen liegt bei 0,08 je Tag. Für die nötigen
+2.000 Ereignisse je Gruppe bräuchte es rund 50.000 Handelstage — etwa zweihundert Jahre.
+Als eigenständiges Ereignis ist GTZI strukturell zu selten.
+
+**Kritischer Nebenbefund:** Auf geglätteten Profilen ist GTZI **nutzlos** — Persistenz
+1,000 in 87 von 87 Intraday-Vergleichen, Streuung 0,002. Nur auf Strike-Ebene
+diskriminiert es. Der April-Entwurf hätte es auf ein normiertes Gitter interpoliert und
+damit das Signal vollständig zerstört, ohne dass es aufgefallen wäre.
+
+### ID1: GEX-Feld-Topologie-Karte — geprüft, negativ
+
+Vorhersagen vorab festgeschrieben, 1.387 Tage, drei Typen sauber getrennt
+(792 / 436 / 174). **2 von 4 ordinalen Vorhersagen getroffen** — unter der Null wären
+1,67 zu erwarten. Effektstärken Cliff's d zwischen −0,004 und +0,051 gegen ein Kriterium
+von 0,10.
+
+Die beiden Trending-Vorhersagen für Vortex trafen richtungsmäßig, die Kreuzungs- und
+Range-Vorhersagen nicht — letztere sogar in der Gegenrichtung.
+
+**Der Klassifikator selbst ist brauchbar** (91 % gegen synthetische Wahrheit, trennt
+echte Tage in drei besetzte Gruppen). Er trennt nur nicht nach etwas, das sich im
+Kursverhalten niederschlägt.
+
+### ID3: SGM — teilweise mitgeprüft, negativ
+
+Als Wall-Kontakt operationalisiert und im Placebo-Test mitgeprüft: Ein GEX-Wall ist von
+einem beliebigen Kursniveau gleichen Abstands nicht unterscheidbar (Cliff's d < 0,03 bei
+1.430 gegen 1.459 Ereignissen).
+
+**Einschränkung:** Das ist nicht die vollständige SGM-Idee. Der Entwurf beschreibt einen
+Einstieg über den **Gradienten**, *bevor* der Kurs den Wall erreicht — nicht über die
+Berührung. Eine eigene Operationalisierung über die Feldsteigung steht aus.
+
+**Aber:** Auf Strike-Ebene ist die Gradienten-Variabilität hoch (Median 51), es gäbe also
+etwas zu messen. Auf dem geglätteten Profil wäre der Gradient nahezu konstant und die
+Idee gegenstandslos — dieselbe Falle wie bei GTZI.
+
+### Was für eine Wiederaufnahme spräche
+
+Nur eine Sache: **Das Fenster war mit ±0,8 % zu eng.** Die Walls, über die Praktiker
+reden, liegen oft bei ±1 bis 3 %. Diese haben wir per Konstruktion nie gesehen. Das ist
+die einzige identifizierte Schwäche, die eine erneute Messung rechtfertigen würde — und
+sie wäre eine geänderte Zeile.

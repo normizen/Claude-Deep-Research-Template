@@ -42,7 +42,10 @@ When operating in this repository, you (Claude) should follow this workflow:
 ├── context/              # Research context and source materials
 │   ├── from-internet/   # Web research, papers, articles
 │   ├── from-human/      # User-provided context and requirements
-│   └── from-history/    # Previous conversation histories
+│   ├── from-history/    # Previous conversation histories
+│   └── innovation_seeds.md  # 30 exotische Domänen für Strategic Innovation Seeding
+├── projects/             # Cluster Memory — persistente Themen-Container
+│   └── [cluster-slug]/  # Pro Cluster: project.md, axiom-library.md, dogma-graveyard.md, idea-outcomes.md
 ├── prompts/             # Research prompts by stage
 │   ├── drafting/        # Draft prompts
 │   ├── queue/           # Prompts ready to execute
@@ -66,6 +69,7 @@ When operating in this repository, you (Claude) should follow this workflow:
 │   ├── multi-agent-adversarial.md
 │   ├── cross-domain-synthesis.md
 │   ├── generative-explorer.md
+│   ├── strategic-innovation.md
 │   └── custom-approach-template.md
 ├── notes/              # Research notes and documentation
 └── scratchpad/         # Working area for experiments
@@ -83,13 +87,17 @@ Nach dem `/initiate-research`-Interview analysierst du automatisch die Anfrage u
 | Multi-Agent Adversarial | `approaches/multi-agent-adversarial.md` | High-Stakes, Gegenprüfung gewünscht |
 | Cross-Domain Synthesis | `approaches/cross-domain-synthesis.md` | 3+ Domänen, Verbindungen zwischen Feldern gesucht |
 | Generative Explorer | `approaches/generative-explorer.md` | Neue Möglichkeiten entdecken, Hypothesen entwickeln, Experimente designen — schnell bewegende Felder, Explorer-Modus |
+| Strategic Innovation | `approaches/strategic-innovation.md` | Axiomatisches Erstprinzipiendenken + Dogmen-Dekonstruktion — genuine neue Ideen aus Grundsätzen, nicht Frontier-Dokumentation |
 
 ### Assessment-Kriterien
 
-Bewerte nach dem Interview 4 Dimensionen und wende folgende Logik an:
+Bewerte nach dem Interview 5 Dimensionen und wende folgende Logik an:
 
 ```
-WENN Ziel ist neue Möglichkeiten entdecken / Hypothesen entwickeln / Explorer-Modus:
+WENN Ziel ist axiomatisches Grundsatzdenken / Dogmen brechen / genuine neue Mechaniken:
+    → strategic-innovation
+
+SONST WENN Ziel ist neue Möglichkeiten entdecken / Hypothesen entwickeln / Explorer-Modus:
     → generative-explorer
 
 SONST WENN Domänen >= 3 UND Cross-Domain-Synthese systematisch gewünscht:
@@ -109,6 +117,7 @@ SONST:
 
 | Dimension | Signal im Interview | Schwellwert |
 |---|---|---|
+| Innovation-Modus | Ziele, Formulierung | "axiom", "grundsatz", "was ist wirklich wahr", "dogma", "genuinely new", "erste prinzipien", "eingepreist" |
 | Explorer-Modus | Ziele, Formulierung | "neue Möglichkeiten", "was können wir bauen", "kreativ", "über den Tellerrand" |
 | Domänen-Anzahl | Thema, Scope | ≥ 3 klar abgegrenzte Wissensfelder |
 | Stakes | Ziele, Verwendungszweck | Output ist Entscheidungsgrundlage mit hohen Konsequenzen |
@@ -163,6 +172,16 @@ When the user invokes `/initiate-research` or is clearly conducting deep researc
 5. **Generate Follow-ups**: Proactively identify knowledge gaps
 6. **Synthesize Regularly**: Combine findings into coherent outputs
 
+### Strategic Innovation Mode
+When the user invokes `/initiate-strategic`:
+
+1. **Adaptive Interview First**: Never use a fixed question list — follow up vague answers immediately before proceeding
+2. **Distinguish Axiom from Dogma**: An axiom cannot be argued away; a dogma is a convention that has been priced in — make this distinction explicit when the user conflates them
+3. **Cluster Memory is Critical**: Always check `projects/` before starting; always update cluster files at session end (progressively, not just at the very end)
+4. **Explorer-Check Before Interview**: Offer Modus A/B/C before diving into axiomatic analysis — token budget matters
+5. **Anti-Anchor Discipline**: The Domain Matrix Seeder must document why it chose each domain; selection without reasoning is invalid
+6. **Advocatus is Destructive by Design**: Phase 4 must eliminate, not soften — an idea that survives must have passed all 5 criteria, not "mostly passed"
+
 ### File Management
 - Use descriptive filenames with dates: `2025-11-02-topic-name.md`
 - Keep raw research separate from synthesized outputs
@@ -186,6 +205,9 @@ When the user invokes `/initiate-research` or is clearly conducting deep researc
 Available slash commands for this repository:
 
 - `/initiate-research` - Start a new deep research project
+- `/initiate-explorer` - Start a new Generative Explorer project
+- `/initiate-strategic` - Start a new Strategic Innovation project
+- `/generate-audio` - Generate audio from a research report
 - Add custom commands in `.claude/commands/`
 
 ## Working with Agents
@@ -201,7 +223,11 @@ Verzeichnis `approaches/` enthält reusable Ansatz-Templates:
 - `approaches/single-agent-deep-dive.md`
 - `approaches/multi-agent-adversarial.md`
 - `approaches/cross-domain-synthesis.md`
+- `approaches/generative-explorer.md`
+- `approaches/strategic-innovation.md`
 - `approaches/custom-approach-template.md`
+
+**Cluster-Memory-System** (`projects/`): Strategic Innovation nutzt persistente Cluster-Container die Axiome, Dogmen und Ideen-Ergebnisse über Sessions hinweg speichern. Dokumentation in `projects/README.md`.
 
 ## Best Practices
 

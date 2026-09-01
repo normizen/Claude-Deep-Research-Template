@@ -9,14 +9,22 @@ Dieses Verzeichnis enthält wiederverwendbare Ansatz-Templates, die festlegen wi
 | `single-agent-deep-dive.md` | Single-Agent Deep Dive | 1–2 Domänen, fokussiert, kein Adversarial nötig |
 | `multi-agent-adversarial.md` | Multi-Agent Adversarial | High-Stakes, Gegenprüfung gewünscht |
 | `cross-domain-synthesis.md` | Cross-Domain Synthesis | 3+ Domänen, Verbindungen zwischen Feldern gesucht |
+| `generative-explorer.md` | Generative Explorer | Neue Möglichkeiten entdecken, Hypothesen entwickeln, Experimente designen |
+| `strategic-innovation.md` | Strategic Innovation | Axiomatisches Erstprinzipiendenken + Dogmen-Dekonstruktion — genuine neue Ideen aus Grundsätzen, nicht Frontier-Dokumentation |
 | `custom-approach-template.md` | — | Skeleton für eigene Ansätze |
 
 ## Assessment-Kriterien
 
-Claude bewertet nach dem Interview 4 Dimensionen und wählt den Ansatz per folgender Logik:
+Claude bewertet nach dem Interview 5 Dimensionen und wählt den Ansatz per folgender Logik:
 
 ```
-WENN Domänen >= 3 UND Cross-Domain-Synthese systematisch gewünscht:
+WENN Ziel ist axiomatisches Grundsatzdenken / Dogmen brechen / genuine neue Mechaniken:
+    → strategic-innovation
+
+SONST WENN Ziel ist neue Möglichkeiten entdecken / Hypothesen entwickeln / Explorer-Modus:
+    → generative-explorer
+
+SONST WENN Domänen >= 3 UND Cross-Domain-Synthese systematisch gewünscht:
     → cross-domain-synthesis
 
 SONST WENN Stakes hoch ODER Adversarial-Prüfung gewünscht:
@@ -33,6 +41,8 @@ SONST:
 
 | Dimension | Signal im Interview | Schwellwert |
 |---|---|---|
+| Innovation-Modus | Formulierung, Ziele | "axiom", "grundsatz", "was ist wirklich wahr", "dogma", "genuinely new", "erste prinzipien", "was ist wirklich eingepreist" |
+| Explorer-Modus | Ziele, Formulierung | "neue Möglichkeiten", "was können wir bauen", "kreativ", "über den Tellerrand" |
 | Domänen-Anzahl | Thema, Scope-Antwort | ≥ 3 distinct Wissensfelder |
 | Stakes | Objektive, Verwendungszweck | Output ist Entscheidungsgrundlage mit hohen Konsequenzen |
 | Cross-Domain | Ziele, Output-Format | Verbindungen *zwischen* Feldern sind das Ziel, nicht nur parallele Recherche |
@@ -73,3 +83,9 @@ Alternativ: Claude kann auf Basis einer Beschreibung automatisch eine neue Appro
 ## Hinweis zur Selbst-Enthaltung
 
 Jede Approach-Datei ist so geschrieben, dass sie auch ohne `CLAUDE.md` im Kontext funktioniert. Wenn Claude nur die Approach-Datei liest, hat er alle nötigen Informationen zur Ausführung.
+
+## Cluster-System (Strategic Innovation)
+
+Der `strategic-innovation.md` Ansatz nutzt ein persistentes Cluster-Memory-System unter `projects/`. Clusters speichern Axiome, Dogmen und Ideen-Ergebnisse über Sessions hinweg, sodass jede Folge-Session auf akkumuliertem Wissen aufbaut statt von Null zu starten.
+
+→ Vollständige Dokumentation: `projects/README.md`
