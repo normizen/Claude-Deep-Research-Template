@@ -53,3 +53,34 @@ Jedes Dogma: Titel | Status | Warum es ein Dogma ist (eingepreist, nicht fundame
 **Status:** Dekonstruiert (Tentativ)
 **Warum Dogma:** Reaktion auf Curve-Fitting und Overfitting in akademischer Forschung (1990er). Korrekt für zu viele freie Parameter in statistischen Modellen — falsch übertragen auf Systemkomplexität.
 **Was stattdessen:** Strategie-Logik (Entry-Mechanismus) soll einfach bleiben — das System (Detektion, Filter, Execution-Support) muss komplex genug sein um kognitive Kapazitätsgrenzen zu kompensieren. Ein Retail-Trader ohne Team braucht ein komplexeres Unterstützungssystem als ein institutioneller Trader mit Team.
+
+---
+## Neue Dogmen — Session 2026-09-03-pilot
+
+### D10: "Intraday muss aktiv gehandelt werden"
+**Warum Dogma:** Aus Prop-Trading- und Chartsoftware-Kultur. Eingepreist: Jede Stunde vor dem Chart fühlt sich wie Arbeit an — Nichtstun wird nicht als Position wahrgenommen.
+**Gegenthese:** Abstain ist eine Position mit positivem Erwartungswert, wenn die Kosten-Rendite-Schere (A11) die meisten Tage ausschließt. Selektivität ist der konkurrenzfreie Retail-Vorteil (A12).
+
+### D11: "Mehr Filter = besseres System"
+**Warum Dogma:** Aus der ML-/Feature-Engineering-Kultur. A16 zeigt: vier Filter, null Wirtssignale.
+**Gegenthese:** Filter sind Multiplikatoren auf einen Brutto-Edge. Ohne Wirt sind sie Messtechnik.
+
+### D12: "Edge liegt in der Signal-Generierung"
+**Warum Dogma:** Gesamte Trading-Literatur fokussiert Entries.
+**Gegenthese:** Für Retail liegt Edge in Kostenarchitektur, Steuerstruktur (A14), Instrumentenwahl (A15) und Verzicht — Dimensionen, die der Markt nicht als „Edge" vermarktet.
+
+### D13: "Retail konkurriert im selben Spiel wie Institutionen"
+**Warum Dogma:** Broker-Marketing („trade like the pros").
+**Gegenthese:** A12 — verschiedene Zielfunktionen, verschiedene Spiele. Auf den Achsen, wo Institutionen nicht spielen können, ist Retail allein.
+
+### D14: "Nullergebnis entwertet den Ansatz"
+**Warum Dogma:** Psychologisch, nicht intellektuell verbreitet — viermal negativ fühlt sich wie vier Jahre verschwendet an.
+**Gegenthese:** Vier sauber widerlegte Hypothesen mit aufgebauter Messinfrastruktur sind positives Wissen (A17: schützt künftige Test-Slots). Placebo-Methodik und Event-Studie sind der eigentliche Ertrag.
+
+### D15: "Risiko ist der Feind"
+**Warum Dogma:** Risikomanagement-Literatur; Varianz-Minimierung als Default.
+**Gegenthese:** Bei 5–10k und Zeitbudget ist das eigentliche Risiko nicht Varianz, sondern das Nie-Ankommen (Opportunitätskosten der Unterkapitalisierung des Lernprozesses).
+
+### D16: "Instrumentenwahl ist Geschmack"
+**Warum Dogma:** „Handle was du kennst"-Folklore.
+**Gegenthese:** A15 — Instrumentenwahl determiniert Tick-Ökonomie und Kosten-Rendite-Schere stärker als jede Entry-Logik.

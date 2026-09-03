@@ -53,3 +53,31 @@ Jedes Axiom: Titel | Status | Quelle | Begründung warum es ein Axiom ist (nicht
 **Status:** Tentativ (neu 2026-04-15)
 **Quelle:** Session 2026-04-15 First Principles (A5)
 **Begründung:** Sofortige Liquidität existiert nicht ohne Gegenpartei. Market-Maker/Dealer sind Gegenparteien mit eigenen Absicherungszwängen — keine neutralen Vermittler. Ihr Verhalten (Hedging, Position-Aufbau) ist strukturell vorhersagbar und nutzbar. Orderflow-Analyse die Market-Maker-Verhalten ignoriert ist strukturell unvollständig.
+
+---
+## Neue Axiome — Session 2026-09-03-pilot (Status: Tentativ)
+
+### A10: Mechanik ≠ Erntbarkeit (Axiom/Ableitung-Trennung)
+**Quelle:** Session 2026-09-03-pilot First Principles
+**Begründung:** Eine wahre mechanische Wahrheit (Dealer hedgen Gamma) impliziert keinen handelbaren Effekt. Die vier Nullergebnisse widerlegen A1 nicht — sie widerlegen die stille Ableitung „Mechanismus ⇒ handelbarer Effekt". Jede Idee muss künftig beide Ebenen getrennt belegen: Ist der Mechanismus wahr? UND: Ist daraus nach Kosten ein Ertrag extrahierbar?
+
+### A11: Kosten-Rendite-Schere
+**Begründung:** Profitabilität verlangt Mindesteffektstärke × Handelsfrequenz > Gesamtkosten (Gebühren, Slippage, Steuer). Bei Retail-Kostenstruktur ist die Mindesteffektstärke hoch — das schließt die meisten schwachen Signale strukturell aus, unabhängig von ihrer statistischen Existenz.
+
+### A12: Retail und Institutionen spielen nicht dasselbe Spiel
+**Begründung:** Institutionen optimieren Capacity × Sharpe gegen Karriere-Risiko; Retail optimiert absolute Rendite auf kleines Kapital mit Zeitbudget. Achsen auf denen Institutionen NICHT konkurrieren können oder wollen (zu klein, zu illiquide für deren Größe, zu langweilig für deren Reporting) sind strukturell konkurrenzfrei.
+
+### A13: Nicht-Erntbarkeit von Mean-Reversion als Symmetrie-Theorem
+**Begründung:** In einem mean-revertierenden Markt ohne Informationsvorsprung ist jeder Entry symmetrisch — die Reversion hilft Long- und Short-Seite gleichermaßen und ist damit nach Kosten für beide negativ. Gemessen: NDX VR 0,86–0,91, aber 47,8–48,5 % Trefferquote gegen die Ausbruchsrichtung.
+
+### A14: Steuer als Teil der Marktstruktur
+**Begründung:** § 20 EStG Verlustverrechnungsbeschränkung für Termingeschäfte verändert den Netto-Erwartungswert strukturell — sie ist kein nachträgliches Detail, sondern eine Marktregel wie Spread oder Margin. Strategien mit symmetrischen Gewinn/Verlust-Profilen werden asymmetrisch bestraft.
+
+### A15: Marktauswahl ist eine Axiomen-Entscheidung, keine Präferenz
+**Begründung:** ES vs. NQ unterscheiden sich in Tick-Ökonomie, Teilnehmermix, Volatilitätsregime. Die Wahl des Instruments determiniert den Möglichkeitsraum der Strategien stärker als jede Signal-Logik danach.
+
+### A16: Filter ohne Wirtssignal ist ein Messgerät, keine Strategie
+**Begründung:** Das Cluster besitzt vier validierte Filter/Messgrößen (GTZI, Topologie, Regime, Reversion-Maße), aber null Wirtssignale mit Brutto-Edge. Ein Filter multipliziert nur den Edge seines Wirts — 0 × x = 0. Suchrichtung muss sich von Filtern zu Brutto-Signalen umkehren.
+
+### A17: Selbst-Validierungszeit ist die dritte harte Ressource
+**Begründung:** Neben Kapital (A3) und Kognition (A7): Mit 1–2 h/Tag ist die Zahl validierbarer Hypothesen pro Jahr hart begrenzt (~12–24 Tests). Jede Test-Entscheidung ist eine Opportunitäts-Entscheidung — schlechte Priorisierung ist teurer als schlechte Modelle.
