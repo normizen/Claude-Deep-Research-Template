@@ -15,12 +15,10 @@ prompts/run/initial/*
 prompts/run/subsequent/*
 !prompts/run/subsequent/.gitkeep
 
-# Outputs (alle Research-Ergebnisse)
-outputs/individual/*/*
-!outputs/individual/*/.gitkeep
+# Outputs — HERMES-PORT: Research-Ergebnisse werden versioniert
+# (State muss zwischen Server, QC-Workflow und anderen Geraeten synchron sein.
+#  Ausgenommen bleiben nur grosse Binaerdateien, siehe unten.)
 outputs/individual/*.md
-outputs/aggregated/mk-combined/*
-!outputs/aggregated/mk-combined/.gitkeep
 outputs/aggregated/pdf/*
 !outputs/aggregated/pdf/.gitkeep
 outputs/aggregated/diagram-enrichments/*
