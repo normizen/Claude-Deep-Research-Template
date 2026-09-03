@@ -37,6 +37,7 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 | Morphogenetische Felder (21) + Negativer Transfer (30) | 2026-04-15 | 2026-04-15-futures-day-edge-strategic | 4 + 5 | TBD |
 | Predictive Coding (13) + Signaling-Theorie (25) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic (Durchlauf 2) | 3 + 5 | GUT — 2/10 Ideen überlebten Advocatus (ID9, ID13) |
 | Perkolationstheorie (1) + Quorum Sensing (7) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic | 1 + 2 | SCHWACH — beide Domänen netzwerktopologie-hungrig, 0/8 Ideen überlebten Advocatus (Datenzugang) |
+| Apoptose (12) + Glasübergang (22) | 2026-09-03 | 2026-09-03-pilot | 2 + 4 | NEUTRAL — 2/8 Ideen testfähig (ID24, ID26), Advocatus tötete Meta-Architekturen; Finale nach QC-Tests |
 
 *(Wird nach jeder Session durch den Domain Matrix Seeder aktualisiert)*
 ## Cluster 1: Physikalische Systeme & Emergenz
@@ -114,8 +115,8 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 ### 12. Apoptose (Zellbiologie)
 **Kernprinzip:** Programmierter Zelltod ist lebenserhaltend für den Organismus — strategisches Selbstauslöschen als Systemfunktion, nicht als Versagen; das Opfer des Teils rettet das Ganze
 **Übertragungspotenzial:** Strategic exit als Designelement, Produkt-Sunset, Organisationen die sich selbst kanibalisieren bevor es andere tun, Controlled Demolition of Assets
-**Zuletzt verwendet:** —
-**Verwendungshistorie:** —
+**Zuletzt verwendet:** 2026-09-03
+**Verwendungshistorie:** 2026-09-03 (futures-trading-edge, 2026-09-03-pilot) + Glasübergang
 
 ---
 
@@ -182,8 +183,8 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 ### 22. Glasübergang (Physik der weichen Materie)
 **Kernprinzip:** Flüssigkeit wird unendlich viskos ohne echten Phasenübergang — Einfrieren von Freiheitsgraden unter Zeitdruck ohne strukturellen Bruch; das System ist noch flüssig aber verhält sich wie Festkörper
 **Übertragungspotenzial:** Organisationen die unter Wachstumsdruck versteifen, strategische Flexibilität die unter Druck verloren geht ohne dass ein klarer Bruch erkennbar ist
-**Zuletzt verwendet:** —
-**Verwendungshistorie:** —
+**Zuletzt verwendet:** 2026-09-03
+**Verwendungshistorie:** 2026-09-03 (futures-trading-edge, 2026-09-03-pilot) + Apoptose
 
 ### 23. Hyperbolische Geometrie (Mathematik / Netzwerktheorie)
 **Kernprinzip:** Exponentiell mehr Raum am Rand als in der Mitte — natürliche Geometrie für hierarchisch-freie Netzwerke; Distanz wächst nicht linear sondern exponentiell vom Zentrum weg

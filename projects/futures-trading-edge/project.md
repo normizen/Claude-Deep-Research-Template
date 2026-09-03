@@ -114,6 +114,7 @@ könnte auch dort etwas ändern.
 |---|---|---|---|
 | 2026-04-15 | 2026-04-15-futures-day-edge-strategic | COMPLETE | GTZI → GEX-Topologie → SGM als integriertes System |
 | 2026-08-30 bis 09-02 | Prüfphase (kein eigener Slug) | COMPLETE | Vier Ansätze geprüft, keiner mit Signal. Infrastruktur und kostenloser Datenzugang aufgebaut. |
+| 2026-09-03 | 2026-09-03-pilot (Hermes) | COMPLETE — awaiting-manual-test | Richtungswechsel: A10–A17/D10–D16; ID24 (Instrumenten-Apoptose) + ID26 (Zeitfenster-System) testfähig; ID23 Rechts-Tod (BVerfG strich 20k-Grenze) |
 
 ## Cluster-Kontext
 Ausgangspunkt: Explorer-Session 2026-03-30-agentic-trading-edge (15 Hypothesen, H2 GEX-Dual-Trigger als stärkste).

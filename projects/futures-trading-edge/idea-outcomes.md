@@ -111,3 +111,35 @@ Nur eine Sache: **Das Fenster war mit ±0,8 % zu eng.** Die Walls, über die Pra
 reden, liegen oft bei ±1 bis 3 %. Diese haben wir per Konstruktion nie gesehen. Das ist
 die einzige identifizierte Schwäche, die eine erneute Messung rechtfertigen würde — und
 sie wäre eine geänderte Zeile.
+
+---
+
+## Session 2026-09-03-pilot (Hermes-Pilotlauf)
+
+8 Ideen generiert (ID20–ID27) aus Apoptose (12) × Glasübergang (22). Advocatus: 3 Überlebende. Novelty+Recherche: 2 testfähig, 1 Rechts-Tod.
+
+### ID23: Steuer-Viskosität als Strategie-Selektor
+**Advocatus:** ÜBERLEBT | **Novelty:** ÄHNLICHES EXISTIERT
+**Status:** TOT — Rechtslage. BVerfG 31.07.2024 (2 BvL 7/22): 20.000-€-Grenze verfassungswidrig; JStG 2024 (i.K. 06.12.2024) strich § 20 Abs. 6 S. 5 EStG ersatzlos, rückwirkend für offene Fälle. Regelungsanker existiert nicht mehr.
+**Vermächtnis:** Wichtige Info für den User — Termingeschäftsverluste sind wieder uneingeschränkt verrechenbar. Aktien-Verlusttopf bleibt (2 BvL 3/21, Entscheidung 2026/27).
+
+### ID24: Instrumenten-Apoptose (ES/NQ/MES/MNQ-Eliminierungsturnier)
+**Advocatus:** ÜBERLEBT | **Novelty:** NOVEL
+**Status:** awaiting-manual-test (Design-Phase — Bewertungs-Matrix + Range-Monitor liegen bereit)
+**Deliverables:** experiment-designs.md (6 Todeskriterien, Schwellwerte, ~1 h/Monat), code/id24_range_monitor.py (getestet, Exit 0)
+**Caveat (ehrlich dokumentiert):** MES↔ES, MNQ↔NQ fungibel → reales Turnier = 3 Entscheidungen.
+
+### ID26: 30-Minuten-Zeitfenster-System
+**Advocatus:** ÜBERLEBT (bedingt) | **Novelty:** NOVEL
+**Status:** awaiting-manual-test — QC-Zelle bereit
+**Deliverables:** code/qc_id26_fenster_test.py (vorregistrierte Hypothesen, Placebo-Bootstrap 500 Fenster, Decay-Split 2022+, DST-Behandlung, Abstain-Zählung)
+**Bedingung:** Lebt nur als Kosten-/Risiko-Mechanik oder mit eigenem vorregistriertem Fenster-Signal — naive Momentum-Variante hat dokumentierten Decay.
+
+### Eliminierte (Advocatus)
+| ID | Grund |
+|---|---|
+| ID20 Verglasungs-Diagnostik | A16: Gate ohne Wirtssignal |
+| ID21 Apoptose-Kalender | Alter Wein: vorregistrierte Abbruchkriterien = Standard |
+| ID22 Abstain-Quote | A16-Zirkularität: misst Rauschen ohne Brutto-Wirt |
+| ID25 Unterkühltes Setup-Reservoir | A16+A10: Filter im Thermodynamik-Kostüm |
+| ID27 Gegenfaktual-Buchhaltung | Umbenanntes Shadow-Trading |
