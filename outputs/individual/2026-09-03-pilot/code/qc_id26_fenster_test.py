@@ -27,8 +27,8 @@
 #   selben Datensatz (Datenfalle 5).
 #
 # DATENFALLEN-BEHANDLUNG:
-#   Falle 1 (Preisreihen-Mix): QC continuous future, dataMappingMode=OPEN_INTEREST,
-#       dataNormalizationMode=BACKWARDS_RATIO_ADJUSTED (backadjusted). Dokumentiert.
+#   Falle 1 (Preisreihen-Mix): QC continuous future, data_mapping_mode=OPEN_INTEREST,
+#       data_normalization_mode=BACKWARDS_RATIO (backadjusted). Dokumentiert.
 #       Keine Mischung mit Roh-Kontraktserien.
 #   Falle 2 (kein Placebo): 500 zufaellige 30-Min-Fenster, siehe PLACEBO_N.
 #   Falle 4 (kein Abstain): Tage mit Fenster-Volumen < VOLUME_MIN_SHARE des
@@ -44,7 +44,7 @@ import pandas as pd
 from datetime import datetime, time, timedelta
 
 # ------------------------- KONFIGURATION (vorregistriert) -------------------
-SYMBOL          = Futures.Indices.SP500EMini
+SYMBOL          = Futures.Indices.SP_500_E_MINI    # = "ES"
 START           = datetime(2019, 1, 1)
 END             = datetime(2026, 9, 1)
 TARGET_WINDOW   = (time(15, 30), time(16, 0))      # ET — das vorregistrierte Fenster
@@ -64,15 +64,19 @@ SEED            = 26         # reproduzierbar
 rng = np.random.default_rng(SEED)
 
 # ------------------------- DATEN (Datenfalle 1: dokumentiert) ---------------
-future = qb.AddFuture(SYMBOL,
-                      dataMappingMode=DataMappingMode.OpenInterest,
-                      dataNormalizationMode=DataNormalizationMode.BackwardsRatioAdjusted,
-                      dataAdjustmentMode=DataAdjustmentMode.NoAdjustment)
-symbol = future.Symbol
-print(f"Datenreihe: {symbol} | continuous, mapping=OpenInterest, "
-      f"normalization=BackwardsRatioAdjusted (backadjusted) — KEINE Roh-Serien-Mischung")
+# QC-API-Hinweis: seit der PEP8-Umstellung heissen Enum-Member SCREAMING_SNAKE
+# und teils gekuerzt (BACKWARDS_RATIO statt BackwardsRatioAdjusted). AddFuture
+# hat KEINEN dataAdjustmentMode-Parameter.
+future = qb.add_future(SYMBOL,
+                       Resolution.MINUTE,
+                       data_mapping_mode=DataMappingMode.OPEN_INTEREST,
+                       data_normalization_mode=DataNormalizationMode.BACKWARDS_RATIO,
+                       contract_depth_offset=0)
+symbol = future.symbol
+print(f"Datenreihe: {symbol} | continuous, mapping=OPEN_INTEREST, "
+      f"normalization=BACKWARDS_RATIO (backadjusted) — KEINE Roh-Serien-Mischung")
 
-history = qb.History(symbol, START, END, Resolution.Minute)
+history = qb.history(symbol, START, END, Resolution.MINUTE)
 df = history.reset_index()
 # QC liefert Futures-Bars in Exchange-Zeitzone = America/New_York (ET). DST-sicher.
 df["time"] = pd.to_datetime(df["time"])
