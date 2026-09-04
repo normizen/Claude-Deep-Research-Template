@@ -3,21 +3,30 @@
 
 Teil von ID24 (6-Kriterien-Eliminierungsturnier). Berechnet Kriterium K1
 (Kosten-Range-Schere: All-in-RT-Kosten > 5 % der 20-Tage-Durchschnittsrange)
-fuer ES, NQ, MES, MNQ aus Daily-Bars (CSV-Export aus QuantConnect).
+fuer ES, NQ, MES, MNQ aus Daily-Bars.
+
+Laeuft in ZWEI Modi:
+
+  A) Als CLI-Script (Terminal):
+       python id24_range_monitor.py --csv daily_bars.csv --rt-costs ES=13.0 MES=4.5 NQ=14.0 MNQ=4.5
+       python id24_range_monitor.py --csv-dir ./bars/  --rt-costs ES=13.0 MES=4.5
+       python id24_range_monitor.py --csv daily_bars.csv --rt-costs ES=13.0 --capital 7500
+
+  B) Im Jupyter-/QuantConnect-Notebook:
+       Unten im Block "NOTEBOOK-KONFIG" die Werte setzen und die Zelle ausfuehren.
+       argparse wird im Notebook NICHT benutzt (dort ist sys.argv der Kernel-Launcher).
+       Alternativ direkt aufrufen:
+           run(bars_df=my_dataframe, rt_costs={"ES": 13.0, "MES": 4.5})
 
 Erwartetes CSV-Format (eine Datei pro Instrument ODER eine kombinierte Datei):
     date,open,high,low,close[,symbol]
     2026-08-03,6450.25,6478.50,6432.00,6470.00[,ES]
 
-Verwendung:
-    # Kombinierte Datei mit symbol-Spalte:
-    python id24_range_monitor.py --csv daily_bars.csv --rt-costs ES=13.0 MES=4.5 NQ=14.0 MNQ=4.5
-
-    # Separate Dateien pro Instrument:
-    python id24_range_monitor.py --csv-dir ./bars/ --rt-costs ES=13.0 MES=4.5 NQ=14.0 MNQ=4.5
-
-    # Kapital fuer K2/K3-Kontextausgabe:
-    python id24_range_monitor.py --csv daily_bars.csv --rt-costs ES=13.0 --capital 7500
+Erwartetes DataFrame-Format (Notebook): Spalten date, high, low und entweder eine
+symbol-Spalte oder symbol= an run() uebergeben. QuantConnect-History:
+    hist = qb.history(qb.add_equity(...).symbol, 30, Resolution.DAILY)
+    df = hist.reset_index()[["time", "high", "low"]].rename(columns={"time": "date"})
+    df["symbol"] = "ES"
 
 Multiplikatoren (CME-Spezifikation, stabil — Datenfalle: nicht raten, fix dokumentiert):
     ES  = 50 USD/Punkt   (Tick 0.25 = 12.50 USD)
@@ -26,7 +35,8 @@ Multiplikatoren (CME-Spezifikation, stabil — Datenfalle: nicht raten, fix doku
     MNQ = 2 USD/Punkt    (Tick 0.25 = 0.50 USD)
 
 Ausgabe: Tabelle mit 20-Tage-Range in USD, Kosten/Range-Ratio, K1-Status.
-Exit-Code 1 wenn mindestens ein Instrument K1 verletzt (tot).
+Rueckgabe von run(): True wenn mindestens ein Instrument K1 verletzt (tot).
+CLI-Exit-Code: 1 wenn tot, sonst 0.
 """
 import argparse
 import csv
@@ -36,6 +46,37 @@ from collections import defaultdict
 MULTIPLIERS = {"ES": 50.0, "MES": 5.0, "NQ": 20.0, "MNQ": 2.0}
 K1_THRESHOLD = 0.05  # 5 % der 20-Tage-Range (vorab registrierter Schwellwert)
 
+# ============================================================================
+# NOTEBOOK-KONFIG — nur relevant wenn die Datei im Notebook ausgefuehrt wird.
+# Im Terminal werden diese Werte ignoriert (dort zaehlen die --flags).
+# ----------------------------------------------------------------------------
+CSV      = None          # z.B. "daily_bars.csv"  (kombinierte Datei)
+CSV_DIR  = None          # z.B. "./bars/"         (eine <SYMBOL>.csv je Instrument)
+SYMBOL   = None          # erzwingen, wenn CSV/DF keine symbol-Spalte hat
+BARS_DF  = None          # pandas.DataFrame mit Spalten date, high, low [, symbol]
+RT_COSTS = {             # All-in-Round-Trip-Kosten pro Instrument in USD
+    "ES":  13.0,
+    "MES":  4.5,
+    "NQ":  14.0,
+    "MNQ":  4.5,
+}
+CAPITAL  = None          # z.B. 7500.0 fuer die K2/K3-Kontextzeile
+# ============================================================================
+
+
+class ConfigError(Exception):
+    """Fehlende/ungueltige Eingabe — im Notebook als normale Exception sichtbar."""
+
+
+def _in_notebook():
+    """True, wenn wir in einem IPython-Kernel (Jupyter/QC) laufen, nicht im Terminal."""
+    try:
+        from IPython import get_ipython
+        ip = get_ipython()
+        return ip is not None and ip.__class__.__name__ == "ZMQInteractiveShell"
+    except Exception:
+        return False
+
 
 def load_bars(path, symbol_filter=None):
     bars = defaultdict(list)  # symbol -> list[(date, high, low)]
@@ -43,15 +84,37 @@ def load_bars(path, symbol_filter=None):
         reader = csv.DictReader(f)
         cols = {c.lower() for c in (reader.fieldnames or [])}
         if not {"date", "high", "low"} <= cols:
-            sys.exit(f"FEHLER: {path} braucht Spalten date,high,low (gefunden: {reader.fieldnames})")
+            raise ConfigError(
+                f"{path} braucht Spalten date,high,low (gefunden: {reader.fieldnames})")
         for row in reader:
             sym = row.get("symbol") or row.get("Symbol") or symbol_filter
             if sym is None:
-                sys.exit("FEHLER: CSV hat keine symbol-Spalte; --symbol angeben oder symbol-Spalte ergaenzen.")
+                raise ConfigError(
+                    "CSV hat keine symbol-Spalte; --symbol / SYMBOL angeben oder Spalte ergaenzen.")
             sym = sym.upper()
             if symbol_filter and sym != symbol_filter.upper():
                 continue
             bars[sym].append((row["date"], float(row["high"]), float(row["low"])))
+    return bars
+
+
+def load_bars_df(df, symbol_filter=None):
+    """Bars aus einem pandas.DataFrame (Spalten date, high, low [, symbol])."""
+    bars = defaultdict(list)
+    cols = {c.lower(): c for c in df.columns}
+    if not {"date", "high", "low"} <= set(cols):
+        raise ConfigError(
+            f"DataFrame braucht Spalten date,high,low (gefunden: {list(df.columns)})")
+    sym_col = cols.get("symbol")
+    for _, row in df.iterrows():
+        sym = (str(row[sym_col]) if sym_col else None) or symbol_filter
+        if sym is None:
+            raise ConfigError(
+                "DataFrame hat keine symbol-Spalte; symbol= an run() uebergeben oder Spalte ergaenzen.")
+        sym = sym.upper()
+        if symbol_filter and sym != symbol_filter.upper():
+            continue
+        bars[sym].append((str(row[cols["date"]]), float(row[cols["high"]]), float(row[cols["low"]])))
     return bars
 
 
@@ -64,32 +127,44 @@ def dollar_range_20d(bars, mult):
     return avg_pts * mult, len(bars)
 
 
-def main():
-    ap = argparse.ArgumentParser(description="ID24 Range-Monitor (K1: Kosten/Range-Schere)")
-    ap.add_argument("--csv", help="Eine CSV-Datei (mit symbol-Spalte oder --symbol)")
-    ap.add_argument("--csv-dir", help="Verzeichnis mit <SYMBOL>.csv Dateien")
-    ap.add_argument("--symbol", help="Symbol erzwingen, wenn CSV ohne symbol-Spalte")
-    ap.add_argument("--rt-costs", nargs="+", required=True,
-                    help="All-in-RT-Kosten pro Instrument, z.B. ES=13.0 MES=4.5")
-    ap.add_argument("--capital", type=float, default=None, help="Kontokapital fuer Kontext (optional)")
-    args = ap.parse_args()
+def run(csv=None, csv_dir=None, symbol=None, bars_df=None, rt_costs=None, capital=None):
+    """Kernlogik. Gibt True zurueck, wenn mindestens ein Instrument K1 verletzt.
 
-    if not args.csv and not args.csv_dir:
-        ap.error("--csv oder --csv-dir erforderlich")
+    Genau EINE Datenquelle angeben: csv ODER csv_dir ODER bars_df.
+    rt_costs: dict {SYMBOL: USD} oder Liste ["ES=13.0", ...].
+    """
+    sources = [x for x in (csv, csv_dir, bars_df is not None and "df") if x]
+    if not sources:
+        raise ConfigError("Keine Datenquelle: csv, csv_dir oder bars_df angeben.")
+    if len(sources) > 1:
+        raise ConfigError("Nur EINE Datenquelle angeben (csv / csv_dir / bars_df).")
 
-    rt_costs = {}
-    for kv in args.rt_costs:
-        sym, val = kv.split("=")
-        rt_costs[sym.upper()] = float(val)
+    # rt_costs normalisieren
+    if rt_costs is None:
+        raise ConfigError("rt_costs fehlt (z.B. {'ES': 13.0} oder ['ES=13.0']).")
+    if isinstance(rt_costs, dict):
+        rt = {k.upper(): float(v) for k, v in rt_costs.items()}
+    else:
+        rt = {}
+        for kv in rt_costs:
+            k, v = kv.split("=")
+            rt[k.upper()] = float(v)
 
     # Daten laden
     bars_by_sym = defaultdict(list)
-    if args.csv:
-        for sym, bars in load_bars(args.csv, args.symbol).items():
+    if bars_df is not None:
+        for sym, bars in load_bars_df(bars_df, symbol).items():
+            bars_by_sym[sym].extend(bars)
+    elif csv:
+        for sym, bars in load_bars(csv, symbol).items():
             bars_by_sym[sym].extend(bars)
     else:
-        import os, glob
-        for path in sorted(glob.glob(os.path.join(args.csv_dir, "*.csv"))):
+        import os
+        import glob
+        paths = sorted(glob.glob(os.path.join(csv_dir, "*.csv")))
+        if not paths:
+            raise ConfigError(f"Keine *.csv in {csv_dir!r} gefunden.")
+        for path in paths:
             sym = os.path.splitext(os.path.basename(path))[0].upper()
             bars_by_sym[sym].extend(load_bars(path, sym)[sym])
 
@@ -100,7 +175,7 @@ def main():
         if sym not in bars_by_sym:
             continue
         rng, n = dollar_range_20d(bars_by_sym[sym], MULTIPLIERS[sym])
-        cost = rt_costs.get(sym)
+        cost = rt.get(sym)
         if rng is None:
             print(f"{sym:<5} {n:>3} {'zu wenig Daten (<20 Tage)':>13}")
             continue
@@ -113,11 +188,38 @@ def main():
             any_dead = True
         print(f"{sym:<5} {n:>3} {rng:>13,.2f} {cost:>14,.2f} {ratio:>12.1%}  {status}")
 
-    if args.capital:
-        print(f"\nKontext (Kapital {args.capital:,.0f}): K1-Schwelle entspricht RT-Kosten > "
+    if capital:
+        print(f"\nKontext (Kapital {capital:,.0f}): K1-Schwelle entspricht RT-Kosten > "
               f"{K1_THRESHOLD:.0%} der Range. K2/K3 aus CME-Margin-Bulletin separat pruefen.")
+    return any_dead
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="ID24 Range-Monitor (K1: Kosten/Range-Schere)")
+    ap.add_argument("--csv", help="Eine CSV-Datei (mit symbol-Spalte oder --symbol)")
+    ap.add_argument("--csv-dir", help="Verzeichnis mit <SYMBOL>.csv Dateien")
+    ap.add_argument("--symbol", help="Symbol erzwingen, wenn CSV ohne symbol-Spalte")
+    ap.add_argument("--rt-costs", nargs="+", required=True,
+                    help="All-in-RT-Kosten pro Instrument, z.B. ES=13.0 MES=4.5")
+    ap.add_argument("--capital", type=float, default=None, help="Kontokapital fuer Kontext (optional)")
+    args = ap.parse_args(argv)
+
+    if not args.csv and not args.csv_dir:
+        ap.error("--csv oder --csv-dir erforderlich")
+
+    try:
+        any_dead = run(csv=args.csv, csv_dir=args.csv_dir, symbol=args.symbol,
+                       rt_costs=args.rt_costs, capital=args.capital)
+    except ConfigError as e:
+        sys.exit(f"FEHLER: {e}")
     sys.exit(1 if any_dead else 0)
 
 
 if __name__ == "__main__":
-    main()
+    if _in_notebook():
+        # Notebook: argparse ueberspringen, NOTEBOOK-KONFIG oben verwenden.
+        _dead = run(csv=CSV, csv_dir=CSV_DIR, symbol=SYMBOL, bars_df=BARS_DF,
+                    rt_costs=RT_COSTS, capital=CAPITAL)
+        print(f"\nK1-Ergebnis: {'MINDESTENS EIN INSTRUMENT TOT' if _dead else 'alle ok'}")
+    else:
+        main()
