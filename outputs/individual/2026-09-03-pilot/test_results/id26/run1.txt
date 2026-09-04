@@ -1,0 +1,39 @@
+Datenreihe: /ES | continuous, mapping=OPEN_INTEREST, normalization=BACKWARDS_RATIO (backadjusted) — KEINE Roh-Serien-Mischung
+Handelstage gesamt: 1978  (2019-01-02 .. 2026-08-31)
+Abstain-Tage (Datenfalle 4, ausgeschlossen UND gezaehlt): 71 (3.6%) — tradable Tage: 1907
+
+==============================================================================
+ERGEBNIS ID26 — FENSTER-TEST (ES, 2019-2026, continuous backadjusted, ET)
+==============================================================================
+
+[1] Kostenquote pro RTH-30-Min-Fenster (RT $13.50 / mittlere Fenster-Range):
+Fenster (ET) Median-Range $ Kostenquote           
+ 09:30-10:00            906        1.5%           
+ 10:00-10:30            827        1.6%           
+ 10:30-11:00            709        1.9%           
+ 11:00-11:30            640        2.1%           
+ 11:30-12:00            585        2.3%           
+ 12:00-12:30            535        2.5%           
+ 12:30-13:00            500        2.7%           
+ 13:00-13:30            530        2.5%           
+ 13:30-14:00            483        2.8%           
+ 14:00-14:30            524        2.6%           
+ 14:30-15:00            518        2.6%           
+ 15:00-15:30            535        2.5%           
+ 15:30-16:00            675        2.0%   <-- ZIEL
+
+[2] V1 — Kostenquote-Asymmetrie (Ziel-Fenster vs. Tagesmedian):
+    Asymmetrie-Faktor:           1.16x   (vorregistriert: >= 3x)
+    Cliff's d:                   0.159    (vorregistriert: >= 0.1)
+    Placebo-Perzentil (n=500):   76.0%    (vorregistriert: > 95%)
+    => V1 NICHT BESTANDEN — Fenster-Hypothese tot, keine Neu-Suche (Datenfalle 5)
+
+[3] V2 — Erst-30-Min -> Letzt-30-Min Momentum (explorativ):
+    2019-2026 gesamt         n= 1907  corr=-0.0002  hitrate=47.9%
+    2019-2021                n=  747  corr=+0.0383  hitrate=46.6%
+    2022+ (ENTSCHEIDEND)     n= 1160  corr=-0.0450  hitrate=48.7%
+    => Decay-Befund (gex.live konsistent): JA
+
+[4] Robusta: Abstain-Tage = 71 | DST-Flag-Tage = 205 (nur Flag, ET-basiert)
+    Asymmetrie-Faktor ohne DST-Uebergangstage: 1.15x (Robustheitscheck)
+==============================================================================
