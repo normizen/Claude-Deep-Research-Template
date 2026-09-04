@@ -281,9 +281,21 @@ def main(argv=None):
 
 if __name__ == "__main__":
     if _in_notebook():
-        # Notebook: argparse ueberspringen, NOTEBOOK-KONFIG oben verwenden.
-        _dead = run(csv=CSV, csv_dir=CSV_DIR, symbol=SYMBOL, bars_df=BARS_DF,
-                    rt_costs=RT_COSTS, capital=CAPITAL)
-        print(f"\nK1-Ergebnis: {'MINDESTENS EIN INSTRUMENT TOT' if _dead else 'alle ok'}")
+        # Notebook: argparse ueberspringen. Nur rechnen, wenn oben im
+        # NOTEBOOK-KONFIG-Block etwas gesetzt wurde — sonst nur ein Hinweis,
+        # damit das blosse Laden der Datei nicht mit einem Fehler abbricht.
+        if CSV or CSV_DIR or BARS_DF is not None:
+            _dead = run(csv=CSV, csv_dir=CSV_DIR, symbol=SYMBOL, bars_df=BARS_DF,
+                        rt_costs=RT_COSTS, capital=CAPITAL)
+            print(f"\nK1-Ergebnis: {'MINDESTENS EIN INSTRUMENT TOT' if _dead else 'alle ok'}")
+        else:
+            print(
+                "id24_range_monitor geladen — noch keine Daten konfiguriert.\n"
+                "Naechster Schritt in einer NEUEN Zelle:\n"
+                "    run_qc(qb)                                  # QC holt ES/NQ/MES/MNQ selbst\n"
+                "  oder\n"
+                "    run(bars_df=DEIN_DF, rt_costs={'ES': 13.0, 'MES': 4.5, 'NQ': 14.0, 'MNQ': 4.5})\n"
+                "  oder oben im NOTEBOOK-KONFIG-Block CSV / CSV_DIR / BARS_DF setzen."
+            )
     else:
         main()
