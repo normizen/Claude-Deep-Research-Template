@@ -447,3 +447,7 @@ sogar in die Gegenrichtung — Vortex-Tage haben die kleinste Range.
 0,86 und 0,91, also deutlich unter dem Zufallslauf-Wert von 1,0. NDX kehrt intraday
 zurück, unabhängig von der GEX-Struktur — die dritte unabhängige Bestätigung desselben
 Bildes.
+
+## Offene Hypothese (2026-09-03, aus ID24-Diskussion)
+**Margin-Hike-Signal:** CME-Margin-Erhöhungen zwingen gehebelte Teilnehmer zum Deleveraging (mechanischer Verkaufsdruck, A1-Logik). Hypothese: Nach Margin-Hikes ist Long-Mean-Reversion am Open schlechter (Forced Selling). Historisch prozyklisch (CME reagiert auf Vola, verstärkt Bewegung). Prüfbar auf QC über dokumentierte Margin-Änderungsdaten + ES/NQ Open-Verhalten. Kandidat für nächste Strategic-Runde.
+**MES-vs-ES-Kippunkt:** Bei 5–10k ist MES trotz 3× schlechterer Kostenquote richtig (Positions-Sizing). Kippt Richtung ES ab ~25–50k. Turnier-Logik: Instrumentenwahl folgt Kontogröße, nicht Gewohnheit.
