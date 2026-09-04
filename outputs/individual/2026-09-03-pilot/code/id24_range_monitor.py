@@ -12,11 +12,16 @@ Laeuft in ZWEI Modi:
        python id24_range_monitor.py --csv-dir ./bars/  --rt-costs ES=13.0 MES=4.5
        python id24_range_monitor.py --csv daily_bars.csv --rt-costs ES=13.0 --capital 7500
 
-  B) Im Jupyter-/QuantConnect-Notebook:
-       Unten im Block "NOTEBOOK-KONFIG" die Werte setzen und die Zelle ausfuehren.
-       argparse wird im Notebook NICHT benutzt (dort ist sys.argv der Kernel-Launcher).
-       Alternativ direkt aufrufen:
+  B) Im QuantConnect-Research-Notebook (einfachster Weg):
+           %run id24_range_monitor.py
+           run_qc(qb)                 # holt ES/NQ/MES/MNQ selbst via qb.history
+       Optional: run_qc(qb, rt_costs={...}, days=60, capital=7500)
+
+  C) Im Jupyter-/QuantConnect-Notebook mit eigenem DataFrame:
            run(bars_df=my_dataframe, rt_costs={"ES": 13.0, "MES": 4.5})
+       oder oben im Block "NOTEBOOK-KONFIG" die Werte setzen und die
+       if __name__ == "__main__"-Zelle ausfuehren. argparse wird im Notebook
+       NICHT benutzt (dort ist sys.argv der Kernel-Launcher).
 
 Erwartetes CSV-Format (eine Datei pro Instrument ODER eine kombinierte Datei):
     date,open,high,low,close[,symbol]
@@ -192,6 +197,65 @@ def run(csv=None, csv_dir=None, symbol=None, bars_df=None, rt_costs=None, capita
         print(f"\nKontext (Kapital {capital:,.0f}): K1-Schwelle entspricht RT-Kosten > "
               f"{K1_THRESHOLD:.0%} der Range. K2/K3 aus CME-Margin-Bulletin separat pruefen.")
     return any_dead
+
+
+def run_qc(qb, rt_costs=None, days=45, capital=None):
+    """Bequem-Wrapper fuer das QuantConnect-Research-Notebook.
+
+    Holt Daily-Bars fuer ES + NQ direkt via qb.history, leitet MES/MNQ daraus ab
+    (Micros tracken denselben Index -> identische Punkt-Range) und wertet K1 aus.
+
+        %run id24_range_monitor.py
+        run_qc(qb)
+
+    qb        : QuantBook-Instanz aus dem Notebook
+    rt_costs  : dict {SYMBOL: USD}; Default = grobe All-in-Schaetzung
+    days      : Kalendertage Rueckschau (Puffer, es braucht >= 20 Handelstage)
+    capital   : optionale Kontext-Zeile
+    """
+    from datetime import timedelta
+    try:
+        import pandas as pd  # im QC-Research-Kernel vorhanden
+        import importlib
+        qc = importlib.import_module("AlgorithmImports")
+        Futures = qc.Futures
+        Resolution = qc.Resolution
+        DataMappingMode = qc.DataMappingMode
+        DataNormalizationMode = qc.DataNormalizationMode
+    except Exception as e:  # pragma: no cover - nur ausserhalb QC
+        raise ConfigError(
+            f"run_qc() braucht die QuantConnect-Research-Umgebung ({e}). "
+            "Ausserhalb QC: run(bars_df=...) mit eigenem DataFrame benutzen.") from e
+
+    if rt_costs is None:
+        rt_costs = {"ES": 13.0, "MES": 4.5, "NQ": 14.0, "MNQ": 4.5}
+
+    specs = [
+        (Futures.Indices.SP_500_E_MINI,     "ES",  "MES"),
+        (Futures.Indices.NASDAQ_100_E_MINI, "NQ",  "MNQ"),
+    ]
+    frames = []
+    for const, mini, micro in specs:
+        fut = qb.add_future(
+            const, Resolution.DAILY,
+            data_mapping_mode=DataMappingMode.OPEN_INTEREST,
+            data_normalization_mode=DataNormalizationMode.BACKWARDS_RATIO,
+            contract_depth_offset=0,
+        )
+        hist = qb.history(fut.symbol, timedelta(days=days), Resolution.DAILY)
+        if hist is None or len(hist) == 0:
+            raise ConfigError(f"Keine History fuer {mini} ({const}) — days erhoehen?")
+        h = hist.reset_index()
+        tcol = "time" if "time" in h.columns else next(
+            (c for c in h.columns if "time" in str(c).lower()), h.columns[0])
+        h = h[[tcol, "high", "low"]].rename(columns={tcol: "date"})
+        frames.append(h.assign(symbol=mini))
+        frames.append(h.assign(symbol=micro))
+
+    bars = pd.concat(frames, ignore_index=True)
+    print(f"run_qc: {len(bars)} Bars ({', '.join(sorted(bars['symbol'].unique()))}), "
+          f"Zeitraum {bars['date'].min()} .. {bars['date'].max()}\n")
+    return run(bars_df=bars, rt_costs=rt_costs, capital=capital)
 
 
 def main(argv=None):
