@@ -125,13 +125,15 @@ sie wäre eine geänderte Zeile.
 
 ### ID24: Instrumenten-Apoptose (ES/NQ/MES/MNQ-Eliminierungsturnier)
 **Advocatus:** ÜBERLEBT | **Novelty:** NOVEL
-**Status:** awaiting-manual-test (Design-Phase — Bewertungs-Matrix + Range-Monitor liegen bereit)
+**Status:** IN BETRIEB — K1 (Kosten/Range) run1 bestanden: ES 0,6 %, MES 2,0 %, NQ 0,2 %, MNQ 0,8 % (Schwelle 5 %). Kein Instrument eliminiert. Verbleibend: K2–K6 (Matrix monatlich).
 **Deliverables:** experiment-designs.md (6 Todeskriterien, Schwellwerte, ~1 h/Monat), code/id24_range_monitor.py (getestet, Exit 0)
 **Caveat (ehrlich dokumentiert):** MES↔ES, MNQ↔NQ fungibel → reales Turnier = 3 Entscheidungen.
 
 ### ID26: 30-Minuten-Zeitfenster-System
 **Advocatus:** ÜBERLEBT (bedingt) | **Novelty:** NOVEL
-**Status:** awaiting-manual-test — QC-Zelle bereit
+**Status:** TESTED-REFUTED (run1, 2026-09-04)
+**Ergebnis:** V1 Kostenquote-Asymmetrie 1,16× (vorregistriert >= 3×), Placebo-Perzentil 76 % (vorregistriert > 95 %) — nicht bestanden. V2 Momentum: Decay repliziert, 2022+ corr −0,045. Nach eigener Regel keine Neu-Suche (Datenfalle 5).
+**Nebenbefund (bleibt als Messgröße):** Kostenquote-Tabelle ES: Open 1,5 % vs. Mittag 2,8 % — U-Form, Common Knowledge, kein Edge.
 **Deliverables:** code/qc_id26_fenster_test.py (vorregistrierte Hypothesen, Placebo-Bootstrap 500 Fenster, Decay-Split 2022+, DST-Behandlung, Abstain-Zählung)
 **Bedingung:** Lebt nur als Kosten-/Risiko-Mechanik oder mit eigenem vorregistriertem Fenster-Signal — naive Momentum-Variante hat dokumentierten Decay.
 
