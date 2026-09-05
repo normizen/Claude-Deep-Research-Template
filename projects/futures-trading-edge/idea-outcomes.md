@@ -170,3 +170,20 @@ sie wäre eine geänderte Zeile.
 | ID32 Margin-Hike | Selbst als nicht-einzeltestbar deklariert; Outright-Kanal unbelegt (nur Vola-Effekt) |
 | ID33 Regelwerk-Stichtage | Kein beobachtbarer Treatment-Arm; Ereignisrate ~0 |
 | ID34 Defekt-Replikat-Kohorte | Opus: formales Duplikat von ID29 (gleicher Test) |
+
+---
+
+## Session 2026-09-05-runde3 — GENERATOR-A/B: Opus 5 > Kimi (erste Runde Dual-Generator)
+
+15 Ideen (8 Kimi-Feld ID40k–54k, 7 Opus-Feld ID41o–53o) aus Metamaterialien (4) × Bet-Hedging (11). Kreuz-Matrix-Advocatus.
+
+**Konsens-Überlebende (2/2 Advocati):** ID41o, ID52k
+**Union (Coordinator):** ID41o, ID52k, ID43o, ID53o (letztere 2 nur Kimi-Adv, aber mit produktivem Verwender ID41o). Geparkt als Module: ID45o, ID47o.
+
+**Evidence Log:** Opus-Feld-Überlebensrate 57% (Kimi-Adv) / 29% (Opus-Adv) vs. Kimi-Feld 25%/25%. Kein Eigenfeld-Bias (Opus-Adv härter gegen eigenes Feld). → Generator-Override zu Opus 5 evaluieren.
+
+### Überlebende → Phase 5/6
+- **ID41o:** 0DTE-Close-Gamma-Reversions-Panel (A23, ~1.000 Replikate/Jahr über 4 Instrumente)
+- **ID52k:** [Kimi-Feld, Konsens]
+- **ID43o:** Settlement-Echo als Array-Dispersions-Kovariate (A22)
+- **ID53o:** Flip-Kohärenz-Test (empirische Prüfung A25-Unabhängigkeit)

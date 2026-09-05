@@ -39,6 +39,7 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 | Perkolationstheorie (1) + Quorum Sensing (7) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic | 1 + 2 | SCHWACH — beide Domänen netzwerktopologie-hungrig, 0/8 Ideen überlebten Advocatus (Datenzugang) |
 | Apoptose (12) + Glasübergang (22) | 2026-09-03 | 2026-09-03-pilot | 2 + 4 | NEUTRAL — 2/8 Ideen testfähig (ID24, ID26), Advocatus tötete Meta-Architekturen; Finale nach QC-Tests |
 | Topologische Defekte (5) + Nischen-Konstruktion (10) | 2026-09-04 | 2026-09-04-runde2 | 1 + 2 | TBD |
+| Metamaterialien (4) + Bet-Hedging (11) | 2026-09-05 | 2026-09-05-runde3 | 1 + 2 | TBD |
 
 *(Wird nach jeder Session durch den Domain Matrix Seeder aktualisiert)*
 ## Cluster 1: Physikalische Systeme & Emergenz
@@ -64,8 +65,8 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 ### 4. Metamaterialien (Materialwissenschaft)
 **Kernprinzip:** Eigenschaften die in der Natur nicht vorkommen entstehen durch Mikrostruktur — Funktion durch Architektur, nicht durch Substanz; das Arrangement schlägt das Material
 **Übertragungspotenzial:** Systemdesign durch Struktur statt Inhalt, emergente Fähigkeiten durch Anordnung, Counter-intuitive Eigenschaften durch Konfiguration
-**Zuletzt verwendet:** —
-**Verwendungshistorie:** —
+**Zuletzt verwendet:** 2026-09-05
+**Verwendungshistorie:** 2026-09-05 (futures-trading-edge, 2026-09-05-runde3) + Bet-Hedging
 
 ### 5. Topologische Defekte (Kondensierte Materie)
 **Kernprinzip:** Unvermeidliche Singularitäten entstehen beim Phasenübergang — Strukturen die nicht durch lokale Anpassung aufgelöst werden können; globale Constraints erzeugen lokale Zwänge
@@ -110,8 +111,8 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 ### 11. Bet-Hedging (Evolutionäre Spieltheorie)
 **Kernprinzip:** Diversifikation der Phänotypen bei gleicher Genetik als Strategie gegen unvorhersehbare Umwelten — wenn die Zukunft nicht vorhersagbar ist, ist Varianz die rationale Antwort
 **Übertragungspotenzial:** Portfolio-Theorie unter echtem Nichtwissen (Knightian Uncertainty), strategische Diversifikation ohne Erwartungswert-Optimierung, Resilienz-Design
-**Zuletzt verwendet:** —
-**Verwendungshistorie:** —
+**Zuletzt verwendet:** 2026-09-05
+**Verwendungshistorie:** 2026-09-05 (futures-trading-edge, 2026-09-05-runde3) + Metamaterialien
 
 ### 12. Apoptose (Zellbiologie)
 **Kernprinzip:** Programmierter Zelltod ist lebenserhaltend für den Organismus — strategisches Selbstauslöschen als Systemfunktion, nicht als Versagen; das Opfer des Teils rettet das Ganze
