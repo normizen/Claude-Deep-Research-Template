@@ -1,0 +1,39 @@
+==============================================================================
+ID41o — 0DTE-CLOSE-GAMMA-REVERSIONS-PANEL (2+2-Design, Kern=RTH-Close)
+==============================================================================
+add_future OK: ES -> /ES
+add_future OK: NQ -> /NQ
+add_future OK: GC -> /GC
+add_future OK: ZB -> /ZB
+lade ES ...
+  ES geladen: 1652280 Zeilen roh
+history OK: ES  bars=1  1899-12-29 .. 1899-12-29
+lade NQ ...
+  NQ geladen: 1652280 Zeilen roh
+history OK: NQ  bars=1  1899-12-29 .. 1899-12-29
+lade GC ...
+  GC geladen: 1626675 Zeilen roh
+history OK: GC  bars=1  1899-12-29 .. 1899-12-29
+lade ZB ...
+  ZB geladen: 1627785 Zeilen roh
+history OK: ZB  bars=1  1899-12-29 .. 1899-12-29
+Handelstage mit 15:30+-Daten (roh): 1
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+Cell In[9], <a href='vscode-notebook-cell:?execution_count=9&line=184'>line 184</a>
+    182 ok = True
+    183 for ticker, df in bars.items():
+--> <a href='vscode-notebook-cell:?execution_count=9&line=184'>184</a>     c1530 = last_close_at_or_before(df, d, 15, 30)
+    185     c1545 = last_close_at_or_before(df, d, 15, 45)
+    186     c1600 = last_close_at_or_before(df, d, 16, 0)
+
+Cell In[9], <a href='vscode-notebook-cell:?execution_count=9&line=142'>line 142</a>
+    140 def last_close_at_or_before(df, d, hh, mm):
+    141     """Letzter Close <= d hh:mm ET; None wenn fehlend/halber Tag."""
+--> <a href='vscode-notebook-cell:?execution_count=9&line=142'>142</a>     target = pd.Timestamp(d).tz_localize(et_tz) + timedelta(hours=hh, minutes=mm)
+    143     day_start = pd.Timestamp(d).tz_localize(et_tz)
+    144     window = df.loc[(df.index >= day_start) & (df.index <= target), "close"]
+
+File pandas/_libs/tslibs/timestamps.pyx:2299, in pandas._libs.tslibs.timestamps.Timestamp.tz_localize()
+
+TypeError: Cannot localize tz-aware Timestamp, use tz_convert for conversions

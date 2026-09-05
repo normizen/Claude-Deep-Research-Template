@@ -103,53 +103,54 @@ def is_dst_transition_day(d):
 # ---------------------------------------------------------------------------
 bars = {}
 for ticker, fut in futures.items():
-    print("lade {} ...".format(ticker), flush=True)   # BUGFIX run3: Fortschritt
+    print("lade {} ...".format(ticker), flush=True)
     hist = qb.history(fut.symbol, start_all, end_all, Resolution.MINUTE,
-                      extended_market_hours=True)  # BUGFIX: auch history-Call
+                      extended_market_hours=True)
     print("  {} geladen: {} Zeilen roh".format(ticker, len(hist)), flush=True)
     if hist.empty:
         raise RuntimeError("qc_id41o: leere History fuer " + ticker)
-    df = hist.copy()
-    # BUGFIX run2+3: qb.history liefert MultiIndex (z.B. (time, expiry) oder
-    # (symbol, time)) — droplevel(0) allein reicht nicht immer. Robuster:
-    # Index komplett auf die Zeit-Ebene reduzieren.
-    if isinstance(df.index, pd.MultiIndex):
-        # Zeit ist die Ebene mit Datetime-Werten — finde sie
-        time_level = None
-        for i, lvl in enumerate(df.index.levels):
-            if pd.api.types.is_datetime64_any_dtype(lvl):
-                time_level = i
-                break
-        if time_level is not None:
-            df.index = df.index.get_level_values(time_level)
-        else:
-            # Fallback: letzte Ebene annehmen
-            df.index = df.index.get_level_values(-1)
-    # QC liefert UTC-Index -> strikt ET
-    if df.index.tz is None:
-        df.index = df.index.tz_localize("UTC")
-    df.index = df.index.tz_convert(et_tz)
-    df = df[~df.index.duplicated(keep="last")]
+    # BUGFIX run3 (final): reset_index() wie in der FUNKTIONIERENDEN ID29-Zelle.
+    # qb.history liefert MultiIndex (symbol, time) — statt den Index zu
+    # manipulieren (das hat die Zeit in run3 zerstoert): reset_index() macht
+    # 'time' zur Spalte, danach ist alles Spalten-Arbeit. Kein Index-Hack.
+    df = hist.reset_index()
+    df["time"] = pd.to_datetime(df["time"])
+    # QC liefert Exchange-Zeit (ET fuer CME/Index) oder UTC — tz-naiv halten
+    # wie ID29 (dort funktionierte es). Falls tz-aware: zu ET konvertieren,
+    # dann tz-naiv, damit die Fenster-Filter auf Uhrzeit-Strings passen.
+    if getattr(df["time"].dt, "tz", None) is not None:
+        df["time"] = df["time"].dt.tz_convert(et_tz).dt.tz_localize(None)
+    # Datums-/Uhrzeit-Spalten fuer die Fenster-Extraktion
+    df["date"] = df["time"].dt.date
+    df["tod"] = df["time"].dt.time
+    df = df.sort_values("time").reset_index(drop=True)
     bars[ticker] = df
     print("history OK: {}  bars={}  {} .. {}".format(
-        ticker, len(df), df.index.min().date(), df.index.max().date()))
+        ticker, len(df), df["time"].min().date(), df["time"].max().date()))
 
 # ---------------------------------------------------------------------------
 # 4. Fenster-Extraktion (ET): 15:30 / 15:45 / 16:00 (+ explorativ Overnight)
 # ---------------------------------------------------------------------------
+from datetime import time as dtime
+
 def last_close_at_or_before(df, d, hh, mm):
-    """Letzter Close <= d hh:mm ET; None wenn fehlend/halber Tag."""
-    target = pd.Timestamp(d).tz_localize(et_tz) + timedelta(hours=hh, minutes=mm)
-    day_start = pd.Timestamp(d).tz_localize(et_tz)
-    window = df.loc[(df.index >= day_start) & (df.index <= target), "close"]
+    """Letzter Close <= d hh:mm ET; None wenn fehlend/halber Tag. Spalten-Logik."""
+    day_df = df[df["date"] == d]
+    if day_df.empty:
+        return None
+    cut = dtime(hh, mm)
+    window = day_df.loc[day_df["tod"] <= cut, "close"]
     if window.empty:
         return None
     return float(window.iloc[-1])
 
 def first_close_at_or_after(df, d, hh, mm):
-    target = pd.Timestamp(d).tz_localize(et_tz) + timedelta(hours=hh, minutes=mm)
-    day_end = target + timedelta(days=1)
-    window = df.loc[(df.index >= target) & (df.index < day_end), "close"]
+    """Erster Close >= d hh:mm ET. Spalten-Logik."""
+    day_df = df[df["date"] == d]
+    if day_df.empty:
+        return None
+    cut = dtime(hh, mm)
+    window = day_df.loc[day_df["tod"] >= cut, "close"]
     if window.empty:
         return None
     return float(window.iloc[0])
@@ -160,17 +161,17 @@ def first_close_at_or_after(df, d, hh, mm):
 fomc_cpi_days = set()  # vorregistrierte Ausnahmen hier eintragen
 
 rows = []
-all_days = sorted(set(
-    d.normalize() for df in bars.values()
-    for d in df.loc[df.index.time >= datetime.strptime("15:30", "%H:%M").time(),
-                    "close"].index.normalize()))
+# all_days aus der date-Spalte (Spalten-Logik), nur Tage mit 15:30+-Daten
+_all_days_set = set()
+for df in bars.values():
+    _all_days_set |= set(df.loc[df["tod"] >= dtime(15, 30), "date"].unique())
+all_days = sorted(_all_days_set)
 
 print("Handelstage mit 15:30+-Daten (roh): {}".format(len(all_days)))
 
 abstain_count = 0
 dst_flag_count = 0
-for d in all_days:
-    date_d = d.date()
+for date_d in all_days:
     dst_flag = is_dst_transition_day(pd.Timestamp(date_d))
     if dst_flag:
         dst_flag_count += 1
@@ -181,9 +182,9 @@ for d in all_days:
            "weekday": date_d.weekday(), "dst_flag": dst_flag}
     ok = True
     for ticker, df in bars.items():
-        c1530 = last_close_at_or_before(df, d, 15, 30)
-        c1545 = last_close_at_or_before(df, d, 15, 45)
-        c1600 = last_close_at_or_before(df, d, 16, 0)
+        c1530 = last_close_at_or_before(df, date_d, 15, 30)
+        c1545 = last_close_at_or_before(df, date_d, 15, 45)
+        c1600 = last_close_at_or_before(df, date_d, 16, 0)
         # halber Tag / Datenluecke -> Abstain (ausgeschlossen UND gezaehlt)
         if c1530 is None or c1545 is None or c1600 is None:
             ok = False
@@ -195,11 +196,10 @@ for d in all_days:
         continue
     # explorativ, eingepreist markiert: Overnight ES
     es_df = bars["ES"]
-    c1600_es = last_close_at_or_before(es_df, d, 16, 0)
-    nxt = es_df.loc[es_df.index.normalize() > d, "close"]
-    if len(nxt) > 0:
-        first_next_day = nxt.index.normalize()[0]
-        c930_next = first_close_at_or_after(es_df, first_next_day, 9, 30)
+    c1600_es = last_close_at_or_before(es_df, date_d, 16, 0)
+    nxt_dates = sorted(dd for dd in es_df["date"].unique() if dd > date_d)
+    if nxt_dates:
+        c930_next = first_close_at_or_after(es_df, nxt_dates[0], 9, 30)
         if c930_next is not None and c1600_es is not None:
             rec["ES_r_overnight"] = np.log(c930_next / c1600_es)
     rows.append(rec)
