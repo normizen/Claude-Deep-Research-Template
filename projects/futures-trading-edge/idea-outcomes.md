@@ -145,3 +145,28 @@ sie wäre eine geänderte Zeile.
 | ID22 Abstain-Quote | A16-Zirkularität: misst Rauschen ohne Brutto-Wirt |
 | ID25 Unterkühltes Setup-Reservoir | A16+A10: Filter im Thermodynamik-Kostüm |
 | ID27 Gegenfaktual-Buchhaltung | Umbenanntes Shadow-Trading |
+
+---
+
+## Session 2026-09-04-runde2 (Zwangsmechanik)
+
+7 Ideen (ID28–ID34) aus Topologische Defekte (5) × Nischen-Konstruktion (10). Dual-Advocatus: Kimi (ID30+34) vs. Opus 5 (ID29+30) — Opus-Fund: Roll=Kalender-Spread kein Outright; ID34=Duplikat von ID29. Konsolidiert: Union mit Opus-Struktur.
+
+### ID29: Prop-Close-Ernte
+**Advocatus:** ÜBERLEBT (Opus; Kimi eliminierte — Coordinator folgt Union+Opus) | **Novelty:** NOVEL
+**Größenordnungs-Gate:** BESTANDEN (knapp): konservativ 2,6–4,3 % des Close-Volumens; Apex-Frist 16:59 ET NACH Cash-Close → Prop-Anteil im dünnen ETH-Fenster 20–50 %.
+**Status:** awaiting-manual-test — QC-Zelle qc_id29_prop_close_test.py bereit (TODO: ABSTAIN_DATES + MARGIN_HIKE_DATES befüllen)
+**Abnahme:** 3 bps netto + 3 Attributionssignaturen; Pflicht-Falsifikator: Decay-Split (Effekt darf 2019–2021 NICHT existieren).
+
+### ID30: Multi-Zwang-Dosis-Panel
+**Advocatus:** ÜBERLEBT (beide, bedingt) | **Novelty:** NOVEL
+**Status:** DEGRADIERT zu ID29-Kalender-Covariaten. Power-Rechnung: Dosis-≥2 nur ~30 Quartals-Opex-Freitage 2019–2026, JT+ Vola-Stratifizierung unmöglich. Opus-Fallback-Klausel exakt eingetreten.
+
+### Eliminierte (Konsens beider Modelle)
+| ID | Grund |
+|---|---|
+| ID28 Trailing-Drawdown-Karte | Kohorten-Kontur nicht beobachtbar (keine öffentlichen Positionsdaten) |
+| ID31 Roll-Annihilation | Opus: Roll=Kalender-Spread, kein Outright-Kanal; ~40 Ereignisse |
+| ID32 Margin-Hike | Selbst als nicht-einzeltestbar deklariert; Outright-Kanal unbelegt (nur Vola-Effekt) |
+| ID33 Regelwerk-Stichtage | Kein beobachtbarer Treatment-Arm; Ereignisrate ~0 |
+| ID34 Defekt-Replikat-Kohorte | Opus: formales Duplikat von ID29 (gleicher Test) |
