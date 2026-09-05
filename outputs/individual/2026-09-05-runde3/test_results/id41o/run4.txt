@@ -1,0 +1,60 @@
+==============================================================================
+ID41o — 0DTE-CLOSE-GAMMA-REVERSIONS-PANEL (2+2-Design, Kern=RTH-Close)
+==============================================================================
+add_future OK: ES -> /ES
+add_future OK: NQ -> /NQ
+add_future OK: GC -> /GC
+add_future OK: ZB -> /ZB
+lade ES ...
+  ES geladen: 1652280 Zeilen roh
+history OK: ES  bars=1652280  2022-01-02 .. 2026-08-31
+lade NQ ...
+  NQ geladen: 1652280 Zeilen roh
+history OK: NQ  bars=1652280  2022-01-02 .. 2026-08-31
+lade GC ...
+  GC geladen: 1626675 Zeilen roh
+history OK: GC  bars=1626675  2022-01-02 .. 2026-08-31
+lade ZB ...
+  ZB geladen: 1627785 Zeilen roh
+history OK: ZB  bars=1627785  2022-01-02 .. 2026-08-30
+Handelstage mit 15:30+-Daten (roh): 1445
+Abstain-Tage (ausgeschlossen UND gezaehlt): 250 (17.3%)
+DST-Flag-Tage (nur Flag, ET-basiert): 9
+Tradable Tage im Panel: 1195
+Oberes |GEX|-Proxy-Quartil (handelbar): 290 Tage (24%)
+Analyse-Sample (Expiry & Top-Gamma-Quartil): n = 272
+
+[1] KERN-HYPOTHESE (ES+NQ, Expiry, oberes Gamma-Quartil):
+    n Test-Replikate:           272
+    Mean Reversions-Score:      +0.000080
+    Cliff's d vs. Null-Pool:    -0.078   (Huerde >= 0.10)
+    Placebo-Perzentil (n=500):  0.0%   (Huerde > 95%)
+
+[2] FALSIFIKATOR (GC+ZB Kontroll-Beine, darf NICHT auftreten):
+    Mean Kontroll-Score:        +0.000038
+    Cliff's d Test vs. Kontrolle: +0.015
+    -> d(Test,Ctrl) > 0: Gamma-Kanal plausibel; ~0: generischer Close-Effekt = REFUTED
+
+[3] DECAY-SPLIT (0DTE jung — 2019-2021 darf NICHT existieren):
+    2019-2021: n=0 (zu klein)
+    2022+    : n= 272  mean=+0.000080  hitrate=50.0%
+
+[4] DOSIS-RESPONSE (ordinal, Flip-Naehe-Proxy 0..3):
+    Dosis 0: n=  75  mean=-0.000208
+    Dosis 1: n=  72  mean=-0.000183
+    Dosis 2: n=  62  mean=+0.000480
+    Dosis 3: n=  63  mean=+0.000330
+
+[5] EXPLORATIV — Overnight (EINGEPREIST markiert, nicht Kern):
+    n=272  mean=+0.000203  hitrate=51.1%  [generischer Close-Effekt, eingepreist — kein Gamma-Kanal]
+
+[6] ID52k-METRIK — Bet-Hedging (geometrisches Mittel, regime-stratif.):
+    2022+    : geo-mean pro Replikat = +2.0596%  (n=272)
+
+==============================================================================
+URTEIL (vorregistrierte Huerden):
+  Cliff's d >= 0.10:  FAIL
+  Placebo > 95%:      FAIL
+  Falsifikator klar:  OK
+  => ID41o-Kern: NICHT BESTANDEN
+==============================================================================

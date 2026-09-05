@@ -452,3 +452,11 @@ Bildes.
 ## Offene Hypothese (2026-09-03, aus ID24-Diskussion)
 **Margin-Hike-Signal:** CME-Margin-Erhöhungen zwingen gehebelte Teilnehmer zum Deleveraging (mechanischer Verkaufsdruck, A1-Logik). Hypothese: Nach Margin-Hikes ist Long-Mean-Reversion am Open schlechter (Forced Selling). Historisch prozyklisch (CME reagiert auf Vola, verstärkt Bewegung). Prüfbar auf QC über dokumentierte Margin-Änderungsdaten + ES/NQ Open-Verhalten. Kandidat für nächste Strategic-Runde.
 **MES-vs-ES-Kippunkt:** Bei 5–10k ist MES trotz 3× schlechterer Kostenquote richtig (Positions-Sizing). Kippt Richtung ES ab ~25–50k. Turnier-Logik: Instrumentenwahl folgt Kontogröße, nicht Gewohnheit.
+
+## Zwangsmechanik-Linie — Gesamtbefund (2026-09-06)
+Drei mechanisch plausibler Zwangstests, drei negative Ergebnisse an derselben Stelle:
+- ID26 Zeitfenster: 1,16× statt ≥3× Asymmetrie
+- ID29 Prop-Flat: Netto −280 bps (Kosten 100× Effekt)
+- ID41o 0DTE-Gamma: Cliff's d −0,078, Placebo 0,0 %
+
+**Muster:** Erzwungene Flows EXISTIEREN, aber ihre Retail-erntbare Größe liegt unter der Nachweisgrenze der Placebo-Methode UND unter den Transaktionskosten. Das ist kein Ideen-Fehler mehr, sondern ein struktureller Befund über die Linie in diesen Instrumenten (ES/NQ) für Retail. Implikation: Suche muss sich von "erntbarer Zwang am Tagesende/Verfall" wegdrehen — entweder zu anderen Zwangstypen (Roll/Settlement, noch ungetestet) oder aus der Zwangs-Kategorie heraus (A24: Latenz-freie, große, kalenderfeste Effekte sind die Grenze der Linie).

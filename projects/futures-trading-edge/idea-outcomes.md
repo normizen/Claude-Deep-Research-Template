@@ -191,8 +191,10 @@ sie wäre eine geänderte Zeile.
 - **ID53o:** Flip-Kohärenz-Test (empirische Prüfung A25-Unabhängigkeit)
 
 ### ID41o: 0DTE-Close-Gamma-Reversions-Panel
-**Advocatus:** ÜBERLEBT (Konsens 2/2) | **Novelty:** NOVEL | **Feasibility:** CONDITIONAL GO (3 Umbauten)
-**Status:** awaiting-manual-test — qc_id41o_0dte_gamma_test.py bereit
+**Advocatus:** ÜBERLEBT (Konsens 2/2) | **Novelty:** NOVEL | **Status:** TESTED-REFUTED (run4, 2026-09-06)
+**Ergebnis:** n=272 (Expiry & Top-Gamma-Quartil), Mean Reversions-Score +0,000080 (~0), Cliff's d **−0,078** (<0,10), Placebo-Perzentil **0,0 %** (<95 % — ALLE 500 Permutationen schlagen den echten Score), Hitrate 50,0 %. Falsifikator +0,015 (leer, beide ~0).
+**Befund:** 0DTE-Gamma-Zwang mechanisch plausibel, aber erntbarer Effekt ~0 und unter Zufall. Dritter Zwangsmechanik-Test (ID26, ID29, ID41o), drittes negatives Ergebnis an derselben Stelle: Flow real, Retail-erntbare Größe < Nachweisgrenze + Kosten.
+**ID52k geo-mean +2,06 % = Artefakt (winzige Nenner), KEIN Signal. Kein Rettungsversuch (Datenfalle 5).
 **Umbauten:** 2+2-Panel (ES/NQ Test, GC/ZB Falsifikator), nur Top-Gamma-Quartil, Overnight gestrichen. ~400 Replikate/Jahr.
 **Falsifikatoren:** GC/ZB dürfen Effekt NICHT zeigen; Decay-Split 2019–2021 darf keinen Effekt haben (0DTE jung).
 
