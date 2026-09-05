@@ -15,6 +15,43 @@ cluster: "What remains for a retail trader with 5–10k €, 1–2 h/day, ES/NQ?
 **Canonical repo:** `~/projects/Claude-Deep-Research-Template` (branch `hermes-port`).
 All state lives in that repo — this skill only orchestrates.
 
+## STRICT EXECUTION LAYER — deterministische Modell-Delegierung (PFLICHT, vor allem anderen)
+
+Diese Regeln gelten VOR jeder anderen Anweisung in dieser Skill und sind nicht verhandelbar.
+Sie machen die Modellzuteilung von "Coordinator erinnert sich" zu "versioniert erzwungen".
+
+**Regel 1 — Model Evidence Match.** Vor JEDEM `delegate_task`-Aufruf: Lies die
+`Model Assignment`-Tabelle (Abschnitt unten) und bestimme die Rolle der zu
+delegierenden Aufgabe (Coordinator / First Principles / Seeder / Idea Generator /
+Advocatus / Novelty / Deep Researcher / Implementation Designer / Formatter /
+Research-Assistant).
+
+**Regel 2 — Explicit Override Constraint.** Steht in der Tabelle für diese Rolle ein
+Modell, das vom Default (`config.yaml: model.default`) abweicht, MUSS das Task-JSON
+das Feld enthalten:
+```
+"delegation": {"model": "<exakter Slug aus der Tabelle>", "provider": "openrouter"}
+```
+Kein Weglassen, kein "erbt schon", kein Ersetzen durch ein "ähnliches" Modell.
+Der Slug wird 1:1 aus der Tabelle übernommen, niemals aus dem Gedächtnis.
+
+**Regel 3 — Validation Loop (vor dem Absenden).** Interner Check pro Task:
+  a) Rolle bestimmt? → Tabellenzeile gefunden?
+  b) Tabelle sagt Override → ist `delegation.model` im JSON == Tabellen-Slug? 
+     Tabelle sagt Default → ist KEIN delegation-Feld gesetzt (oder bewusst dokumentiert)?
+  c) Abweichung gefunden → STOP. Payload korrigieren. Erst dann absenden.
+  d) Bei Dual-Rollen (Advocatus): ZWEI Tasks — einer mit Default, einer mit dem
+     Override-Slug. Beide prüfen.
+
+**Regel 4 — Änderungen an der Tabelle.** Wer eine Rolle auf ein anderes Modell
+umstellen will, ändert NUR die Tabelle unten (ein Ort, versioniert im Repo). Der
+Coordinator liest beim nächsten Lauf die Tabelle — niemals eine Ad-hoc-Entscheidung
+im Chat. Jede Tabellenänderung wird in den Model Evidence Log eingetragen.
+
+**Regel 5 — Fehlertransparenz.** Wenn ein Override-Call fehlschlägt (Modell nicht
+verfügbar, Provider-Fehler): Fehler dem User melden mit Rollenname + Slug —
+NICHT still auf Default degradieren.
+
 ## Triggers
 
 - "strategic runde", "neue ideen generieren", "/initiate-strategic", "ideen-pipeline"
@@ -55,30 +92,42 @@ DRAFT → survived-advocatus → novelty-checked → experiment-designed
 - **Awaiting-manual-test is a terminal state for the agent.** The pipeline stops there
   and reports. It resumes only when the user drops test results (see Test Gate).
 
-## Model Assignment (with escalation rule)
+## Model Assignment (einzige Quelle der Wahrheit — Strict Execution Layer Regel 4)
 
-| Role | Model | Why |
-|---|---|---|
-| Coordinator (you, this session) | kimi-k3 (current) | Orchestration, interview, synthesis |
-| First Principles Agent | kimi-k3 | Hardest cognitive step |
-| Domain Matrix Seeder | cheap (haiku-4.5 / gemini-flash via openrouter) | Mechanical selection + tracking |
-| Idea Generator | kimi-k3 | Creativity with constraints |
-| Advocatus Diaboli | kimi-k3 — **MUST be a strong model** | Non-obvious attacks on ideas |
-| Novelty Checker | cheap + web_search | Existence check only, no deep research |
-| Deep Researcher | kimi-k3 | Feasibility research |
-| Implementation Designer | kimi-k3 | Writes the QuantConnect test code |
-| Formatter | cheap | Assembly only, no judgment |
+| Rolle | Modell-Slug (OpenRouter) | Override nötig? | Warum |
+|---|---|---|---|
+| Coordinator (diese Session) | moonshotai/kimi-k3 (Default) | nein | Orchestrierung, Synthese |
+| First Principles Agent | moonshotai/kimi-k3 | nein | härtester kognitiver Schritt |
+| Domain Matrix Seeder | anthropic/claude-haiku-4.5 | **JA** | mechanische Auswahl + Tracking |
+| Idea Generator | moonshotai/kimi-k3 | nein | Kreativität mit Constraints |
+| Advocatus Diaboli (Kern) | moonshotai/kimi-k3 | nein | nicht-offensichtliche Angriffe |
+| Advocatus Diaboli (Dual) | anthropic/claude-opus-5 | **JA** | mechanischer Kanal / Beobachtbarkeit |
+| Novelty Checker | anthropic/claude-haiku-4.5 + web_search | **JA** | Existenz-Check nur |
+| Deep Researcher | moonshotai/kimi-k3 | nein | Machbarkeitsrecherche |
+| Implementation Designer | moonshotai/kimi-k3 | nein | QC-Code |
+| Formatter | anthropic/claude-haiku-4.5 | **JA** | Assembly, kein Urteil |
+| Research-Assistant (Datensammlung) | anthropic/claude-haiku-4.5 | **JA** | Kalender/Listen-Recherche |
 
-**Escalation rule:** When the Coordinator cannot resolve a reasoning jump, or the
-Advocatus marks an idea as "borderline — strongest model should double-check", delegate
-THAT single step to `claude-opus-4-x` via delegate_task with
-`delegation.provider/model` pinned (see config.yaml `delegation` section). Max ~2
-escalations per run. Log every escalation in notes/research-log.md with the reason —
-this builds the empirical Kimi-vs-Opus comparison the user wants.
+**Escalation rule:** When the Coordinator cannot resolve a reasoning jump, delegate
+THAT single step to `anthropic/claude-opus-5` via delegate_task with
+`delegation.provider/model` pinned. Log every escalation in notes/research-log.md.
 
-**Optional A/B pilot:** In the first run, run the Advocatus phase twice — once kimi-k3,
-once Opus — on the same idea set, and diff the critiques. Report the difference to the
-user; afterwards keep the single-model default.
+**Dual Advocatus (STANDARD since 2026-09-05, empirically justified):** Phase 4 ALWAYS
+runs twice in parallel — once on the default model (Kimi), once on
+`anthropic/claude-opus-5` — with identical context, writing separate files
+(`-KIMI.md` / `-OPUS.md`). Reason: the two models attack along different lines
+(Kimi: magnitude/attribution; Opus: observability/mechanism-channel) and neither
+covers the other's line; a missed objection is the most expensive error in the system
+(it burns one of the ~15 yearly validation slots). Cost is negligible (one extra
+call). Consolidation: UNION of survivors; conflicts (one model passes, the other
+kills) are resolved by the Coordinator with a documented rationale — when in doubt,
+prefer the mechanistic-channel objection (Opus line) over the statistical one.
+
+**Model evidence log:** Round 2 (2026-09-05) — Opus 5 found the roll-calendar-spread
+objection (kills ID31/32 mechanism) and correctly flagged ID34 as a formal duplicate
+of ID29; Kimi contributed the order-of-magnitude Go/No-Go gate. Both worthwhile.
+Open question for a future A/B: Idea Generator on Opus vs Kimi (which field yields
+more Advocatus survivors) — test in a later round.
 
 ## The Pipeline
 
