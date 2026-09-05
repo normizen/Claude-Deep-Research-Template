@@ -102,13 +102,14 @@ for ticker, fut in futures.items():
     if hist.empty:
         raise RuntimeError("qc_id41o: leere History fuer " + ticker)
     df = hist.copy()
+    # BUGFIX run2: MultiIndex (symbol, time) ZUERST abflachen, dann Timezone —
+    # qb.history liefert MultiIndex, der hat kein .tz (AttributeError)
+    if isinstance(df.index, pd.MultiIndex):
+        df = df.droplevel(0)
     # QC liefert UTC-Index -> strikt ET
     if df.index.tz is None:
         df.index = df.index.tz_localize("UTC")
     df.index = df.index.tz_convert(et_tz)
-    # MultiIndex (symbol, time) absichern
-    if isinstance(df.index, pd.MultiIndex):
-        df = df.droplevel(0)
     df = df[~df.index.duplicated(keep="last")]
     bars[ticker] = df
     print("history OK: {}  bars={}  {} .. {}".format(

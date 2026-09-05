@@ -1,0 +1,17 @@
+==============================================================================
+ID41o — 0DTE-CLOSE-GAMMA-REVERSIONS-PANEL (2+2-Design, Kern=RTH-Close)
+==============================================================================
+add_future OK: ES -> /ES
+add_future OK: NQ -> /NQ
+add_future OK: GC -> /GC
+add_future OK: ZB -> /ZB
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+Cell In[5], <a href='vscode-notebook-cell:?execution_count=5&line=106'>line 106</a>
+    104 df = hist.copy()
+    105 # QC liefert UTC-Index -> strikt ET
+--> <a href='vscode-notebook-cell:?execution_count=5&line=106'>106</a> if df.index.tz is None:
+    107     df.index = df.index.tz_localize("UTC")
+    108 df.index = df.index.tz_convert(et_tz)
+
+AttributeError: 'MultiIndex' object has no attribute 'tz'
