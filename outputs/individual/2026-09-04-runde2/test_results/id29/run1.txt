@@ -1,0 +1,17 @@
+Datenreihe: /ES | continuous, mapping=OPEN_INTEREST, normalization=BACKWARDS_RATIO (backadjusted) — KEINE Roh-Serien-Mischung
+Shape: (875400, 18) | Spalten: ['expiry', 'symbol', 'time', 'askclose', 'askhigh', 'asklow', 'askopen', 'asksize', 'bidclose', 'bidhigh', 'bidlow', 'bidopen', 'bidsize', 'close', 'high', 'low', 'open', 'volume']
+Zeitspanne: 2019-01-02 09:31:00 .. 2026-08-31 17:00:00 | tz-naiv: OK
+Handelstage gesamt: 1978  (2019-01-02 .. 2026-08-31)
+Abstain News-Konfunder: 214 | Abstain duennes/unvollst. Fenster: 59
+Tradable Tage: 0
+---------------------------------------------------------------------------
+AssertionError                            Traceback (most recent call last)
+Cell In[4], <a href='vscode-notebook-cell:?execution_count=4&line=214'>line 214</a>
+    212 if not ABSTAIN_DATES:
+    213     print("WARNUNG: ABSTAIN_DATES leer — FOMC/CPI/NFP-Liste vor finalem Run fuellen!")
+--> <a href='vscode-notebook-cell:?execution_count=4&line=214'>214</a> assert len(R) > 500, "Zu wenig Tage — Datenfenster pruefen"
+    216 # ------------------------- KONDITIONIERUNG ----------------------------------
+    217 # Trendtag: letzte 30 Min verstaerken die Tagesrichtung (gleiches Vorzeichen)
+    218 R["day_dir"] = np.sign(R["rth_ret"])
+
+AssertionError: Zu wenig Tage — Datenfenster pruefen

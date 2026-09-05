@@ -88,12 +88,18 @@ future = qb.add_future(SYMBOL,
                        Resolution.MINUTE,
                        data_mapping_mode=DataMappingMode.OPEN_INTEREST,
                        data_normalization_mode=DataNormalizationMode.BACKWARDS_RATIO,
-                       contract_depth_offset=0)
+                       contract_depth_offset=0,
+                       extended_market_hours=True)   # BUGFIX run1: ohne das liefert
+                                                     # qb.history nur bis ~17:00 ET ->
+                                                     # rev/eth-Fenster leer -> dropna
+                                                     # loescht ALLE Tage (Tradable=0)
 symbol = future.symbol
 print(f"Datenreihe: {symbol} | continuous, mapping=OPEN_INTEREST, "
       f"normalization=BACKWARDS_RATIO (backadjusted) — KEINE Roh-Serien-Mischung")
 
-history = qb.history(symbol, START, END, Resolution.MINUTE)
+history = qb.history(symbol, START, END, Resolution.MINUTE,
+                     extended_market_hours=True)   # BUGFIX run1: auch der history-
+                     # Call braucht das Flag (QC-Doku) — sonst nur RTH bis ~17:00
 df = history.reset_index()
 
 # --- Defensive Daten-Shape-Checks (Fehler aus stdout diagnostizierbar) ------
