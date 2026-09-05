@@ -15,36 +15,39 @@ cluster: "What remains for a retail trader with 5–10k €, 1–2 h/day, ES/NQ?
 **Canonical repo:** `~/projects/Claude-Deep-Research-Template` (branch `hermes-port`).
 All state lives in that repo — this skill only orchestrates.
 
-## MODELL-DELEGIERUNG — TECHNISCHER STAND (ehrlich, nach dem 2026-09-05-Fund)
+## MODELL-DELEGIERUNG — pro-Task-Pins (aktiv seit Tool-Patch 2026-09-05, Commit 0a2a130af0)
 
-**WICHTIG — korrigiert 2026-09-05:** Hermes' `delegate_task` (tools/delegate_tool.py)
-unterstützt KEIN pro-Task-Modell-Pin. Ein `"delegation": {"model": ...}`-Feld im
-Task-JSON wird still ignoriert; alle Subagenten erben `parent_agent.model`. Eine
-frühere Version dieser Skill behauptete das Gegenteil ("Strict Execution Layer") —
-das war FALSCH und wurde nach dem Dashboard-Befund des Users (nur Kimi sichtbar)
-entfernt.
+**Verifiziert 2026-09-05:** Pro-Task-Modell-Pins funktionieren (Manifest + Transcript-Header
++ Completion-Zeile zeigten zwei verschiedene Modelle in einer Batch).
 
-**Was technisch wirklich möglich ist:**
-- **`delegation.provider/model` in `~/.hermes/config.yaml`** — global, gilt für ALLE
-  Subagenten eines Laufs. Teuer (alle Rollen werden Opus, auch die mechanischen).
-- **Coordinator-Session-Modell** = das einzige Modell, das man ohne Config-Änderung
-  variieren kann: Denk-Rollen in der Coordinator-Session selbst ausführen (kein
-  Subagent), mechanische Rollen als Subagenten.
+**Syntax (Pin steht IM Task-Eintrag):**
+```json
+{"tasks": [
+  {"goal": "...", "context": "...", "model": "anthropic/claude-opus-5"},
+  {"goal": "...", "context": "...", "model": "anthropic/claude-haiku-4.5"},
+  {"goal": "...", "context": "..."}   
+]}
+```
+Task ohne Pin läuft auf `delegation.model` (config.yaml) bzw. Parent-Modell.
+`provider` nur nötig, wenn das Modell bei einem ANDEREN Anbieter liegt als OpenRouter.
 
-**Bis Hermes pro-Task-Pins unterstützt (Feature-Request offen / User patcht evtl.
-den Tool-Code selbst), gilt:**
-- ALLE Subagenten laufen auf dem Default-Modell (kimi-k3).
-- Die Tabelle unten beschreibt ROLLEN und deren Anforderungen, NICHT lauffähige
-  Modell-Zuweisungen. Sie ist Vorbereitung für den Tag, an dem der Tool-Code
-  pro-Task-Pins akzeptiert.
-- Ein echter Dual-Modell-Advocatus ist aktuell NICHT möglich — stattdessen: zwei
-  verschiedene Advocatus-PROMPTS auf demselben Modell (unterschiedliche Angriffs-
-  linien als Text), dokumentiert als Prompt-Variante, NICHT als Modellvariante.
+**VERIFIKATIONSREGEL (fester Prüfschritt — NIEMALS überspringen):**
+Ein Modellvergleich (A/B, Dual) darf NUR dann in den Model Evidence Log / das Cluster,
+wenn die `model`-Felder der beteiligten `results`-Einträge SICH TATSÄCHLICH
+UNTERSCHEIDEN. Prüfwege (mindestens einer, besser zwei):
+1. `results[i].model` im Completion-Batch
+2. Live-Transcript-Header (`cache/delegation/live/<id>/task-<n>.log` — Zeile `model:`)
+3. `manifest.json` der Delegation
+Sind die model-Felder gleich (obwohl unterschiedlich gepinnt) → Vergleich ist UNGÜLTIG,
+nicht loggen, Fehler melden.
 
-**Model Evidence Log (bereinigt):**
-- 2026-09-05 Fund: Dashboard zeigte nur Kimi; Code-Inspektion bestätigte, dass
-  task-level delegation.model ignoriert wird. Alle vorherigen "Opus"- und
-  "Haiku"-Behauptungen waren Kimi. "A/B"-Ergebnisse gelöscht.
+**Model Evidence Log:**
+- 2026-09-05 (früher Eintrag, gelöscht): "A/B"-Lauf ohne funktionierenden Pin — ungültig.
+- 2026-09-05 (Verifikation): Erster echter Pin-Test — kimi-k3 vs. claude-haiku-4.5 in
+  einer Batch, per Manifest + Transcript bestätigt. Feature aktiv.
+
+**Rollen-zu-Modell-Zuordnung:** Siehe Tabelle unten. Diese ist eine Kosten-/Qualitäts-
+entscheidung und wird mit dem Operator abgestimmt, bevor sie geändert wird.
 
 ## Triggers
 
@@ -86,26 +89,31 @@ DRAFT → survived-advocatus → novelty-checked → experiment-designed
 - **Awaiting-manual-test is a terminal state for the agent.** The pipeline stops there
   and reports. It resumes only when the user drops test results (see Test Gate).
 
-## Rollen-Anforderungen (Vorbereitung für künftige pro-Task-Pins — aktuell alle auf Default-Modell)
+## Rollen-zu-Modell-Zuordnung (mit Operator abgestimmt 2026-09-05 — Dual A/B für 2–3 Runden)
 
-| Rolle | Anforderung | Gewünschtes Modell (sobald Pins möglich) | Aktuell |
-|---|---|---|---|
-| Coordinator (diese Session) | Orchestrierung, Synthese | moonshotai/kimi-k3 (Default) | kimi-k3 |
-| First Principles Agent | härtester kognitiver Schritt | stark (kimi-k3 oder opus-5) | kimi-k3 |
-| Domain Matrix Seeder | mechanische Auswahl | günstig (haiku-4.5) | kimi-k3 |
-| Idea Generator | Kreativität mit Constraints | A/B-Kandidat (opus-5 vs kimi) | kimi-k3 |
-| Advocatus Diaboli | nicht-offensichtliche Angriffe | stark, evtl. dual (opus-5) | kimi-k3 |
-| Novelty Checker | Existenz-Check + web | günstig (haiku-4.5) | kimi-k3 |
-| Deep Researcher | Machbarkeitsrecherche | stark (kimi-k3) | kimi-k3 |
-| Implementation Designer | QC-Code | stark (kimi-k3) | kimi-k3 |
-| Formatter | Assembly, kein Urteil | günstig (haiku-4.5) | kimi-k3 |
-| Research-Assistant | Kalender/Listen-Recherche | günstig (haiku-4.5) | kimi-k3 |
+| Rolle | Modell-Pin | Begründung |
+|---|---|---|
+| Coordinator (diese Session) | moonshotai/kimi-k3 (Default, kein Pin) | bewährt, Orchestrierung |
+| First Principles Agent | moonshotai/kimi-k3 | härtester kognitiver Schritt |
+| Domain Matrix Seeder | anthropic/claude-haiku-4.5 | mechanisch, günstig |
+| **Idea Generator A** | moonshotai/kimi-k3 | Dual A/B (2–3 Runden, dann Bewertung) |
+| **Idea Generator B** | anthropic/claude-opus-5 | Dual A/B (2–3 Runden, dann Bewertung) |
+| **Advocatus Diaboli A** | moonshotai/kimi-k3 | Dual A/B (2–3 Runden, dann Bewertung) |
+| **Advocatus Diaboli B** | anthropic/claude-opus-5 | Dual A/B (2–3 Runden, dann Bewertung) |
+| Novelty Checker | anthropic/claude-haiku-4.5 | günstig |
+| Deep Researcher | moonshotai/kimi-k3 | stark |
+| Implementation Designer | moonshotai/kimi-k3 | QC-Code |
+| Formatter | anthropic/claude-haiku-4.5 | günstig |
+| Research-Assistant | anthropic/claude-haiku-4.5 | günstig |
 
-**Advocatus als Prompt-Dual (machbar HEUTE):** Statt zwei Modelle (nicht möglich)
-zwei UNTERSCHIEDLICHE Advocatus-Prompts auf demselben Modell — einer mit Fokus
-"Größenordnung + Attribution" (Kimi-Stil), einer mit Fokus "Beobachtbarkeit +
-Mechanik-Kanal" (Opus-Stil aus Runde 2). Das liefert zwei Angriffslinien, ist aber
-eine PROMPT-Variante — dokumentiert als solche, niemals als Modellvergleich.
+**Dual-Modus (Generator + Advocatus):** Beide Rollen laufen je auf Kimi UND Opus
+(echte Pins, verifiziert). Nach 2–3 Runden Bewertung anhand des Model Evidence Log:
+Überlebensrate pro Modell (Generator) bzw. Qualität/Neuheit der Einwände (Advocatus).
+VORHERIGE Annahme "Opus ist besser" war unbelegt (nie gemessen — der 2026-09-05-
+"A/B"-Lauf war Kimi-gegen-Kimi). Erst jetzt entsteht echte Evidenz.
+
+**Verifikationspflicht bei jedem Dual-Lauf:** Prüfe die `model`-Felder der Results
+(siehe Verifikationsregel oben) BEVOR die Raten geloggt werden.
 
 ## The Pipeline
 
@@ -134,26 +142,46 @@ MANDATORY (exclude last-3-sessions combos, exclude tried combos, different clust
 max contrast). Produces: `scratchpad/[SLUG]-domain-selection.md`. Coordinator updates
 the usage tracking table in innovation_seeds.md.
 
-### Phase 3: Idea Generator (single oder prompt-dual)
+### Phase 3: Idea Generator — DUAL (echtes Modell-A/B seit Tool-Patch 2026-09-05)
 
-**HINWEIS (2026-09-05):** Ein Dual-Modell-Generator (Kimi vs. Opus) ist aktuell NICHT
-möglich (kein pro-Task-Modell-Pin, siehe Abschnitt oben). Die in Runde 3 als
-"A/B" gefahrenen Dateien `discovery-draft-KIMI/OPUS.md` waren beide Kimi — als
-Modellvergleich ungültig, als Ideenfelder aber gültig (zwei Prompt-Varianten).
+Beide Tasks parallel, identischer Kontext, ECHTE Pins (verifiziert):
 
-**Machbar heute:** Ein Generator, ODER zwei Generatoren mit verschiedenen PROMPTS
-auf demselben Modell (z.B. einer mit Fokus "breite Diversität", einer mit Fokus
-"mechanische Tiefe") — dokumentiert als Prompt-Variante, nicht Modellvariante.
-Sobald der Tool-Code pro-Task-Pins akzeptiert, kann hier ein echtes Modell-A/B
-stehen — die Datei-Namenskonvention (-KIMI/-OPUS) bleibt dafür reserviert.
+- Task A: `moonshotai/kimi-k3` → `scratchpad/[SLUG]-discovery-draft-KIMI.md` (IDs gerade + k)
+- Task B: `anthropic/claude-opus-5` → `scratchpad/[SLUG]-discovery-draft-OPUS.md` (IDs ungerade + o)
 
-### Phase 3 (Single-Modus): Idea Generator (delegate_task, strong)
+**Dual-Modus für 2–3 Runden, dann Bewertung** (mit Operator abgestimmt 2026-09-05).
+Nach den 2–3 Runden: Überlebensrate pro Modell aus dem Model Evidence Log auswerten
+und entscheiden, ob Dual bleibt oder auf ein Modell konsolidiert wird.
+
+**Verifikationspflicht VOR der Bewertung:** `results`-Modell-Felder müssen sich
+unterscheiden (siehe Verifikationsregel). Tun sie es nicht → Runde ungültig für den
+Modellvergleich, Fehler melden, Ergebnisse trotzdem als Ideen verwendbar.
+
+**Regeln:**
+- Beide Felder getrennt halten — KEIN Mischen vor dem Advocatus
+- Jede Idee trägt ihre Modell-Markierung (k/o im ID)
+- Der Dual-Advocatus (Phase 4) bewertet BEIDE Felder (Kreuz-Matrix)
+- Coordinator zählt am Ende: Überlebensrate pro Generator-Modell → Evidence Log
+
+### Phase 3 (Single-Modus, Legacy): Idea Generator (delegate_task, strong)
 
 Context: axioms.md + dogma-break.md + domain-selection.md + project-context + the
 parked-ideas list. Anti-anchor constraints from the template (5 rules) apply verbatim.
 Produces: `scratchpad/[SLUG]-discovery-draft.md` with 5–10 low-fidelity ideas.
 
-### Phase 4: Advocatus Diaboli (delegate_task, strong — isolated!)
+### Phase 4: Advocatus Diaboli — DUAL (echtes Modell-A/B seit Tool-Patch 2026-09-05)
+
+Beide Tasks parallel, identischer Kontext, ECHTE Pins:
+
+- Task A: `moonshotai/kimi-k3` → `scratchpad/[SLUG]-feasibility-pre-KIMI.md`
+- Task B: `anthropic/claude-opus-5` → `scratchpad/[SLUG]-feasibility-pre-OPUS.md`
+
+Konsolidierung: UNION der Überlebenden; Konflikte dokumentiert vom Coordinator
+aufgelöst. **Dual-Modus für 2–3 Runden, dann Bewertung** (Einwand-Qualität/Neuheit
+pro Modell). **Verifikationspflicht:** model-Felder der Results müssen sich
+unterscheiden, sonst ist der Vergleich ungültig.
+
+### Phase 4 (Single-Modus, Legacy): Advocatus Diaboli (delegate_task, strong — isolated!)
 
 Context: discovery-draft.md + axioms.md + project-context. **NOT dogma-break.md.**
 Tests: axiom violation, missing structural novelty, priced-in-ness, technical
