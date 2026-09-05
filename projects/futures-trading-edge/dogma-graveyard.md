@@ -84,3 +84,18 @@ Jedes Dogma: Titel | Status | Warum es ein Dogma ist (eingepreist, nicht fundame
 ### D16: "Instrumentenwahl ist Geschmack"
 **Warum Dogma:** „Handle was du kennst"-Folklore.
 **Gegenthese:** A15 — Instrumentenwahl determiniert Tick-Ökonomie und Kosten-Rendite-Schere stärker als jede Entry-Logik.
+
+---
+## Runde 2 Dogmen (2026-09-04)
+
+### D17: "Edge = informierter sein als der Markt"
+**Gegenthese:** Edge kann aus der Informationslosigkeit des Gegenflows kommen (A19). Wer weiß, WER WANN handeln muss, braucht keine Information — nur einen Kalender.
+
+### D18: "Man braucht einen Informationsvorsprung"
+**Gegenthese:** Zwangsmechaniken sind öffentlich dokumentiert (Regelwerke, Vertragsbedingungen) und nicht arbitrage-zerstörbar, weil der Zwang nicht verschwindet wenn man ihn kennt — der Margin-Call kommt trotzdem.
+
+### D19: "Mehr Beobachtung = mehr Edge"
+**Gegenthese:** A21 — Validierungs-Slots sind der Engpass, nicht Beobachtung. Kalender-First, gebündelte Tests.
+
+### D20: "Forced Flow ist HFT-only"
+**Gegenthese:** HFT erntet institutionelle Zwänge (Dealer-Gamma) mit Latenzvorteil. Retail-interne Zwänge (Prop-Firm-Flat) sind für HFT zu klein und liegen genau in MES/MNQ-Größe — die Retail-Kapitalzone (A20).

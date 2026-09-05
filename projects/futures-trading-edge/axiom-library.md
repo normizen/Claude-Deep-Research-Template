@@ -81,3 +81,18 @@ Jedes Axiom: Titel | Status | Quelle | Begründung warum es ein Axiom ist (nicht
 
 ### A17: Selbst-Validierungszeit ist die dritte harte Ressource
 **Begründung:** Neben Kapital (A3) und Kognition (A7): Mit 1–2 h/Tag ist die Zahl validierbarer Hypothesen pro Jahr hart begrenzt (~12–24 Tests). Jede Test-Entscheidung ist eine Opportunitäts-Entscheidung — schlechte Priorisierung ist teurer als schlechte Modelle.
+
+---
+## Runde 2 — Zwangsmechanik-Axiome (2026-09-04, Status: Tentativ)
+
+### A18: Zwangsmechanik-Katalog
+Erzwungener Flow hat drei notwendige Eigenschaften: Auslöser (Regel/Schwellwert), Zeitfenster (Frist), identifizierbarer Träger. Katalog: CME-Margin-Calls, Index-Roll-Perioden, Prop-Firm-Tagesende-Flat, Options-Dealer-Verfall, Broker-Liquidations-Engines. Kalenderfähig — wer den Regelkalender kennt, kennt die Fenster.
+
+### A19: Erzwungener Flow ist informationslos — deshalb bepreist ihn der Markt falsch
+Erzwungener Flow ist preis-unelastisch (MUSS handeln), Gegenseite elastisch (KANN warten) → temporäre, reversible Preisverzerrung. Präzisiert A13: zwangsinduzierte Reversion (asymmetrisch, Ursache endet) ≠ statistische Reversion (symmetrisch, nicht erntbar). Handelbarer Moment ist das ENDE des Zwangs, nicht das Signal.
+
+### A20: Retail-Zwänge sind der konkurrenzfreieste Flow
+Prop-Firm-Regeln (Tagesende-Flat, Trailing-Drawdown, Tagesverlust-Limits) erzeugen synchronisierten Flow in MES/MNQ-Größe — zu klein/schmutzig für Institutionen, öffentlich dokumentiert. Die eine Achse, auf der Retail strukturml besser informiert ist — ohne klassischen Informationsvorsprung. Warnung: Wer selbst Eval-Regeln unterliegt, IST Teil des Flows.
+
+### A21: Parallelisierungs-Deckel (Beobachten billig, Validieren teuer → Kalender-First)
+Aus A17: Viele Zwänge beobachten ist billig, aber jeder Validierungstest frisst einen der ~12–24 Test-Slots/Jahr. Konsequenz: Zuerst den vollen Zwangs-Kalender bauen, dann Tests bündeln (Multi-Zwang-Fenster), nicht jeden Zwang einzeln testen — Margin-Hike allein hat zu wenige Ereignisse/Jahr.
