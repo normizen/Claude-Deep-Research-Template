@@ -102,10 +102,21 @@ for ticker, fut in futures.items():
     if hist.empty:
         raise RuntimeError("qc_id41o: leere History fuer " + ticker)
     df = hist.copy()
-    # BUGFIX run2: MultiIndex (symbol, time) ZUERST abflachen, dann Timezone —
-    # qb.history liefert MultiIndex, der hat kein .tz (AttributeError)
+    # BUGFIX run2+3: qb.history liefert MultiIndex (z.B. (time, expiry) oder
+    # (symbol, time)) — droplevel(0) allein reicht nicht immer. Robuster:
+    # Index komplett auf die Zeit-Ebene reduzieren.
     if isinstance(df.index, pd.MultiIndex):
-        df = df.droplevel(0)
+        # Zeit ist die Ebene mit Datetime-Werten — finde sie
+        time_level = None
+        for i, lvl in enumerate(df.index.levels):
+            if pd.api.types.is_datetime64_any_dtype(lvl):
+                time_level = i
+                break
+        if time_level is not None:
+            df.index = df.index.get_level_values(time_level)
+        else:
+            # Fallback: letzte Ebene annehmen
+            df.index = df.index.get_level_values(-1)
     # QC liefert UTC-Index -> strikt ET
     if df.index.tz is None:
         df.index = df.index.tz_localize("UTC")
