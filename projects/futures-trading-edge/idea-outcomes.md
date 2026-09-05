@@ -153,10 +153,10 @@ sie wäre eine geänderte Zeile.
 7 Ideen (ID28–ID34) aus Topologische Defekte (5) × Nischen-Konstruktion (10). Dual-Advocatus: Kimi (ID30+34) vs. Opus 5 (ID29+30) — Opus-Fund: Roll=Kalender-Spread kein Outright; ID34=Duplikat von ID29. Konsolidiert: Union mit Opus-Struktur.
 
 ### ID29: Prop-Close-Ernte
-**Advocatus:** ÜBERLEBT (Opus; Kimi eliminierte — Coordinator folgt Union+Opus) | **Novelty:** NOVEL
-**Größenordnungs-Gate:** BESTANDEN (knapp): konservativ 2,6–4,3 % des Close-Volumens; Apex-Frist 16:59 ET NACH Cash-Close → Prop-Anteil im dünnen ETH-Fenster 20–50 %.
-**Status:** awaiting-manual-test — QC-Zelle qc_id29_prop_close_test.py bereit (TODO: ABSTAIN_DATES + MARGIN_HIKE_DATES befüllen)
-**Abnahme:** 3 bps netto + 3 Attributionssignaturen; Pflicht-Falsifikator: Decay-Split (Effekt darf 2019–2021 NICHT existieren).
+**Advocatus:** ÜBERLEBT (Opus) | **Novelty:** NOVEL | **Status:** TESTED-REFUTED (run2, 2026-09-06)
+**Ergebnis:** 1420 tradable Tage, 796 Trendtage. S1 FAIL (Placebo 68%<95%), S2 FAIL (n=0 Verfall/Freitag), S3 PASS, Netto **−280 bps** (Brutto −1,47, Kosten 279 bps — ETH-Range $483 zu klein).
+**Befund:** Prop-Flat-Flow geht im ES-Close-Volumen unter; ETH-Range trägt Kosten nicht. Kimi-Advocatus-Größenordnungs-Einwand bestätigt. Kein Rettungsversuch (Datenfalle 5).
+**Cluster-Bilanz:** 6. sauberer Tod — der schnellste (2 Tage).
 
 ### ID30: Multi-Zwang-Dosis-Panel
 **Advocatus:** ÜBERLEBT (beide, bedingt) | **Novelty:** NOVEL
