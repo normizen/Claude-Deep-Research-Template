@@ -99,3 +99,11 @@ Jedes Dogma: Titel | Status | Warum es ein Dogma ist (eingepreist, nicht fundame
 
 ### D20: "Forced Flow ist HFT-only"
 **Gegenthese:** HFT erntet institutionelle Zwänge (Dealer-Gamma) mit Latenzvorteil. Retail-interne Zwänge (Prop-Firm-Flat) sind für HFT zu klein und liegen genau in MES/MNQ-Größe — die Retail-Kapitalzone (A20).
+
+---
+## Runde 3 Dogmen (2026-09-05)
+
+### D21: "Edge muss auf einem Instrument laufen" → Cross-Section über 4 Instrumente
+### D22: "Retail kann Basis-Trades nicht nutzen" → Mechanismus ≠ Abfall; der Zwang selbst kann unzugänglich sein, sein Echo nicht
+### D23: "Rebalancing ist institutionell" → das Hedging-Echo im Futures-Fenster ist retail-zugänglich (A22)
+### D24: "REFUTED ist Endstatus" → Zwangs-Kandidaten brauchen Regime-Status mit Re-Triggern (ID26 unter 0DTE-Regime neu denkbar)

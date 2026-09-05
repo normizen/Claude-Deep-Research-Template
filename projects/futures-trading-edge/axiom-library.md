@@ -96,3 +96,18 @@ Prop-Firm-Regeln (Tagesende-Flat, Trailing-Drawdown, Tagesverlust-Limits) erzeug
 
 ### A21: Parallelisierungs-Deckel (Beobachten billig, Validieren teuer → Kalender-First)
 Aus A17: Viele Zwänge beobachten ist billig, aber jeder Validierungstest frisst einen der ~12–24 Test-Slots/Jahr. Konsequenz: Zuerst den vollen Zwangs-Kalender bauen, dann Tests bündeln (Multi-Zwang-Fenster), nicht jeden Zwang einzeln testen — Margin-Hike allein hat zu wenige Ereignisse/Jahr.
+
+---
+## Runde 3 — Übersehene Zwangsmechaniken (2026-09-05, Tentativ)
+
+### A22: Settlement-Zwang (T+1/Basket-Hedging)
+Erster KASSA-seitiger Zwang, der in Futures exportiert wird: Index-Rebalancing/ETF-Creation-Redemption erzwingt Aktienkäufe/-verkäufe zum Close; die Hedging-Seite legt sich als Flow im Futures-Fenster ab. Kalenderfest (Quartals-Rebalancing, Index-Reviews).
+
+### A23: 0DTE-Strukturwandel — Gamma-Zwang ist jetzt TÄGLICH
+SPX/ES-Optionen haben seit 2022 tägliche Verfalle. Dealer-Gamma am Verfall ist damit kein monatliches (~12/Jahr), sondern ein tägliches (~250/Jahr) Ereignis. Hebt das Power-Problem von ID30 strukturell auf: ein Verfalls-Panel ist jetzt hochfrequent testbar.
+
+### A24: Erntbarkeits-Kriterium
+Ein Zwang ist für Retail nur erntbar bei: (a) Retail-kompatible Größe (MES/MNQ), (b) kalenderfestem Ende (A19), (c) KEINEM Latenz-Rennen (kein HFT-Wettbewerb um denselben Flow). Diskreditiert: Treasury-Basis-Unwinds, ETF-NAV-Arb, Clearing-Zyklen (alle Latenz/Kapital-vergeben).
+
+### A25: Instrumenten-Streuung schlägt Zwangs-Streuung
+Statt mehrere Zwänge auf EIN Instrument zu bündeln (ID30, Power-Problem): denselben Zwang auf MEHRERE Instrumente (ES+NQ+GC+ZB) anwenden. Erweitert A21, operationalisiert A15/ID24. Cross-Sectional-Reversion nutzt dieselbe Logik mit mehr Replikaten.
