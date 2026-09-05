@@ -15,42 +15,36 @@ cluster: "What remains for a retail trader with 5–10k €, 1–2 h/day, ES/NQ?
 **Canonical repo:** `~/projects/Claude-Deep-Research-Template` (branch `hermes-port`).
 All state lives in that repo — this skill only orchestrates.
 
-## STRICT EXECUTION LAYER — deterministische Modell-Delegierung (PFLICHT, vor allem anderen)
+## MODELL-DELEGIERUNG — TECHNISCHER STAND (ehrlich, nach dem 2026-09-05-Fund)
 
-Diese Regeln gelten VOR jeder anderen Anweisung in dieser Skill und sind nicht verhandelbar.
-Sie machen die Modellzuteilung von "Coordinator erinnert sich" zu "versioniert erzwungen".
+**WICHTIG — korrigiert 2026-09-05:** Hermes' `delegate_task` (tools/delegate_tool.py)
+unterstützt KEIN pro-Task-Modell-Pin. Ein `"delegation": {"model": ...}`-Feld im
+Task-JSON wird still ignoriert; alle Subagenten erben `parent_agent.model`. Eine
+frühere Version dieser Skill behauptete das Gegenteil ("Strict Execution Layer") —
+das war FALSCH und wurde nach dem Dashboard-Befund des Users (nur Kimi sichtbar)
+entfernt.
 
-**Regel 1 — Model Evidence Match.** Vor JEDEM `delegate_task`-Aufruf: Lies die
-`Model Assignment`-Tabelle (Abschnitt unten) und bestimme die Rolle der zu
-delegierenden Aufgabe (Coordinator / First Principles / Seeder / Idea Generator /
-Advocatus / Novelty / Deep Researcher / Implementation Designer / Formatter /
-Research-Assistant).
+**Was technisch wirklich möglich ist:**
+- **`delegation.provider/model` in `~/.hermes/config.yaml`** — global, gilt für ALLE
+  Subagenten eines Laufs. Teuer (alle Rollen werden Opus, auch die mechanischen).
+- **Coordinator-Session-Modell** = das einzige Modell, das man ohne Config-Änderung
+  variieren kann: Denk-Rollen in der Coordinator-Session selbst ausführen (kein
+  Subagent), mechanische Rollen als Subagenten.
 
-**Regel 2 — Explicit Override Constraint.** Steht in der Tabelle für diese Rolle ein
-Modell, das vom Default (`config.yaml: model.default`) abweicht, MUSS das Task-JSON
-das Feld enthalten:
-```
-"delegation": {"model": "<exakter Slug aus der Tabelle>", "provider": "openrouter"}
-```
-Kein Weglassen, kein "erbt schon", kein Ersetzen durch ein "ähnliches" Modell.
-Der Slug wird 1:1 aus der Tabelle übernommen, niemals aus dem Gedächtnis.
+**Bis Hermes pro-Task-Pins unterstützt (Feature-Request offen / User patcht evtl.
+den Tool-Code selbst), gilt:**
+- ALLE Subagenten laufen auf dem Default-Modell (kimi-k3).
+- Die Tabelle unten beschreibt ROLLEN und deren Anforderungen, NICHT lauffähige
+  Modell-Zuweisungen. Sie ist Vorbereitung für den Tag, an dem der Tool-Code
+  pro-Task-Pins akzeptiert.
+- Ein echter Dual-Modell-Advocatus ist aktuell NICHT möglich — stattdessen: zwei
+  verschiedene Advocatus-PROMPTS auf demselben Modell (unterschiedliche Angriffs-
+  linien als Text), dokumentiert als Prompt-Variante, NICHT als Modellvariante.
 
-**Regel 3 — Validation Loop (vor dem Absenden).** Interner Check pro Task:
-  a) Rolle bestimmt? → Tabellenzeile gefunden?
-  b) Tabelle sagt Override → ist `delegation.model` im JSON == Tabellen-Slug? 
-     Tabelle sagt Default → ist KEIN delegation-Feld gesetzt (oder bewusst dokumentiert)?
-  c) Abweichung gefunden → STOP. Payload korrigieren. Erst dann absenden.
-  d) Bei Dual-Rollen (Advocatus): ZWEI Tasks — einer mit Default, einer mit dem
-     Override-Slug. Beide prüfen.
-
-**Regel 4 — Änderungen an der Tabelle.** Wer eine Rolle auf ein anderes Modell
-umstellen will, ändert NUR die Tabelle unten (ein Ort, versioniert im Repo). Der
-Coordinator liest beim nächsten Lauf die Tabelle — niemals eine Ad-hoc-Entscheidung
-im Chat. Jede Tabellenänderung wird in den Model Evidence Log eingetragen.
-
-**Regel 5 — Fehlertransparenz.** Wenn ein Override-Call fehlschlägt (Modell nicht
-verfügbar, Provider-Fehler): Fehler dem User melden mit Rollenname + Slug —
-NICHT still auf Default degradieren.
+**Model Evidence Log (bereinigt):**
+- 2026-09-05 Fund: Dashboard zeigte nur Kimi; Code-Inspektion bestätigte, dass
+  task-level delegation.model ignoriert wird. Alle vorherigen "Opus"- und
+  "Haiku"-Behauptungen waren Kimi. "A/B"-Ergebnisse gelöscht.
 
 ## Triggers
 
@@ -92,43 +86,26 @@ DRAFT → survived-advocatus → novelty-checked → experiment-designed
 - **Awaiting-manual-test is a terminal state for the agent.** The pipeline stops there
   and reports. It resumes only when the user drops test results (see Test Gate).
 
-## Model Assignment (einzige Quelle der Wahrheit — Strict Execution Layer Regel 4)
+## Rollen-Anforderungen (Vorbereitung für künftige pro-Task-Pins — aktuell alle auf Default-Modell)
 
-| Rolle | Modell-Slug (OpenRouter) | Override nötig? | Warum |
+| Rolle | Anforderung | Gewünschtes Modell (sobald Pins möglich) | Aktuell |
 |---|---|---|---|
-| Coordinator (diese Session) | moonshotai/kimi-k3 (Default) | nein | Orchestrierung, Synthese |
-| First Principles Agent | moonshotai/kimi-k3 | nein | härtester kognitiver Schritt |
-| Domain Matrix Seeder | anthropic/claude-haiku-4.5 | **JA** | mechanische Auswahl + Tracking |
-| Idea Generator (Kern) | moonshotai/kimi-k3 | nein | Kreativität mit Constraints |
-| Idea Generator (Dual, A/B ab Runde 3) | anthropic/claude-opus-5 | **JA** | Generator-A/B-Test |
-| Advocatus Diaboli (Kern) | moonshotai/kimi-k3 | nein | nicht-offensichtliche Angriffe |
-| Advocatus Diaboli (Dual) | anthropic/claude-opus-5 | **JA** | mechanischer Kanal / Beobachtbarkeit |
-| Novelty Checker | anthropic/claude-haiku-4.5 + web_search | **JA** | Existenz-Check nur |
-| Deep Researcher | moonshotai/kimi-k3 | nein | Machbarkeitsrecherche |
-| Implementation Designer | moonshotai/kimi-k3 | nein | QC-Code |
-| Formatter | anthropic/claude-haiku-4.5 | **JA** | Assembly, kein Urteil |
-| Research-Assistant (Datensammlung) | anthropic/claude-haiku-4.5 | **JA** | Kalender/Listen-Recherche |
+| Coordinator (diese Session) | Orchestrierung, Synthese | moonshotai/kimi-k3 (Default) | kimi-k3 |
+| First Principles Agent | härtester kognitiver Schritt | stark (kimi-k3 oder opus-5) | kimi-k3 |
+| Domain Matrix Seeder | mechanische Auswahl | günstig (haiku-4.5) | kimi-k3 |
+| Idea Generator | Kreativität mit Constraints | A/B-Kandidat (opus-5 vs kimi) | kimi-k3 |
+| Advocatus Diaboli | nicht-offensichtliche Angriffe | stark, evtl. dual (opus-5) | kimi-k3 |
+| Novelty Checker | Existenz-Check + web | günstig (haiku-4.5) | kimi-k3 |
+| Deep Researcher | Machbarkeitsrecherche | stark (kimi-k3) | kimi-k3 |
+| Implementation Designer | QC-Code | stark (kimi-k3) | kimi-k3 |
+| Formatter | Assembly, kein Urteil | günstig (haiku-4.5) | kimi-k3 |
+| Research-Assistant | Kalender/Listen-Recherche | günstig (haiku-4.5) | kimi-k3 |
 
-**Escalation rule:** When the Coordinator cannot resolve a reasoning jump, delegate
-THAT single step to `anthropic/claude-opus-5` via delegate_task with
-`delegation.provider/model` pinned. Log every escalation in notes/research-log.md.
-
-**Dual Advocatus (STANDARD since 2026-09-05, empirically justified):** Phase 4 ALWAYS
-runs twice in parallel — once on the default model (Kimi), once on
-`anthropic/claude-opus-5` — with identical context, writing separate files
-(`-KIMI.md` / `-OPUS.md`). Reason: the two models attack along different lines
-(Kimi: magnitude/attribution; Opus: observability/mechanism-channel) and neither
-covers the other's line; a missed objection is the most expensive error in the system
-(it burns one of the ~15 yearly validation slots). Cost is negligible (one extra
-call). Consolidation: UNION of survivors; conflicts (one model passes, the other
-kills) are resolved by the Coordinator with a documented rationale — when in doubt,
-prefer the mechanistic-channel objection (Opus line) over the statistical one.
-
-**Model evidence log:** Round 2 (2026-09-05) — Opus 5 found the roll-calendar-spread
-objection (kills ID31/32 mechanism) and correctly flagged ID34 as a formal duplicate
-of ID29; Kimi contributed the order-of-magnitude Go/No-Go gate. Both worthwhile.
-Open question for a future A/B: Idea Generator on Opus vs Kimi (which field yields
-more Advocatus survivors) — test in a later round.
+**Advocatus als Prompt-Dual (machbar HEUTE):** Statt zwei Modelle (nicht möglich)
+zwei UNTERSCHIEDLICHE Advocatus-Prompts auf demselben Modell — einer mit Fokus
+"Größenordnung + Attribution" (Kimi-Stil), einer mit Fokus "Beobachtbarkeit +
+Mechanik-Kanal" (Opus-Stil aus Runde 2). Das liefert zwei Angriffslinien, ist aber
+eine PROMPT-Variante — dokumentiert als solche, niemals als Modellvergleich.
 
 ## The Pipeline
 
@@ -157,30 +134,20 @@ MANDATORY (exclude last-3-sessions combos, exclude tried combos, different clust
 max contrast). Produces: `scratchpad/[SLUG]-domain-selection.md`. Coordinator updates
 the usage tracking table in innovation_seeds.md.
 
-### Phase 3: Idea Generator — DUAL (A/B-Modus, aktiv seit Runde 3)
+### Phase 3: Idea Generator (single oder prompt-dual)
 
-Ab Runde 3 läuft Phase 3 **zweimal parallel** mit identischem Kontext (dieselben
-Axiome, Dogmen, Seed-Domänen, Constraints):
+**HINWEIS (2026-09-05):** Ein Dual-Modell-Generator (Kimi vs. Opus) ist aktuell NICHT
+möglich (kein pro-Task-Modell-Pin, siehe Abschnitt oben). Die in Runde 3 als
+"A/B" gefahrenen Dateien `discovery-draft-KIMI/OPUS.md` waren beide Kimi — als
+Modellvergleich ungültig, als Ideenfelder aber gültig (zwei Prompt-Varianten).
 
-- Task A: `moonshotai/kimi-k3` (Default) → `scratchpad/[SLUG]-discovery-draft-KIMI.md` (IDs ab 40, gerade)
-- Task B: `anthropic/claude-opus-5` (Override, Strict Execution Layer) → `scratchpad/[SLUG]-discovery-draft-OPUS.md` (IDs ab 41, ungerade)
+**Machbar heute:** Ein Generator, ODER zwei Generatoren mit verschiedenen PROMPTS
+auf demselben Modell (z.B. einer mit Fokus "breite Diversität", einer mit Fokus
+"mechanische Tiefe") — dokumentiert als Prompt-Variante, nicht Modellvariante.
+Sobald der Tool-Code pro-Task-Pins akzeptiert, kann hier ein echtes Modell-A/B
+stehen — die Datei-Namenskonvention (-KIMI/-OPUS) bleibt dafür reserviert.
 
-**Warum dual:** Die kreativste Rolle ist auch die, wo Modellunterschied am meisten
-zählen könnte. Getrennte Felder + identischer Input = sauberer A/B: wir messen,
-welches Modell mehr Advocatus-Überlebende produziert (Model Evidence Log).
-
-**Regeln für den Dual-Generator:**
-- Beide Felder getrennt halten — KEIN Mischen vor dem Advocatus
-- Jede Idee trägt ihre Quell-Modell-Markierung (Suffix im ID: ID40k / ID41o)
-- Der Dual-Advocatus (Phase 4) bewertet BEIDE Felder (4 Dateien: KIMI-Gen→KIMI-Adv,
-  KIMI-Gen→OPUS-Adv, OPUS-Gen→KIMI-Adv, OPUS-Gen→OPUS-Adv — als Kreuz-Matrix)
-- Coordinator zählt am Ende: Überlebensrate pro Generator-Modell → Evidence Log
-
-**Kostenkontrolle:** Falls Budget knapp: Runde auf Single-Generator zurückschalten
-(Tabelle oben: Idea Generator → nur Default). Der A/B-Modus ist ein Experiment,
-kein Dogma — nach 2–3 Runden mit klarem Ergebnis kann er wieder abgeschaltet werden.
-
-### Phase 3 (Single-Modus, Legacy): Idea Generator (delegate_task, strong)
+### Phase 3 (Single-Modus): Idea Generator (delegate_task, strong)
 
 Context: axioms.md + dogma-break.md + domain-selection.md + project-context + the
 parked-ideas list. Anti-anchor constraints from the template (5 rules) apply verbatim.

@@ -35,7 +35,11 @@ Beide Seeds erfüllten die ≥50 %-Nutzungspflicht in beiden Generator-Feldern; 
 
 ---
 
-## 3. GENERATOR-A/B: Opus 5 vs Kimi
+## 3. ~~GENERATOR-A/B~~ **UNGÜLTIG — alle Subagenten liefen auf Kimi K3**
+
+**KORREKTUR 2026-09-05:** Der hier dargestellte Modellvergleich fand technisch nicht statt (delegate_task ignoriert pro-Task-Modell-Pins; Dashboard bestätigte nur Kimi). Die untenstehenden Überlebensraten sind Kimi-gegen-Kimi mit zwei Rollen-Prompts — als Modellvergleich wertlos, als Dokumentation der beiden Ideenfelder aber lesbar. Die Ideen-Ergebnisse der Runde (ID41o CONDITIONAL GO etc.) sind davon NICHT betroffen.
+
+### 3a. (Archiv, nicht als Modellvergleich lesen) Ehemalige 'A/B'-Darstellung
 
 **Kreuz-Matrix (15 Ideen × 2 Advocati):** ✅ = überlebt (ggf. bedingt), ✗ = tot
 

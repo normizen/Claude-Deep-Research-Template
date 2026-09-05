@@ -173,14 +173,16 @@ sie wäre eine geänderte Zeile.
 
 ---
 
-## Session 2026-09-05-runde3 — GENERATOR-A/B: Opus 5 > Kimi (erste Runde Dual-Generator)
+## Session 2026-09-05-runde3 — ~~GENERATOR-A/B~~ **UNGUELTIG: A/B fand nicht statt**
+
+**KORREKTUR 2026-09-05:** Der geplante A/B-Vergleich (Kimi vs. Opus) hat technisch NIE stattgefunden. Hermes' delegate_task ignoriert das task-level delegation.model-Feld — ALLE Subagenten liefen auf Kimi K3. Die 'Opus-Überlebensrate 57%' war Kimi-gegen-Kimi mit zwei Rollen-Prompts. Als Modellvergleich WERTLOS. Unten stehen die echten Ideen-Ergebnisse (die bleiben gültig — die Pipeline funktioniert, nur der Modellvergleich nicht).
 
 15 Ideen (8 Kimi-Feld ID40k–54k, 7 Opus-Feld ID41o–53o) aus Metamaterialien (4) × Bet-Hedging (11). Kreuz-Matrix-Advocatus.
 
 **Konsens-Überlebende (2/2 Advocati):** ID41o, ID52k
 **Union (Coordinator):** ID41o, ID52k, ID43o, ID53o (letztere 2 nur Kimi-Adv, aber mit produktivem Verwender ID41o). Geparkt als Module: ID45o, ID47o.
 
-**Evidence Log:** Opus-Feld-Überlebensrate 57% (Kimi-Adv) / 29% (Opus-Adv) vs. Kimi-Feld 25%/25%. Kein Eigenfeld-Bias (Opus-Adv härter gegen eigenes Feld). → Generator-Override zu Opus 5 evaluieren.
+**~~Evidence Log~~ ENTFERNT:** Alle 'Modell'-Vergleiche dieser Session ungültig (alle Subagenten = Kimi K3, siehe Korrektur oben).
 
 ### Überlebende → Phase 5/6
 - **ID41o:** 0DTE-Close-Gamma-Reversions-Panel (A23, ~1.000 Replikate/Jahr über 4 Instrumente)
