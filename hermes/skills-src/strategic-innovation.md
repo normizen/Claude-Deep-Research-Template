@@ -144,6 +144,23 @@ For each survivor: full experiment design PLUS **test-ready code**:
   header: hypothesis, pre-registered predictions with thresholds (Cliff's d ≥ 0.10
   convention from the cluster), placebo control, abstain-state logic, and the five
   data-traps checklist as comments. Strike-level GEX only — never smoothed profiles.
+
+  **QC API hard rules (learned the hard way from 5 fix commits, 2026-09-03 — the user
+  had to repair the cell manually; do NOT repeat these mistakes):**
+  - Environment is the **Research Notebook** with a pre-existing `qb = QuantBook()`
+    global — do NOT instantiate a new one, do NOT use `self.`-algorithm style, do NOT
+    use argparse (notebooks have no argv). Provide a `run_qc(qb)` convenience wrapper.
+  - **Python API is PEP8 snake_case**: `qb.add_future(...)`, `qb.history(...)`,
+    `data_mapping_mode`, `data_normalization_mode` — NOT CamelCase C# names.
+  - Futures: `qb.add_future(Futures.Indices.SP_500_E_MINI, data_mapping_mode=..., 
+    data_normalization_mode=DataNormalizationMode.BACKWARDS_RATIO, ...)`.
+    Continuous symbol history: `qb.history(future.symbol, start, end, Resolution.MINUTE)`.
+    All contracts per day: `qb.history(FutureUniverse, future.symbol, start, end, flatten=True)`.
+  - If unsure about any API call, fetch the QC docs (lean.io class reference or
+    quantconnect.com/docs/v2) BEFORE writing the cell — an API guess costs the user
+    a manual debug round-trip.
+  - Make the cell self-contained and defensive: print data-shape checks early so a
+    failure is diagnosable from stdout alone.
 - **Sierra track (optional):** export/analysis script specs for the user's NQ Sierra
   Chart data (existing pipeline: import_sierra_csv.py, build_dollar_bars.py).
 

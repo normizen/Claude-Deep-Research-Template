@@ -38,6 +38,7 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 | Predictive Coding (13) + Signaling-Theorie (25) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic (Durchlauf 2) | 3 + 5 | GUT — 2/10 Ideen überlebten Advocatus (ID9, ID13) |
 | Perkolationstheorie (1) + Quorum Sensing (7) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic | 1 + 2 | SCHWACH — beide Domänen netzwerktopologie-hungrig, 0/8 Ideen überlebten Advocatus (Datenzugang) |
 | Apoptose (12) + Glasübergang (22) | 2026-09-03 | 2026-09-03-pilot | 2 + 4 | NEUTRAL — 2/8 Ideen testfähig (ID24, ID26), Advocatus tötete Meta-Architekturen; Finale nach QC-Tests |
+| Topologische Defekte (5) + Nischen-Konstruktion (10) | 2026-09-04 | 2026-09-04-runde2 | 1 + 2 | TBD |
 
 *(Wird nach jeder Session durch den Domain Matrix Seeder aktualisiert)*
 ## Cluster 1: Physikalische Systeme & Emergenz
@@ -69,8 +70,8 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 ### 5. Topologische Defekte (Kondensierte Materie)
 **Kernprinzip:** Unvermeidliche Singularitäten entstehen beim Phasenübergang — Strukturen die nicht durch lokale Anpassung aufgelöst werden können; globale Constraints erzeugen lokale Zwänge
 **Übertragungspotenzial:** Strategische Lock-ins, Technologiepfad-Abhängigkeiten, unauflösbare Konflikte in Systemdesigns, Invarianten unter Transformation
-**Zuletzt verwendet:** —
-**Verwendungshistorie:** —
+**Zuletzt verwendet:** 2026-09-04
+**Verwendungshistorie:** 2026-09-04 (futures-trading-edge, 2026-09-04-runde2) + Nischen-Konstruktion
 
 ### 6. Stochastische Resonanz (Physik / Neurologie)
 **Kernprinzip:** Optimales Rauschen verbessert Signaldetektion — zu viel und zu wenig Rauschen verschlechtern das Signal; es gibt einen idealen Grad an Unordnung für maximale Empfindlichkeit
@@ -103,8 +104,8 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 ### 10. Nischen-Konstruktion (Ökologie / Evolutionsbiologie)
 **Kernprinzip:** Organismen verändern ihre eigene Selektionsumgebung — Evolution und Umwelt ko-evolvieren; wer die Umwelt formt kontrolliert seinen eigenen Evolutionsdruck
 **Übertragungspotenzial:** Marktgestaltung statt Marktanpassung, Plattformen die ihre eigenen Regeln setzen, Lock-in durch Umgebungsmodifikation, Regulierungsarbitrage
-**Zuletzt verwendet:** —
-**Verwendungshistorie:** —
+**Zuletzt verwendet:** 2026-09-04
+**Verwendungshistorie:** 2026-09-04 (futures-trading-edge, 2026-09-04-runde2) + Topologische Defekte
 
 ### 11. Bet-Hedging (Evolutionäre Spieltheorie)
 **Kernprinzip:** Diversifikation der Phänotypen bei gleicher Genetik als Strategie gegen unvorhersehbare Umwelten — wenn die Zukunft nicht vorhersagbar ist, ist Varianz die rationale Antwort
