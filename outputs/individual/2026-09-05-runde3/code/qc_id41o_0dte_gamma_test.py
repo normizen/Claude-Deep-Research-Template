@@ -61,7 +61,7 @@ test_legs = {
 }
 control_legs = {
     "GC": Futures.Metals.GOLD,
-    "ZB": Futures.Financials.Y_30_YEAR_US_TREASURY_BOND,
+    "ZB": Futures.Financials.Y_30_TREASURY_BOND,  # BUGFIX run1: QC-Enum-Name
 }
 
 futures = {}

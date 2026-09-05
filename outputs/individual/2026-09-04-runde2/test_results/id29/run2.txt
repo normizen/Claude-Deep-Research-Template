@@ -1,0 +1,56 @@
+Datenreihe: /ES | continuous, mapping=OPEN_INTEREST, normalization=BACKWARDS_RATIO (backadjusted) — KEINE Roh-Serien-Mischung
+Shape: (2718765, 18) | Spalten: ['expiry', 'symbol', 'time', 'askclose', 'askhigh', 'asklow', 'askopen', 'asksize', 'bidclose', 'bidhigh', 'bidlow', 'bidopen', 'bidsize', 'close', 'high', 'low', 'open', 'volume']
+Zeitspanne: 2019-01-02 00:01:00 .. 2026-09-01 00:00:00 | tz-naiv: OK
+Handelstage gesamt: 2395  (2019-01-02 .. 2026-09-01)
+Abstain News-Konfunder: 218 | Abstain duennes/unvollst. Fenster: 472
+Tradable Tage: 1420
+Trendtage (Signal): 796 | Kontrolltage: 624
+
+==============================================================================
+ERGEBNIS ID29 — PROP-CLOSE-TEST (ES, 2019-2026, continuous backadj., ET)
+==============================================================================
+
+[1] Kostenquote Trendtage (RT $13.50 / Median-Fenster-Range):
+    ETH 16:00-16:59:  Median-Range $483  Kostenquote 2.8%
+    MOC 15:30-16:00:  Median-Range $757  Kostenquote 1.8%
+    Brutto-Effekt (ETH contra, Trendtage): -1.47 bps | Kosten-Aequivalent: 279.37 bps | NETTO: -280.84 bps (Schwelle >= 3.0 bps)
+
+[2] S1 — ETH-ZEITFENSTER (Haupt-Attribution):
+    (a) Cliff's d (ETH contra/vol vs MOC contra/vol): +0.468 (>= 0.1)
+        Median-Vorsprung ETH-MOC (volnorm.): +8.562e-09 | Placebo-Perzentil (n=500): 68.4% (> 95.0%)
+    (b) corr(ETH-Drift, Reversion): +0.189  vs  corr(MOC-Drift, Reversion): +0.138  (Prop: corr_ETH > corr_MOC)
+    => S1 NICHT BESTANDEN
+
+[3] S2 — DOSIS-ORDNUNG (Verfall-Fr > Fr > Verfall-Wt > normal):
+    Dosis 3 (Verfall-Freitag   ) n=   0  median eth_contra = +nan bps
+    Dosis 2 (Freitag           ) n=   0  median eth_contra = +nan bps
+    Dosis 1 (Verfall-Wochentag ) n= 119  median eth_contra = -0.83 bps
+    Dosis 0 (normal            ) n= 677  median eth_contra = -1.61 bps
+    Jonckheere-Terpstra: z=+nan  p(einseitig)=nan (< 0.05)
+    => S2 NICHT BESTANDEN
+
+[4] S3 — DECAY-SPLIT (Pflicht-Falsifikator):
+    2019-2021: n=322  median eth_contra = -3.02 bps
+    2022+:     n=474  median eth_contra = -0.51 bps
+    Cliff's d (2022+ vs 2019-2021): +0.129
+    Prop-Kohorte existiert erst post-2021 — Effekt DARF 2019-2021 nicht dominieren.
+    => S3 BESTANDEN (Attribution plausibel)
+
+[5] ID30-KALENDER-COVARIATEN (mitgefuehrt, degradiert):
+    Opex-Freitage: 0 | Roll-Fenster-Tage: 641 | Quartals-Opex: 0
+    Margin-Hike-Stichtage: EXTERNE LISTE (CME Historical Margins) noch zu befuellen — aktuell leer.
+
+[6] GESAMTURTEIL (vorregistrierte Abnahmekriterien):
+    S1 Zeitfenster: FAIL | S2 Dosis: FAIL | S3 Decay: PASS | Netto >= 3.0 bps: FAIL
+    => ID29 NO-GO / ATTRIBUTION GESCHEITERT — Hypothese tot, KEINE Neu-Suche im selben Datensatz (Datenfalle 5).
+
+[7] Reversions-Tabelle (Ziel 18:00-19:00 ET, Trendtage):
+    Zelle                                      n median bps
+    Trend-UP, Close-Verstaerkung (Prop: DOWN)   421      -0.78
+    Trend-DOWN, Close-Verstaerkung (Prop: UP)   375      +1.67
+    Kontrolle: Nicht-Trendtage (alle)        624      +0.00
+    Prop-Prognose: UP-Zelle negativ UND |UP| >= |DOWN|-Asymmetrie staerker als Boyarchenko-unbedingt.
+
+[8] Robusta: Abstain gesamt = 690 (News 218 / duenn 472) | DST-Flag-Tage = 144 (nur Flag, ET-basiert)
+    S1a ohne DST-Uebergangstage: Cliff's d = +0.451 (Robustheitscheck)
+==============================================================================

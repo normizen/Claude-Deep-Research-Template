@@ -1,0 +1,21 @@
+==============================================================================
+ID41o — 0DTE-CLOSE-GAMMA-REVERSIONS-PANEL (2+2-Design, Kern=RTH-Close)
+==============================================================================
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+Cell In[6], <a href='vscode-notebook-cell:?execution_count=6&line=64'>line 64</a>
+     55 # ---------------------------------------------------------------------------
+     56 # 1. Instrumente: 2 Test-Beine + 2 Kontroll-Beine
+     57 # ---------------------------------------------------------------------------
+     58 test_legs = {
+     59     "ES": Futures.Indices.SP_500_E_MINI,
+     60     "NQ": Futures.Indices.NASDAQ_100_E_MINI,
+     61 }
+     62 control_legs = {
+     63     "GC": Futures.Metals.GOLD,
+---> <a href='vscode-notebook-cell:?execution_count=6&line=64'>64</a>     "ZB": Futures.Financials.Y_30_YEAR_US_TREASURY_BOND,
+     65 }
+     67 futures = {}
+     68 for ticker, market in {**test_legs, **control_legs}.items():
+
+AttributeError: type object 'Financials' has no attribute 'Y_30_YEAR_US_TREASURY_BOND' Did you mean: 'Y_30_TREASURY_BOND'?
