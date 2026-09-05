@@ -99,7 +99,8 @@ DRAFT → survived-advocatus → novelty-checked → experiment-designed
 | Coordinator (diese Session) | moonshotai/kimi-k3 (Default) | nein | Orchestrierung, Synthese |
 | First Principles Agent | moonshotai/kimi-k3 | nein | härtester kognitiver Schritt |
 | Domain Matrix Seeder | anthropic/claude-haiku-4.5 | **JA** | mechanische Auswahl + Tracking |
-| Idea Generator | moonshotai/kimi-k3 | nein | Kreativität mit Constraints |
+| Idea Generator (Kern) | moonshotai/kimi-k3 | nein | Kreativität mit Constraints |
+| Idea Generator (Dual, A/B ab Runde 3) | anthropic/claude-opus-5 | **JA** | Generator-A/B-Test |
 | Advocatus Diaboli (Kern) | moonshotai/kimi-k3 | nein | nicht-offensichtliche Angriffe |
 | Advocatus Diaboli (Dual) | anthropic/claude-opus-5 | **JA** | mechanischer Kanal / Beobachtbarkeit |
 | Novelty Checker | anthropic/claude-haiku-4.5 + web_search | **JA** | Existenz-Check nur |
@@ -156,7 +157,30 @@ MANDATORY (exclude last-3-sessions combos, exclude tried combos, different clust
 max contrast). Produces: `scratchpad/[SLUG]-domain-selection.md`. Coordinator updates
 the usage tracking table in innovation_seeds.md.
 
-### Phase 3: Idea Generator (delegate_task, strong)
+### Phase 3: Idea Generator — DUAL (A/B-Modus, aktiv seit Runde 3)
+
+Ab Runde 3 läuft Phase 3 **zweimal parallel** mit identischem Kontext (dieselben
+Axiome, Dogmen, Seed-Domänen, Constraints):
+
+- Task A: `moonshotai/kimi-k3` (Default) → `scratchpad/[SLUG]-discovery-draft-KIMI.md` (IDs ab 40, gerade)
+- Task B: `anthropic/claude-opus-5` (Override, Strict Execution Layer) → `scratchpad/[SLUG]-discovery-draft-OPUS.md` (IDs ab 41, ungerade)
+
+**Warum dual:** Die kreativste Rolle ist auch die, wo Modellunterschied am meisten
+zählen könnte. Getrennte Felder + identischer Input = sauberer A/B: wir messen,
+welches Modell mehr Advocatus-Überlebende produziert (Model Evidence Log).
+
+**Regeln für den Dual-Generator:**
+- Beide Felder getrennt halten — KEIN Mischen vor dem Advocatus
+- Jede Idee trägt ihre Quell-Modell-Markierung (Suffix im ID: ID40k / ID41o)
+- Der Dual-Advocatus (Phase 4) bewertet BEIDE Felder (4 Dateien: KIMI-Gen→KIMI-Adv,
+  KIMI-Gen→OPUS-Adv, OPUS-Gen→KIMI-Adv, OPUS-Gen→OPUS-Adv — als Kreuz-Matrix)
+- Coordinator zählt am Ende: Überlebensrate pro Generator-Modell → Evidence Log
+
+**Kostenkontrolle:** Falls Budget knapp: Runde auf Single-Generator zurückschalten
+(Tabelle oben: Idea Generator → nur Default). Der A/B-Modus ist ein Experiment,
+kein Dogma — nach 2–3 Runden mit klarem Ergebnis kann er wieder abgeschaltet werden.
+
+### Phase 3 (Single-Modus, Legacy): Idea Generator (delegate_task, strong)
 
 Context: axioms.md + dogma-break.md + domain-selection.md + project-context + the
 parked-ideas list. Anti-anchor constraints from the template (5 rules) apply verbatim.
