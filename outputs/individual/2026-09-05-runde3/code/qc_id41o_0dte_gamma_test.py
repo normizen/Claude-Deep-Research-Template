@@ -70,6 +70,8 @@ for ticker, market in {**test_legs, **control_legs}.items():
         market,
         data_mapping_mode=DataMappingMode.OPEN_INTEREST,
         data_normalization_mode=DataNormalizationMode.BACKWARDS_RATIO,
+        extended_market_hours=True,   # BUGFIX (ID29-run1): ohne das endet die
+        # History ~17:00 ET -> Overnight/explorative Fenster leer
     )
     futures[ticker] = fut
     print("add_future OK: {} -> {}".format(ticker, fut.symbol))
@@ -95,7 +97,8 @@ def is_dst_transition_day(d):
 # ---------------------------------------------------------------------------
 bars = {}
 for ticker, fut in futures.items():
-    hist = qb.history(fut.symbol, start_all, end_all, Resolution.MINUTE)
+    hist = qb.history(fut.symbol, start_all, end_all, Resolution.MINUTE,
+                      extended_market_hours=True)  # BUGFIX: auch history-Call
     if hist.empty:
         raise RuntimeError("qc_id41o: leere History fuer " + ticker)
     df = hist.copy()
