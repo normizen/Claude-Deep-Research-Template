@@ -187,3 +187,13 @@ sie wäre eine geänderte Zeile.
 - **ID52k:** [Kimi-Feld, Konsens]
 - **ID43o:** Settlement-Echo als Array-Dispersions-Kovariate (A22)
 - **ID53o:** Flip-Kohärenz-Test (empirische Prüfung A25-Unabhängigkeit)
+
+### ID41o: 0DTE-Close-Gamma-Reversions-Panel
+**Advocatus:** ÜBERLEBT (Konsens 2/2) | **Novelty:** NOVEL | **Feasibility:** CONDITIONAL GO (3 Umbauten)
+**Status:** awaiting-manual-test — qc_id41o_0dte_gamma_test.py bereit
+**Umbauten:** 2+2-Panel (ES/NQ Test, GC/ZB Falsifikator), nur Top-Gamma-Quartil, Overnight gestrichen. ~400 Replikate/Jahr.
+**Falsifikatoren:** GC/ZB dürfen Effekt NICHT zeigen; Decay-Split 2019–2021 darf keinen Effekt haben (0DTE jung).
+
+### ID52k → MODUL von ID41o (Bet-Hedging-Geo-Mean-Metrik im Protokoll)
+### ID43o, ID53o → Diagnostik-Module von ID41o
+### ID45o, ID47o → geparkt (Diagnostik ohne produktiven Verwender)
