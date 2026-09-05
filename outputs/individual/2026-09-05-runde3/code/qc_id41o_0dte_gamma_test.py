@@ -37,6 +37,8 @@
 
 import numpy as np
 import pandas as pd
+from datetime import datetime, timedelta   # BUGFIX run3: explizit (QC-Globals
+# koennen fehlen — datetime/timedelta wurden implizit angenommen)
 
 # ---------------------------------------------------------------------------
 # 0. Defensive Checks (qb-Global, kein Neubau)
@@ -79,7 +81,11 @@ for ticker, market in {**test_legs, **control_legs}.items():
 # ---------------------------------------------------------------------------
 # 2. Zeitraum, ET, DST-Flag
 # ---------------------------------------------------------------------------
-start_all = datetime(2019, 1, 1)
+# BUGFIX run3: Zeitraum auf 2022+ reduzieren (0DTE-Aera) — 4 Instrumente x 7,5
+# Jahre Minutenbars in extended hours ist zu gross fuer den Notebook-RAM
+# (Kernel stirbt still ohne Output). Kern-Hypothese braucht nur 2022+;
+# 2019-2021-Kontrolle optional (Decay-Split unten damit schwächer, dokumentiert).
+start_all = datetime(2022, 1, 1)
 end_all = datetime(2026, 8, 31)
 et_tz = "America/New_York"
 
@@ -97,8 +103,10 @@ def is_dst_transition_day(d):
 # ---------------------------------------------------------------------------
 bars = {}
 for ticker, fut in futures.items():
+    print("lade {} ...".format(ticker), flush=True)   # BUGFIX run3: Fortschritt
     hist = qb.history(fut.symbol, start_all, end_all, Resolution.MINUTE,
                       extended_market_hours=True)  # BUGFIX: auch history-Call
+    print("  {} geladen: {} Zeilen roh".format(ticker, len(hist)), flush=True)
     if hist.empty:
         raise RuntimeError("qc_id41o: leere History fuer " + ticker)
     df = hist.copy()
