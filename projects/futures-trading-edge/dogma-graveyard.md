@@ -107,3 +107,11 @@ Jedes Dogma: Titel | Status | Warum es ein Dogma ist (eingepreist, nicht fundame
 ### D22: "Retail kann Basis-Trades nicht nutzen" → Mechanismus ≠ Abfall; der Zwang selbst kann unzugänglich sein, sein Echo nicht
 ### D23: "Rebalancing ist institutionell" → das Hedging-Echo im Futures-Fenster ist retail-zugänglich (A22)
 ### D24: "REFUTED ist Endstatus" → Zwangs-Kandidaten brauchen Regime-Status mit Re-Triggern (ID26 unter 0DTE-Regime neu denkbar)
+
+---
+## Runde 4 Dogmen (2026-09-06)
+
+### D25: "Edge = Signal auf einem Instrument" → persistente Effekte liegen ZWISCHEN Instrumenten/Modi (Lead-Lag, Auction-Spread)
+### D26: "Mikrostruktur = HFT" → nur race-form; mode-form (Auction vs. Continuous) ist latenzfrei
+### D27: "Cross-Asset = institutionell" → die Information ist kostenlos, nur die Trades kapitalintensiv — Beobachten reicht als Kovariate
+### D28: "Einzeltest-Schwelle" → mechanisch unabhängige kleine Effekte sind als Portfolio testbar, nicht einzeln

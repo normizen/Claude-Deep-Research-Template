@@ -111,3 +111,24 @@ Ein Zwang ist für Retail nur erntbar bei: (a) Retail-kompatible Größe (MES/MN
 
 ### A25: Instrumenten-Streuung schlägt Zwangs-Streuung
 Statt mehrere Zwänge auf EIN Instrument zu bündeln (ID30, Power-Problem): denselben Zwang auf MEHRERE Instrumente (ES+NQ+GC+ZB) anwenden. Erweitert A21, operationalisiert A15/ID24. Cross-Sectional-Reversion nutzt dieselbe Logik mit mehr Replikaten.
+
+---
+## Runde 4 — Breiter struktureller Raum (2026-09-06, Tentativ)
+
+### A26: Horizont-Fragmentierung
+Arbitrage-Resistenz ohne Zwang: Effekte auf Horizonten, für die keine Arbitrage-Population strukturell existiert (zu langsam für HFT, zu kurz für Fonds) — der Raum ist leer, nicht weil er nutzlos, sondern weil niemand ihn beackert.
+
+### A27: Teilnehmer-Lead-Lag
+ES/NQ/RTY verarbeiten dieselbe Information mit verschiedenen Teilnehmerstrukturen (Index-Arb vs. Retail vs. Sektor-Spezialisten) — mechanischer Lead-Lag-Indikator, kein Latenz-Rennen, weil die Asymmetrie aus der Population kommt, nicht aus Geschwindigkeit.
+
+### A28: Auction/Continuous-Bruchlinie (STÄRKSTE FURCHE)
+Settlement-/Auction-Anker (T+1, NAV, Fixings) zwingen einen Modus-Wechsel zwischen kontinuierlichem und geauctiontem Handel; die Differenz zwischen den beiden Preisbildungs-Modi ist kalenderfest, latenzfrei und für Retail beobachtbar — ohne Größenproblem der Zwänge, weil der Anker selbst der Referenzpunkt ist.
+
+### A29: Repräsentations-Vorsprung
+Der Edge liegt in der Mess-Ebene, die der Markt wegglättet (interner Beweis: GEX auf Strike-Ebene vs. geglättetem Profil). Wer auf der Ebene misst, wo die Struktur lebt, sieht was der aggregierte Preis verbirgt.
+
+### A30: Regime-Selbstverstärkung
+Manche Regimes halten länger als die Arbitrage zum Schließen braucht, weil die Teilnehmer, die sie schließen würden, selbst vom Regime profitieren — Persistenz als strukturelle Eigenschaft, nicht als Zufall.
+
+### A31: Haltezeit-Achse als Retail-exklusiver Raum
+Die einzige Achse, auf der Retail strukturell länger kann als Institutionen (kein Reporting-Druck, keine Overnight-Regeln außer den eigenen) — Effekte, die Zeit brauchen, sind konkurrenzfrei.
