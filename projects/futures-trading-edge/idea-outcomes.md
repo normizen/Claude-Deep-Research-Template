@@ -201,3 +201,27 @@ sie wäre eine geänderte Zeile.
 ### ID52k → MODUL von ID41o (Bet-Hedging-Geo-Mean-Metrik im Protokoll)
 ### ID43o, ID53o → Diagnostik-Module von ID41o
 ### ID45o, ID47o → geparkt (Diagnostik ohne produktiven Verwender)
+
+---
+
+## Session 2026-09-06-runde4 (breite strukturelle Frage, ERSTE ECHTE A/B)
+
+13 Ideen (6 Kimi-Feld ID60k–74k, 7 Opus-Feld ID61o–73o) aus Schelling-Punkte (28) × Sparse Coding (14). Pins VERIFIZIERT (Manifest: Task0=kimi-k3, Task1=claude-opus-5).
+
+**KREUZ-MATRIX (erste echte A/B):**
+| | KIMI-Adv | OPUS-Adv |
+|---|---|---|
+| KIMI-Feld (6) | ID62k(b), ID68k(b) | ID64k (nur Modul) |
+| OPUS-Feld (7) | ID67o, ID61o, ID63o, ID71o | ID67o(#1), ID63o(#2), ID61o(#3) |
+
+**KONSENS-#1 beider Modelle: ID67o (Batch-minus-Marginal-Residual).**
+
+**EVIDENCE LOG (echt, verifiziert):**
+- Generator: Opus-Feld 3–4 Überlebende + Konsens-#1 vs. Kimi-Feld 0–2 bedingte. → Opus > Kimi als Generator (erste echte Messung).
+- Advocatus: Kimi kompakt/prägnant; Opus operationalisierbar (liefert pflicht_umbau + netto_kosten_verhaeltnis pro Idee). Beide wertvoll, verschiedene Stärken.
+- WICHTIG: Vorherige 'Opus>Kimi'-Annahme war unbelegt; dies ist der erste belastbare Datenpunkt. 2–3 Runden Dual zur Bestätigung vereinbart.
+
+### Überlebende → Phase 5/6 (mit Pflicht-Umbauten aus OPUS-Adv)
+- **ID67o** Batch-minus-Marginal-Residual (Konsens-#1) — Umbau: identische Rundung aufs Placebo (CME 0,25-Punkt-Rundungsfalle), 500 Vorzeichen-Permutationen
+- **ID63o** Post-Anker-Sparse-Fenster — Umbau: Earnings-Kalender-Stratum, print-freie Kohorte
+- **ID61o** Anker-Staffel-Kaskade — Umbau: Vorzeichen an langsame öffentliche Zustandsvariable (Regime-Stabilität)

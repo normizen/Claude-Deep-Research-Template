@@ -32,14 +32,15 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 
 ## Verwendungs-Tracking
 
-| Combo (Domain A + Domain B) | Datum | Session-SLUG | Cluster | Ergebnis |
-|---|---|---|---|---|
-| Morphogenetische Felder (21) + Negativer Transfer (30) | 2026-04-15 | 2026-04-15-futures-day-edge-strategic | 4 + 5 | TBD |
-| Predictive Coding (13) + Signaling-Theorie (25) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic (Durchlauf 2) | 3 + 5 | GUT — 2/10 Ideen überlebten Advocatus (ID9, ID13) |
-| Perkolationstheorie (1) + Quorum Sensing (7) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic | 1 + 2 | SCHWACH — beide Domänen netzwerktopologie-hungrig, 0/8 Ideen überlebten Advocatus (Datenzugang) |
-| Apoptose (12) + Glasübergang (22) | 2026-09-03 | 2026-09-03-pilot | 2 + 4 | NEUTRAL — 2/8 Ideen testfähig (ID24, ID26), Advocatus tötete Meta-Architekturen; Finale nach QC-Tests |
-| Topologische Defekte (5) + Nischen-Konstruktion (10) | 2026-09-04 | 2026-09-04-runde2 | 1 + 2 | TBD |
-| Metamaterialien (4) + Bet-Hedging (11) | 2026-09-05 | 2026-09-05-runde3 | 1 + 2 | TBD |
+|| Combo (Domain A + Domain B) | Datum | Session-SLUG | Cluster | Ergebnis |
+||---|---|---|---|---|
+|| Morphogenetische Felder (21) + Negativer Transfer (30) | 2026-04-15 | 2026-04-15-futures-day-edge-strategic | 4 + 5 | TBD |
+|| Predictive Coding (13) + Signaling-Theorie (25) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic (Durchlauf 2) | 3 + 5 | GUT — 2/10 Ideen überlebten Advocatus (ID9, ID13) |
+|| Perkolationstheorie (1) + Quorum Sensing (7) | 2026-08-30 | 2026-08-30-aktien-retail-edge-strategic | 1 + 2 | SCHWACH — beide Domänen netzwerktopologie-hungrig, 0/8 Ideen überlebten Advocatus (Datenzugang) |
+|| Apoptose (12) + Glasübergang (22) | 2026-09-03 | 2026-09-03-pilot | 2 + 4 | NEUTRAL — 2/8 Ideen testfähig (ID24, ID26), Advocatus tötete Meta-Architekturen; Finale nach QC-Tests |
+|| Topologische Defekte (5) + Nischen-Konstruktion (10) | 2026-09-04 | 2026-09-04-runde2 | 1 + 2 | TBD |
+|| Metamaterialien (4) + Bet-Hedging (11) | 2026-09-05 | 2026-09-05-runde3 | 1 + 2 | TBD |
+|| Schelling-Punkte (28) + Sparse Coding (14) | 2026-09-06 | 2026-09-06-runde4 | 5 + 3 | TBD |
 
 *(Wird nach jeder Session durch den Domain Matrix Seeder aktualisiert)*
 ## Cluster 1: Physikalische Systeme & Emergenz
@@ -133,8 +134,8 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 ### 14. Sparse Coding (Neurowissenschaft / Informationstheorie)
 **Kernprinzip:** Maximale Information bei minimaler neuronaler Aktivierung — Effizienz durch Ausschaltung nicht durch Aktivierung; das meiste bleibt stumm damit das Wichtige laut ist
 **Übertragungspotenzial:** Feature-Selektion, radikale Vereinfachung komplexer Systeme, Minimum Viable Signal, Kommunikation durch Weglassen
-**Zuletzt verwendet:** —
-**Verwendungshistorie:** —
+**Zuletzt verwendet:** 2026-09-06
+**Verwendungshistorie:** 2026-09-06 (futures-trading-edge, 2026-09-06-runde4) + Schelling-Punkte
 
 ### 15. Holographisches Prinzip (Theoretische Physik / Informationstheorie)
 **Kernprinzip:** Die Information eines 3D-Volumens ist vollständig auf seiner 2D-Oberfläche kodiert — Dimensionsreduktion ohne Informationsverlust; Komplexität kollabiert auf ihre Grenzfläche
@@ -223,10 +224,10 @@ Diese Datei enthält 30 exotische Wissensdomänen als Inspirationsmatrix für da
 **Verwendungshistorie:** —
 
 ### 28. Schelling-Punkte (Spieltheorie / Koordinationsprobleme)
-**Kernprinzip:** Koordination ohne Kommunikation über "natürliche" Brennpunkte — emergente Standards entstehen aus gemeinsamer Erwartung über was die andere Seite erwartet
+**Kernprinzip:** Koordination ohne Kommunikation über „natürliche" Brennpunkte — emergente Standards entstehen aus gemeinsamer Erwartung über was die andere Seite erwartet
 **Übertragungspotenzial:** Marktstandards, Protokollkonvergenz, kollektive Entscheidungspunkte ohne zentrale Koordination, Focal Points in Preisbildung
-**Zuletzt verwendet:** —
-**Verwendungshistorie:** —
+**Zuletzt verwendet:** 2026-09-06
+**Verwendungshistorie:** 2026-09-06 (futures-trading-edge, 2026-09-06-runde4) + Sparse Coding
 
 ### 29. Memetic Engineering (Evolutionäre Kulturwissenschaft)
 **Kernprinzip:** Ideen replizieren sich nach evolutionären Regeln — Fitnesskriterien für Ideen sind nicht Wahrheit sondern Übertragbarkeit; die verbreitungsstärkste Idee gewinnt nicht die wahre
