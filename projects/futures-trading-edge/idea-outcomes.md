@@ -225,3 +225,15 @@ sie wäre eine geänderte Zeile.
 - **ID67o** Batch-minus-Marginal-Residual (Konsens-#1) — Umbau: identische Rundung aufs Placebo (CME 0,25-Punkt-Rundungsfalle), 500 Vorzeichen-Permutationen
 - **ID63o** Post-Anker-Sparse-Fenster — Umbau: Earnings-Kalender-Stratum, print-freie Kohorte
 - **ID61o** Anker-Staffel-Kaskade — Umbau: Vorzeichen an langsame öffentliche Zustandsvariable (Regime-Stabilität)
+
+### ID67o: Batch-minus-Marginal-Residual (BMR)
+**Advocatus:** ÜBERLEBT (Konsens-#1 BEIDER Modelle) | **Novelty:** PARTIALLY | **Feasibility:** GO (konditional)
+**Status:** awaiting-manual-test — qc_id67o_bmr_test.py bereit
+**3 Gate-Lösungen:** Rundungsfalle-Symmetrie (Placebo identisch 0,25 gerundet), Überlebensrate-Abbruchregel (<15 % → NO-GO), 500 Monatsblock-Vorzeichen-Permutationen + GC/ZB-Falsifikator.
+**User-Aufgabe:** SETTLEMENT_CSV aus CME-Settlements-Seite befüllen (kein QC-Feld), sonst Daily-Close-Fallback mit Warnung.
+**Besonderheit:** Erste Idee, die BEIDE Modelle unabhängig als #1 wählten (verifizierte A/B).
+
+### ID61o: Anker-Staffel-Kaskade — ZURÜCKGESTELLT
+**Grund:** VCG-Fund (Auction-Echo publiziert, positiv getestet t≈+8) — Redesign von Auction- zur Settlement-Staffelungs-Variante nötig. Als eigenständige validierte Kante im Cluster vermerkt (13:00 ET Treasury-Auktion → 13:30–14:00 Equity-Echo, öffentlicher Kalender).
+
+### ID63o: Post-Anker-Sparse-Fenster — ZURÜCKGESTELLT (hängt an ID67o-Pipeline)

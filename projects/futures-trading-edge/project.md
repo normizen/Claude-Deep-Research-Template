@@ -115,7 +115,9 @@ könnte auch dort etwas ändern.
 | 2026-04-15 | 2026-04-15-futures-day-edge-strategic | COMPLETE | GTZI → GEX-Topologie → SGM als integriertes System |
 | 2026-08-30 bis 09-02 | Prüfphase (kein eigener Slug) | COMPLETE | Vier Ansätze geprüft, keiner mit Signal. Infrastruktur und kostenloser Datenzugang aufgebaut. |
 | 2026-09-03 | 2026-09-03-pilot (Hermes) | COMPLETE | Richtungswechsel: A10–A17/D10–D16; ID24 in Betrieb, ID26 TESTED-REFUTED (run1) |
-| 2026-09-04 | 2026-09-04-runde2 (Hermes) | COMPLETE — awaiting-manual-test | Zwangsmechanik: A18–A21/D17–D20; Dual-Advocatus Kimi vs Opus 5 (Opus-Fund Kalender-Spread); ID29 GO bedingt (Größenordnungs-Gate bestanden), ID30 degradiert |
+| 2026-09-04 | 2026-09-04-runde2 (Hermes) | COMPLETE | Zwangsmechanik: A18–A21/D17–D20; ID29 TESTED-REFUTED (run2), ID30 degradiert |
+| 2026-09-05 | 2026-09-05-runde3 (Hermes) | COMPLETE | 0DTE/Cross-Inst.: A22–A25/D21–D24; ID41o TESTED-REFUTED (run4, Placebo 0 %) |
+| 2026-09-06 | 2026-09-06-runde4 (Hermes) | COMPLETE — awaiting-manual-test | Breite: A26–A31/D25–D28; ERSTE ECHTE A/B (Pins verifiziert, Konsens-#1 ID67o); ID67o GO konditional (Settlement-BMR) |
 
 ## Cluster-Kontext
 Ausgangspunkt: Explorer-Session 2026-03-30-agentic-trading-edge (15 Hypothesen, H2 GEX-Dual-Trigger als stärkste).
